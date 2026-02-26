@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+html, body {
+  scroll-behavior: auto !important;
+}
+
+.swiper-container {
+  overflow: visible;
+  position: relative;
+}
+
+.button-primary, .button-subcribe, .item__content--button, .section6 .button, .section9 .button, .swiper-button-next,
+.swiper-button-prev, .slider__nextpage-button, .slider__button {
+  background-color: #5FA800;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  transition: all 0.3s;
+}
+.button-primary:hover, .button-subcribe:hover, .item__content--button:hover, .section6 .button:hover, .section9 .button:hover, .swiper-button-next:hover,
+.swiper-button-prev:hover, .slider__nextpage-button:hover, .slider__button:hover {
+  border: 2px solid #5FA800;
+  background-color: white;
+  color: #5FA800;
+}
+
+.slider__button {
+  width: 120px;
+  height: 35px;
+}
+
+.slider__nextpage-button {
+  font-size: 14px;
+  width: 32px;
+  height: 32px;
+  margin: 0 20px;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  position: absolute;
+  padding: 6px;
+  width: 40px;
+  height: 40px;
+  transition: all 0.3s ease;
+  transform: scale(0.8);
+}
+
+.swiper-button-prev {
+  left: -20px !important;
+}
+
+.swiper-button-next {
+  right: -20px !important;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: white;
+  color: #5FA800;
+  border: 2px solid #5FA800;
+}
+
+.section6 .button, .section9 .button {
+  height: 40px;
+  width: 180px;
+}
+
+.swiper-pagination {
+  --swiper-theme-color: green;
+}
+
+.item__content--button {
+  background-color: white;
+  padding: 0;
+  color: #232323;
+  font-weight: 500;
+}
+.item__content--button:hover {
+  border: white;
+}
+
+.button-subcribe {
+  width: 145px;
+  height: 45px;
+  font-weight: 500;
+}
+
+/*# sourceMappingURL=base.css.map */

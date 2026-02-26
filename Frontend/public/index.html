@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Link bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <!-- Link Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Link Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
+
+    <!-- Link css -->
+    <link rel="stylesheet" href="../src/asserts/styles/css/base.css">
+    <link rel="stylesheet" href="../src/asserts/styles/css/style.css">
+</head>
+
+<body>
+
+
+    <section class="top">
+        <div class="container">
+            <p class="top__content"> <span class="top__content--flick">Free shipping</span> orders from all item</p>
+        </div>
+    </section>
+    <section class="header">
+        <div class="container">
+            <div class="header__wrapper">
+                <img class="header__logo" src="../src/asserts/images/logo2rd.png" alt="image">
+
+                <nav class="header__nav">
+                    <a class="header__nav-item" href="#">HOME</a>
+                    <a class="header__nav-item" href="#">SHOP</a>
+                    <a class="header__nav-item" href="#">COLLECTION</a>
+                    <a class="header__nav-item" href="#">BLOGS</a>
+                    <a class="header__nav-item" href="#">PAGES</a>
+
+                </nav>
+
+
+                <div class="header__info">
+                    <i class="header__info-icon header__info-icon--search fa-solid fa-magnifying-glass"></i>
+                    <i class="header__info-icon header__info-icon--favourite fa-regular fa-heart"></i>
+                    <i class="header__info-icon header__info-icon--cart fa-solid fa-cart-shopping"></i>
+                    <i class="header__info-icon header__info-icon--profile fa-solid fa-user"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="section1">
+        <div class="container">
+            <div class="section1__wrapper">
+                <div class="section1__cateList">
+                    <div class="section1__scroll-bar-header">
+                        <i class="fa-solid fa-bars"></i>
+                        <span>Browse category</span>
+                    </div>
+                    <div class="section1__scroll-bar" id="scroll-bar">
+                        <a class="section1__scroll-bar-item">Item-1</a>
+                        <a class="section1__scroll-bar-item">Item-2</a>
+                        <a class="section1__scroll-bar-item">Item-3</a>
+                        <a class="section1__scroll-bar-item">Item-4</a>
+                        <a class="section1__scroll-bar-item">Item-5</a>
+                        <a class="section1__scroll-bar-item">Item-6</a>
+                        <a class="section1__scroll-bar-item">Item-7</a>
+                        <a class="section1__scroll-bar-item">Item-8</a>
+                        <a class="section1__scroll-bar-item">Item-9</a>
+                        <a class="section1__scroll-bar-item">Item-10</a>
+                        <a class="section1__scroll-bar-item">Item-11</a>
+                        <a class="section1__scroll-bar-item">Item-12</a>
+                        <a class="section1__scroll-bar-item">Item-13</a>
+                        <a class="section1__scroll-bar-item">Item-14</a>
+                    </div>
+                </div>
+
+                <div class="section1__slider">
+                    <div class="section1__slider-nextpage">
+                        <button class="slider__nextpage-button slider__nextpage-button--left" onclick="nextSlide(-1)">
+                            <i class="fa-solid fa-less-than"></i>
+                        </button>
+                        <button class="slider__nextpage-button slider__nextpage-button--right" onclick="nextSlide(1)">
+                            <i class="fa-solid fa-greater-than"></i>
+                        </button>
+                    </div>
+
+                    <div class="slider slider--1">
+                        <img class="slider__image" src="../src/asserts/images/section1_image1.webp" alt="image">
+                        <div class="slider__content slider__content--1">
+                            <span class="slider__content-smalltitle">Summer vege sale</span>
+                            <h2 class="slider__content-bigtitle">Vegetable <br> farmfood</h2>
+                            <button class="slider__button">Shop now</button>
+                        </div>
+                    </div>
+
+                    <div class="slider slider--2">
+                        <img class="slider__image" src="../src/asserts/images/section1_image2.webp" alt="image">
+                        <div class="slider__content slider__content--2">
+                            <span class="slider__content-smalltitle">Mix masala</span>
+                            <h2 class="slider__content-bigtitle">Spectialties <br> recipetion</h2>
+                            <button class="slider__button">Shop now</button>
+                        </div>
+                    </div>
+
+                    <div class="slider slider--3">
+                        <img class="slider__image" src="../src/asserts/images/section1_image3.webp" alt="image">
+                        <div class="slider__content slider__content--3">
+                            <span class="slider__content-smalltitle">Top selling collection</span>
+                            <h2 class="slider__content-bigtitle">Healthier <br> testy way</h2>
+                            <button class="slider__button">Shop now</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section2">
+        <div class="container">
+            <div class="section2__wrapper">
+                <div class="row">
+                    <div class="card-wrap col-lg-4">
+                        <div class="item item--1">
+                            <img class="item__image" src="../src/asserts/images/section2_image1.jpg" alt="image">
+                            <div class="item__content">
+                                <span class="item__small-title">Orange juice</span>
+                                <h5 class="item__big-title">Fresh vegetable <br> on our product</h5>
+                                <a class="item__link">SHOP NOW ></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-wrap col-lg-4">
+                        <div class="item item--2">
+                            <img class="item__image" src="../src/asserts/images/section2_image2.jpg" alt="image">
+                            <div class="item__content">
+                                <span class="item__small-title">Fresh food </span>
+                                <h5 class="item__big-title">Vegetable eggplant <br> 100% fresh food</h5>
+                                <a class="item__link">SHOP NOW ></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-wrap col-lg-4">
+                        <div class="item item--3">
+                            <img class="item__image" src="../src/asserts/images/section2_image3.jpg" alt="image">
+                            <div class="item__content">
+                                <span class="item__small-title">Organic dry fruit</span>
+                                <h5 class="item__big-title">Nuts dry fruits <br> festive still life</h5>
+                                <a class="item__link">SHOP NOW > </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section3">
+        <div class="container">
+            <div class="section3__wrapper">
+                <div class="row">
+                    <div class="item item--1 col-lg-3">
+                        <i class="item__icon fa-regular fa-truck"></i>
+                        <div class="item__content">
+                            <p class="item__content--top">Free delivary</p>
+                            <p class="item__title--bottom">Order from all item</p>
+                        </div>
+                    </div>
+
+                    <div class="item item--2 col-lg-3">
+                        <i class="item__icon fa-solid fa-dollar-sign"></i>
+                        <div class="item__content">
+                            <p class="item__content--top">Return & refund</p>
+                            <p class="item__content--bottom">Money back guarantee</p>
+                        </div>
+                    </div>
+
+                    <div class="item item--1 col-lg-3">
+                        <i class="item__icon fa-regular fa-headphones"></i>
+                        <div class="item__content">
+                            <p class="item__content--top">Quanlity support</p>
+                            <p class="item__content--bottom">Alway online 24/7</p>
+                        </div>
+                    </div>
+
+                    <div class="item item--1 col-lg-3">
+                        <i class="item__icon fa-regular fa-envelope"></i>
+                        <div class="item__content">
+                            <p class="item__content--top">Join newslleter</p>
+                            <p class="item__content--bottom">20% off by subscribing</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Section 4 Trending -->
+    <section class="section4">
+        <div class="container">
+            <h3 class="section4__title">Trending products</h3>
+            <div class="swiper-container">
+                <div class="section4__wrapper swiper-trending">
+                    <div class="swiper-wrapper">
+                        <div class="item swiper-slide">
+                            <img class="item__image" src="../src/asserts/images/section4_cabage.jpg" alt="image">
+                            <div class="item__content">
+                                <h6 class="item__content--name">
+                                    Fresh vegetable
+                                </h6>
+                                <div class="item__content--price">
+                                    <span class="current-price">
+                                        $9.00
+                                    </span>
+                                </div>
+                                <div class="item__content--rate">
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item swiper-slide">
+                            <img class="item__image" src="../src/asserts/images/section4_shrimp.webp" alt="image">
+                            <div class="item__content">
+                                <h6 class="item__content--name">
+                                    Seafood
+                                </h6>
+                                <div class="item__content--price">
+                                    <span class="current-price">
+                                        $23.10
+                                    </span>
+                                </div>
+                                <div class="item__content--rate">
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item swiper-slide">
+                            <div class="item__discount">20%</div>
+                            <img class="item__image" src="../src/asserts/images/section4_orange.jpg" alt="image">
+
+                            <div class="item__content">
+                                <h6 class="item__content--name">
+                                    Orange
+                                </h6>
+                                <div class="item__content--price">
+                                    <span class="current-price">
+                                        $12.00
+                                    </span>
+                                    <span class="root-price">
+                                        $15.00
+                                    </span>
+                                </div>
+                                <div class="item__content--rate">
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item swiper-slide">
+                            <img class="item__image" src="../src/asserts/images/section4_coconut.jpg" alt="image">
+                            <div class="item__content">
+                                <h6 class="item__content--name">
+                                    Coconut
+                                </h6>
+                                <div class="item__content--price">
+                                    <span class="current-price">
+                                        $15.00
+                                    </span>
+                                </div>
+                                <div class="item__content--rate">
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item swiper-slide">
+                            <div class="item__discount">4%</div>
+                            <img class="item__image" src="../src/asserts/images/section4_grape.jpg" alt="image">
+                            <div class="item__content">
+                                <h6 class="item__content--name">
+                                    Purple grape
+                                </h6>
+                                <div class="item__content--price">
+                                    <span class="current-price">
+                                        $18.00
+                                    </span>
+                                    <span class="root-price">
+                                        $18.75
+                                    </span>
+                                </div>
+                                <div class="item__content--rate">
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item swiper-slide">
+                            <img class="item__image" src="../src/asserts/images/section4_strawberry.jpg" alt="image">
+                            <div class="item__content">
+                                <h6 class="item__content--name">
+                                    Strawberry
+                                </h6>
+                                <div class="item__content--price">
+                                    <span class="current-price">
+                                        $18.04
+                                    </span>
+                                </div>
+                                <div class="item__content--rate">
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item swiper-slide">
+                            <div class="item__discount">25%</div>
+                            <img class="item__image" src="../src/asserts/images/section4_juice.jpg" alt="image">
+
+                            <div class="item__content">
+                                <h6 class="item__content--name">
+                                    Fruit juice
+                                </h6>
+                                <div class="item__content--price">
+                                    <span class="current-price">
+                                        $18.00
+                                    </span>
+                                    <span class="root-price">
+                                        $24.00
+                                    </span>
+                                </div>
+                                <div class="item__content--rate">
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            </div>
+    </section>
+
+
+    <!-- Shop by category -->
+    <section class="section5">
+        <div class="container">
+            <h3 class="section5__wrapper--title">Shop by category</h3>
+            <div class="swiper-container">
+                <div class="section5__wrapper swiper-category">
+                    <div class="slide swiper-wrapper">
+                        <div class="item swiper-slide">
+                            <img class="slide__image" src="../src/asserts/images/section5_watermelon.avif" alt="image">
+                            <a class="slide__content" href="#">
+                                Summer fruits
+                            </a>
+                        </div>
+                        <div class="item swiper-slide">
+                            <img class="slide__image" src="../src/asserts/images/section5_watermelon.avif" alt="image">
+                            <a class="slide__content" href="#">
+                                Summer fruits
+                            </a>
+                        </div>
+                        <div class="item swiper-slide">
+                            <img class="slide__image" src="../src/asserts/images/section5_watermelon.avif" alt="image">
+                            <a class="slide__content" href="#">
+                                Summer fruits
+                            </a>
+                        </div>
+
+                        <div class="item swiper-slide">
+                            <img class="slide__image" src="../src/asserts/images/section5_watermelon.avif" alt="image">
+                            <a class="slide__content" href="#">
+                                Summer fruits
+                            </a>
+                        </div>
+
+                        <div class="item swiper-slide">
+                            <img class="slide__image" src="../src/asserts/images/section5_watermelon.avif" alt="image">
+                            <a class="slide__content" href="#">
+                                Summer fruits
+                            </a>
+                        </div>
+
+
+                        <div class="item swiper-slide">
+                            <img class="slide__image" src="../src/asserts/images/section5_watermelon.avif" alt="image">
+                            <a class="slide__content" href="#">
+                                Summer fruits
+                            </a>
+                        </div>
+
+                        <div class="item swiper-slide">
+                            <img class="slide__image" src="../src/asserts/images/section5_banana.avif" alt="image">
+                            <a class="slide__content" href="#">
+                                Summer fruits
+                            </a>
+                        </div>
+
+                        <div class="item swiper-slide">
+                            <img class="slide__image" src="../src/asserts/images/section5_banana.avif" alt="image">
+                            <a class="slide__content" href="#">
+                                Summer fruits
+                            </a>
+                        </div>
+
+                        <div class="item swiper-slide">
+                            <img class="slide__image" src="../src/asserts/images/section5_banana.avif" alt="image">
+                            <a class="slide__content" href="#">
+                                Summer fruits
+                            </a>
+                        </div>
+                    </div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <section class="section6">
+        <div class="container">
+            <div class="section6__wrapper">
+                <img class="section6__background" src="../src/asserts/images/section6_bg.webp" alt="image">
+                <div class="section6__content">
+                    <p class="description">We offer a hot deal offer every festival</p>
+                    <h3 class="notification">Deal of the day!</h3>
+                    <div class="time">
+                        <div class="time__box">
+                            <p id="days" class="time__box--countdown">9</p>
+                            <p class="time__box--unit">Day</p>
+                        </div>
+                        <div class="time__box">
+                            <p id="hours" class="time__box--countdown">7</p>
+                            <p class="time__box--unit">HRS</p>
+                        </div>
+                        <div class="time__box">
+                            <p id="minutes" class="time__box--countdown">14</p>
+                            <p class="time__box--unit">MIN</p>
+                        </div>
+                        <div class="time__box">
+                            <p id="seconds" class="time__box--countdown">18</p>
+                            <p class="time__box--unit">SEC</p>
+                        </div>
+                    </div>
+                    <button class="button">
+                        Shop collection
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- section7 Our product -->
+    <section class="section7">
+        <div class="container">
+            <h3 class="section7__title">Our products</h3>
+            <div class="section7__typeButton">
+                <button class="button">Special Product</button>
+                <button class="button">Bestseller</button>
+                <button class="button">Featured Product</button>
+            </div>
+            <div class="swiper-container">
+                <div class="section7__wrapper swiper-products">
+                    <div class="big-card-wrap swiper-wrapper">
+                        <div class="item-column swiper-slide">
+                            <div class="item">
+                                <div class="item__discount">-10%</div>
+                                <img class="item__image" src="../src/asserts/images/section4_grape.jpg" alt="image">
+                                <div class="item__content">
+                                    <h6 class="item__content--name">
+                                        Red onions
+                                    </h6>
+                                    <div class="item__content--rate">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <span class="item__content--reviews">No reviews</span>
+                                    </div>
+                                    <div class="item__content--price">
+                                        <span class="current-price">
+                                            $1.00
+                                        </span>
+                                        <span class="root-price">
+                                            $1.1
+                                        </span>
+                                    </div>
+                                    <div class="item__content--demand">
+                                        <button class="item__content--button like_button">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                        <button class="item__content--button cart_button">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                        <button class="item__content--button watch_button">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <div class="item__discount">-10%</div>
+                                <img class="item__image"
+                                    src="https://img-new.cgtrader.com/items/5825377/37b7f7aa1e/large/figurine-naruto-chibi-lookup-3d-model-37b7f7aa1e.webp"
+                                    alt="image">
+                                <div class="item__content">
+                                    <h6 class="item__content--name">
+                                        Naruto
+                                    </h6>
+                                    <div class="item__content--rate">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <span class="item__content--reviews">No reviews</span>
+                                    </div>
+                                    <div class="item__content--price">
+                                        <span class="current-price">
+                                            $27.00
+                                        </span>
+                                        <span class="root-price">
+                                            $30.00
+                                        </span>
+                                    </div>
+                                    <div class="item__content--demand">
+                                        <button class="item__content--button like_button">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                        <button class="item__content--button cart_button">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                        <button class="item__content--button watch_button">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <img class="item__image" src="../src/asserts/images/section4_shrimp.webp" alt="image">
+                                <div class="item__content">
+                                    <h6 class="item__content--name">
+                                        Shrimp
+                                    </h6>
+                                    <div class="item__content--rate">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <span class="item__content--reviews">No reviews</span>
+                                    </div>
+                                    <div class="item__content--price">
+                                        <span class="current-price">
+                                            $23.00
+                                        </span>
+
+                                    </div>
+                                    <div class="item__content--demand">
+                                        <button class="item__content--button like_button">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                        <button class="item__content--button cart_button">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                        <button class="item__content--button watch_button">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item-column swiper-slide">
+                            <div class="item">
+                                <img class="item__image" src="../src/asserts/images/section4_juice.jpg" alt="image">
+                                <div class="item__content">
+                                    <h6 class="item__content--name">
+                                        Fruit juice
+                                    </h6>
+                                    <div class="item__content--rate">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <span class="item__content--reviews">No reviews</span>
+                                    </div>
+                                    <div class="item__content--price">
+                                        <span class="current-price">
+                                            $16.00
+                                        </span>
+
+                                    </div>
+                                    <div class="item__content--demand">
+                                        <button class="item__content--button like_button">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                        <button class="item__content--button cart_button">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                        <button class="item__content--button watch_button">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <img class="item__image" src="../src/asserts/images/section4_coconut.jpg" alt="image">
+                                <div class="item__content">
+                                    <h6 class="item__content--name">
+                                        Coconut
+                                    </h6>
+                                    <div class="item__content--rate">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <span class="item__content--reviews">No reviews</span>
+                                    </div>
+                                    <div class="item__content--price">
+                                        <span class="current-price">
+                                            $18.00
+                                        </span>
+                                    </div>
+                                    <div class="item__content--demand">
+                                        <button class="item__content--button like_button">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                        <button class="item__content--button cart_button">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                        <button class="item__content--button watch_button">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <img class="item__image" src="../src/asserts/images/section4_cabage.jpg" alt="image">
+                                <div class="item__content">
+                                    <h6 class="item__content--name">
+                                        Cabage
+                                    </h6>
+                                    <div class="item__content--rate">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <span class="item__content--reviews">No reviews</span>
+                                    </div>
+                                    <div class="item__content--price">
+                                        <span class="current-price">
+                                            $18.00
+                                        </span>
+                                        <span class="root-price">
+                                            $24.00
+                                        </span>
+                                    </div>
+                                    <div class="item__content--demand">
+                                        <button class="item__content--button like_button">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                        <button class="item__content--button cart_button">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                        <button class="item__content--button watch_button">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="item-column swiper-slide">
+                            <div class="item">
+                                <div class="item__discount">-20%</div>
+                                <img class="item__image" src="../src/asserts/images/section4_orange.jpg" alt="image">
+                                <div class="item__content">
+                                    <h6 class="item__content--name">
+                                        Orange
+                                    </h6>
+                                    <div class="item__content--rate">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <span class="item__content--reviews">No reviews</span>
+                                    </div>
+                                    <div class="item__content--price">
+                                        <span class="current-price">
+                                            $12.00
+                                        </span>
+                                        <span class="root-price">
+                                            $15.00
+                                        </span>
+                                    </div>
+                                    <div class="item__content--demand">
+                                        <button class="item__content--button like_button">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                        <button class="item__content--button cart_button">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                        <button class="item__content--button watch_button">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <img class="item__image" src="../src/asserts/images/section4_cabage.jpg" alt="image">
+                                <div class="item__content">
+                                    <h6 class="item__content--name">
+                                        Cabage
+                                    </h6>
+                                    <div class="item__content--rate">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <span class="item__content--reviews">No reviews</span>
+                                    </div>
+                                    <div class="item__content--price">
+                                        <span class="current-price">
+                                            $18.00
+                                        </span>
+                                        <span class="root-price">
+                                            $24.00
+                                        </span>
+                                    </div>
+                                    <div class="item__content--demand">
+                                        <button class="item__content--button like_button">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                        <button class="item__content--button cart_button">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                        <button class="item__content--button watch_button">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <div class="item__discount">-25%</div>
+                                <img class="item__image" src="../src/asserts/images/section4_cabage.jpg" alt="image">
+                                <div class="item__content">
+                                    <h6 class="item__content--name">
+                                        Cabage
+                                    </h6>
+                                    <div class="item__content--rate">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <span class="item__content--reviews">No reviews</span>
+                                    </div>
+                                    <div class="item__content--price">
+                                        <span class="current-price">
+                                            $18.00
+                                        </span>
+                                        <span class="root-price">
+                                            $24.00
+                                        </span>
+                                    </div>
+                                    <div class="item__content--demand">
+                                        <button class="item__content--button like_button">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                        <button class="item__content--button cart_button">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                        <button class="item__content--button watch_button">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item-column swiper-slide">
+                            <div class="item">
+                                <div class="item__discount">-20%</div>
+                                <img class="item__image" src="../src/asserts/images/section4_orange.jpg" alt="image">
+                                <div class="item__content">
+                                    <h6 class="item__content--name">
+                                        Orange
+                                    </h6>
+                                    <div class="item__content--rate">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <span class="item__content--reviews">No reviews</span>
+                                    </div>
+                                    <div class="item__content--price">
+                                        <span class="current-price">
+                                            $12.00
+                                        </span>
+                                        <span class="root-price">
+                                            $15.00
+                                        </span>
+                                    </div>
+                                    <div class="item__content--demand">
+                                        <button class="item__content--button like_button">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                        <button class="item__content--button cart_button">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                        <button class="item__content--button watch_button">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <img class="item__image" src="../src/asserts/images/section4_cabage.jpg" alt="image">
+                                <div class="item__content">
+                                    <h6 class="item__content--name">
+                                        Cabage
+                                    </h6>
+                                    <div class="item__content--rate">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <span class="item__content--reviews">No reviews</span>
+                                    </div>
+                                    <div class="item__content--price">
+                                        <span class="current-price">
+                                            $18.00
+                                        </span>
+                                        <span class="root-price">
+                                            $24.00
+                                        </span>
+                                    </div>
+                                    <div class="item__content--demand">
+                                        <button class="item__content--button like_button">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                        <button class="item__content--button cart_button">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                        <button class="item__content--button watch_button">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item">
+                                <img class="item__image" src="../src/asserts/images/section4_coconut.jpg" alt="image">
+                                <div class="item__content">
+                                    <h6 class="item__content--name">
+                                        Coconut
+                                    </h6>
+                                    <div class="item__content--rate">
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <i class="fa-regular fa-star"></i>
+                                        <span class="item__content--reviews">No reviews</span>
+                                    </div>
+                                    <div class="item__content--price">
+                                        <span class="current-price">
+                                            $18.00
+                                        </span>
+                                        <span class="root-price">
+                                            $24.00
+                                        </span>
+                                    </div>
+                                    <div class="item__content--demand">
+                                        <button class="item__content--button like_button">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                        <button class="item__content--button cart_button">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                        <button class="item__content--button watch_button">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- section8 - Our customer say -->
+    <section class="section8">
+        <div class="container">
+            <h3 class="section8__title">Our customer say</h3>
+            <div class="swiper-container">
+                <div class="section8__wrapper swiper-comment">
+                    <div class="swiper-wrapper">
+
+                        <div class="item swiper-slide">
+                            <div class="review__icon">
+                                <div class="review__icon--box">
+                                    <i class="fa-solid fa-quote-right"></i>
+                                </div>
+                            </div>
+                            <div class="review__comment">
+                                <h5 class="review__comment--title">"For customer support"</h5>
+                                <p class="review__comment--content">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi, excepturi? Ab,
+                                    nihil
+                                    repudiandae corporis quo reprehenderit ullam aut libero quae laboriosam ad natus
+                                    magnam!
+                                    Provident temporibus maiores alias modi amet.
+                                </p>
+                                <p class="review__comment--author">By cremica_food</p>
+                                <div class="review__comment--rate">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item swiper-slide">
+                            <div class="review__icon">
+                                <div class="review__icon--box">
+                                    <i class="fa-solid fa-quote-right"></i>
+                                </div>
+                            </div>
+
+                            <div class="review__comment">
+                                <h5 class="review__comment--title">"For customer support"</h5>
+                                <p class="review__comment--content">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi, excepturi? Ab,
+                                    nihil
+                                    repudiandae corporis quo reprehenderit ullam aut libero quae laboriosam ad natus
+                                    magnam!
+                                    Provident temporibus maiores alias modi amet.
+                                </p>
+                                <p class="review__comment--author">By MTquangnhat</p>
+                                <div class="review__comment--rate">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item swiper-slide">
+                            <div class="review__icon">
+                                <div class="review__icon--box">
+                                    <i class="fa-solid fa-quote-right"></i>
+                                </div>
+                            </div>
+
+                            <div class="review__comment">
+                                <h5 class="review__comment--title">"Customer support"</h5>
+                                <p class="review__comment--content">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi, excepturi? Ab,
+                                    nihil
+                                    repudiandae corporis quo reprehenderit ullam aut libero quae laboriosam ad natus
+                                    magnam!
+                                    Provident temporibus maiores alias modi amet.
+                                </p>
+                                <p class="review__comment--author">By drink_water</p>
+                                <div class="review__comment--rate">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- section9 news -->
+    <section class="section9">
+        <div class="container">
+            <h3 class="section9__title">Recent news</h3>
+            <div class="section9__wrapper swiper-new">
+                <div class="swiper-wrapper">
+                    <div class="item swiper-slide">
+                        <img class="item__image" src="../src/asserts/images/section9_peppers.webp" alt="image">
+                        <div class="item__content">
+                            <div class="item__content--head">
+                                <div class="item__content--date">
+                                    <i class="fa-regular fa-calendar"></i>
+                                    July 14, 2023
+                                </div>
+                                <div class="item__content--stats">
+                                    <i class="fa-regular fa-comment"></i>
+                                    1 Comment
+                                </div>
+
+                            </div>
+
+                            <div class="item__content--body">
+                                <p class="item__content--title">
+                                    All time fresh every time healthy
+                                </p>
+                                <p class="item__content--doc">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aenean comodo... </p>
+                                <button class="item__content--button">
+                                    Read More
+                                    <i class="i fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item swiper-slide">
+                        <img class="item__image" src="../src/asserts/images/section9_salad.webp" alt="image">
+                        <div class="item__content">
+                            <div class="item__content--head">
+                                <div class="item__content--date">
+                                    <i class="fa-regular fa-calendar"></i>
+                                    February 9, 2005
+                                </div>
+                                <div class="item__content--stats">
+                                    <i class="fa-regular fa-comment"></i>
+                                    1 Comment
+                                </div>
+
+                            </div>
+
+                            <div class="item__content--body">
+                                <p class="item__content--title">
+                                    All time fresh every time healthy
+                                </p>
+                                <p class="item__content--doc">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aenean comodo... </p>
+                                <button class="item__content--button">
+                                    Read More
+                                    <i class="i fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    `
+                    <div class="item swiper-slide">
+                        <img class="item__image" src="../src/asserts/images/section9_vegetable.webp" alt="image">
+                        <div class="item__content">
+                            <div class="item__content--head">
+                                <div class="item__content--date">
+                                    <i class="fa-regular fa-calendar"></i>
+                                    July 14, 2023
+                                </div>
+                                <div class="item__content--stats">
+                                    <i class="fa-regular fa-comment"></i>
+                                    1 Comment
+                                </div>
+
+                            </div>
+
+                            <div class="item__content--body">
+                                <p class="item__content--title">
+                                    All time fresh every time healthy
+                                </p>
+                                <p class="item__content--doc">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aenean comodo... </p>
+                                <button class="item__content--button">
+                                    Read More
+                                    <i class="i fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item swiper-slide">
+                        <img class="item__image" src="../src/asserts/images/section9_cafe.webp" alt="image">
+                        <div class="item__content">
+                            <div class="item__content--head">
+                                <div class="item__content--date">
+                                    <i class="fa-regular fa-calendar"></i>
+                                    July 14, 2023
+                                </div>
+                                <div class="item__content--stats">
+                                    <i class="fa-regular fa-comment"></i>
+                                    0 Comment
+                                </div>
+
+                            </div>
+
+                            <div class="item__content--body">
+                                <p class="item__content--title">
+                                    All time fresh every time healthy
+                                </p>
+                                <p class="item__content--doc">
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aenean comodo... </p>
+                                <button class="item__content--button">
+                                    Read More
+                                    <i class="i fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="button">View all news </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- section-10 Enter-email-->
+    <section class="section10">
+        <div class="container">
+            <div class="section10__wrapper">
+                <div class="content">
+                    <div class="content__word">
+                        <h4 class="content__word--big">Get the lastest deals</h4>
+                        <p class="content__word--small">And receive 20% off coupon for first shopping</p>
+                    </div>
+                    <div class="content__box">
+                        <form action="#">
+                            <input type="email" placeholder="Enter your email">
+                            <button class="button-subcribe">
+                                Subscribe
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+
+    <!-- Swiper -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+
+    <!-- My type -->
+    <script src="../src/page/Home/home.js"></script>
+
+
+
+
+</body>
+
+</html>
