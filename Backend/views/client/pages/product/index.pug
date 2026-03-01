@@ -1,34 +1,37 @@
 extends ../../layout/default.pug
 
+
 block main
-    .item
-        div.item__discount -10%
 
-        img.item__image(
-            alt="image"
-            src="../images/section4_grape.jpg"
-        )
+    for item in products
+        .item
+            div.item__discount - #{item.discountPercentage}%
 
-        div.item__content
-            h6.item__content--name Red onions
+            img.item__image(
+                alt=item.title
+                src= item.imgUrl
+            )
 
-            div.item__content--rate
-                i.fa-regular.fa-star
-                i.fa-regular.fa-star
-                i.fa-regular.fa-star
-                i.fa-regular.fa-star
-                i.fa-regular.fa-star
-                span.item__content--reviews No reviews
+            div.item__content
+                h6.item__content--name #{item.title}
 
-            div.item__content--price
-                span.current-price $1.00
-                span.root-price $1.1
+                div.item__content--rate
+                    i.fa-regular.fa-star
+                    i.fa-regular.fa-star
+                    i.fa-regular.fa-star
+                    i.fa-regular.fa-star
+                    i.fa-regular.fa-star
+                    span.item__content--reviews No reviews
 
-            div.item__content--demand
-                button.item__content--button.like_button
-                    i.fa-regular.fa-heart
-                button.item__content--button.cart_button
-                    i.fa-solid.fa-cart-plus
-                button.item__content--button.watch_button
-                    i.fa-regular.fa-eye
+                div.item__content--price
+                    span.current-price $#{item.price}
+                    span.root-price $1.1
+
+                div.item__content--demand
+                    button.item__content--button.like_button
+                        i.fa-regular.fa-heart
+                    button.item__content--button.cart_button
+                        i.fa-solid.fa-cart-plus
+                    button.item__content--button.watch_button
+                        i.fa-regular.fa-eye
     

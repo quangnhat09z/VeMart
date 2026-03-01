@@ -812,7 +812,7 @@
     margin-right: 20px;
     // background-color: antiquewhite;
     height: 170px;
-    width: 100%;
+    width: calc(100% / 3 );
 
     &:last-child {
         margin-bottom: 0;
