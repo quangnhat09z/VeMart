@@ -1,3 +1,34 @@
-extend ../../layout/default.pug
+extends ../../layout/default.pug
+
 block main
-  h1 Trang sản phẩm
+    .item
+        div.item__discount -10%
+
+        img.item__image(
+            alt="image"
+            src="../images/section4_grape.jpg"
+        )
+
+        div.item__content
+            h6.item__content--name Red onions
+
+            div.item__content--rate
+                i.fa-regular.fa-star
+                i.fa-regular.fa-star
+                i.fa-regular.fa-star
+                i.fa-regular.fa-star
+                i.fa-regular.fa-star
+                span.item__content--reviews No reviews
+
+            div.item__content--price
+                span.current-price $1.00
+                span.root-price $1.1
+
+            div.item__content--demand
+                button.item__content--button.like_button
+                    i.fa-regular.fa-heart
+                button.item__content--button.cart_button
+                    i.fa-solid.fa-cart-plus
+                button.item__content--button.watch_button
+                    i.fa-regular.fa-eye
+    

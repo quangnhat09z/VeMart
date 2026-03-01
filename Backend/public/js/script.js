@@ -1,0 +1,1 @@
+console.log("Hello, VeMart! This is the client-side JavaScript.");

@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import "variable";
+@import "mixin";
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: $font;
+}
+
+html, body {
+    scroll-behavior: auto !important;
+}
+
+.swiper-container {
+    overflow: visible;
+    position: relative;
+}
+
+.button-primary {
+    background-color: $color-primary;
+    border: none;
+    border-radius: 3px;
+    color: white;
+
+    transition: all 0.3s;
+
+    &:hover {
+        border: 2px solid $color-primary;
+        background-color: white;
+        color: $color-primary;
+    }
+}
+
+.slider__button {
+    @extend .button-primary;
+    width: 120px;
+    height: 35px;
+}
+
+.slider__nextpage-button {
+    @extend .button-primary;
+    font-size: 14px;
+    width: 32px;
+    height: 32px;
+    margin: 0 20px;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    @extend .button-primary;
+    position: absolute;
+    padding: 6px;
+    width: 40px;
+    height: 40px;
+    transition: all 0.3s ease;
+    transform: scale(0.8);
+    
+}
+
+.swiper-button-prev {
+    left: -20px !important;
+}
+
+.swiper-button-next {
+    right: -20px !important;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background-color: white;
+    color: $color-primary;
+    border: 2px solid $color-primary;
+}
+
+.section6 .button, .section9 .button {
+    @extend .button-primary;
+    height: 40px;
+    width: 180px;
+}
+
+.swiper-pagination {
+    --swiper-theme-color: green;
+}
+
+.item__content--button {
+    @extend .button-primary;
+    background-color: white;
+    padding: 0;
+    color: $color-text;
+    font-weight: 500;
+
+    &:hover {
+        border: white;
+    }
+}
+
+.button-subcribe {
+    @extend .button-primary;
+    width: 145px;
+    height: 45px;
+    font-weight: 500;
+    
+}

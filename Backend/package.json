@@ -8,12 +8,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --inspect index.js"
+    "start": "nodemon --inspect index.js",
+    "css": "npm run sass:watch",
+    "sass:watch": "npx sass --watch public/styles/scss:public/styles/css"
   },
   "dependencies": {
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
-    "pug": "^3.0.3"
+    "mongoose": "^9.2.3",
+    "pug": "^3.0.3",
+    "sass": "^1.97.3"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
