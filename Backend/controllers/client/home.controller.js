@@ -1,5 +1,5 @@
 module.exports.index = (req, res) => {
     res.render("client/pages/home/index", {
-        name: "Trang chủ đ"
+        pageTitle: "Trang chủ"
     })
 }
