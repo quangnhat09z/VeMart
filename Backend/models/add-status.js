@@ -6,8 +6,10 @@ async function migrate() {
   await mongoose.connect("mongodb://localhost:27017/VeMart");
 
   await Product.updateMany(
-    { status: { $exists: false } },
-    { status: "active" }
+    { listPrice: { $exists: false } },
+  {
+    $set: { listPrice: 0 }
+  }
   );
 
   console.log("Migration done");

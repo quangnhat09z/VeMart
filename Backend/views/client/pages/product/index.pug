@@ -1,37 +1,46 @@
 extends ../../layout/default.pug
-
+include ../../mixins/box-head.pug
 
 block main
+    .container 
+        .row 
+            .col-12
+                +box-head("Danh sách sản phẩm")
+        
+        .row 
+            for item in products
+                .item
+                    if item.discountPercentage > 0  
+                        div.item__discount - #{item.discountPercentage}%
 
-    for item in products
-        .item
-            div.item__discount - #{item.discountPercentage}%
+                    div.item__box-image
+                        img.item__image(
+                            alt=item.title 
+                            src=item.imgUrl
+                        )
 
-            img.item__image(
-                alt=item.title
-                src= item.imgUrl
-            )
+                    div.item__content
+                        //- h6.item__content--name Onion - 1kg
+                        h6.item__content--name #{item.title}
 
-            div.item__content
-                h6.item__content--name #{item.title}
+                        div.item__content--rate
+                            i.fa-regular.fa-star
+                            i.fa-regular.fa-star
+                            i.fa-regular.fa-star
+                            i.fa-regular.fa-star
+                            i.fa-regular.fa-star
+                            span.item__content--reviews #{item.reviews} reviews
 
-                div.item__content--rate
-                    i.fa-regular.fa-star
-                    i.fa-regular.fa-star
-                    i.fa-regular.fa-star
-                    i.fa-regular.fa-star
-                    i.fa-regular.fa-star
-                    span.item__content--reviews No reviews
+                        div.item__content--price
+                            span.current-price $#{item.price}
+                            if item.listPrice > 0
+                                span.root-price $#{item.listPrice}
 
-                div.item__content--price
-                    span.current-price $#{item.price}
-                    span.root-price $1.1
-
-                div.item__content--demand
-                    button.item__content--button.like_button
-                        i.fa-regular.fa-heart
-                    button.item__content--button.cart_button
-                        i.fa-solid.fa-cart-plus
-                    button.item__content--button.watch_button
-                        i.fa-regular.fa-eye
+                        //- div.item__content--demand
+                        //-     button.item__content--button.like_button
+                        //-         i.fa-regular.fa-heart
+                        //-     button.item__content--button.cart_button
+                        //-         i.fa-solid.fa-cart-plus
+                        //-     button.item__content--button.watch_button
+                        //-         i.fa-regular.fa-eye
     
