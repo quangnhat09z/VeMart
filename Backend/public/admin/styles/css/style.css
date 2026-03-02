@@ -1,5 +1,5 @@
 .header {
-    background-color: rgba(0, 0, 0, 0.679);
+    background-color: rgba(51, 50, 50, 0.8);
     padding: 10px 0;
     position: sticky;
     top: 0;
@@ -25,10 +25,10 @@
 }
 
 .body .main {
-   margin: 15px;
-   position: relative;
-   left: 150px;
-   width: calc(100% - 150px);
+    margin: 15px;
+    position: relative;
+    left: 150px;
+    width: calc(100% - 150px);
 }
 
 .sider ul {
@@ -53,3 +53,45 @@
 .sider ul li a:hover {
     background-color: rgba(255, 255, 255, 0.2);
 }
+
+/* Trang quản lý sản phẩm */
+.item-title {
+    width: 300px;
+
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+.item-price {
+    font-weight: bold;
+}
+
+.item-img {
+    width: 200px;
+    height: 200px;
+}
+
+.item-action a {
+    margin-right: 10px;
+}
+
+td {
+    vertical-align: middle;
+}
+
+.badge.badge-success {
+    background-color: green;
+    color: white;
+    height: 25px;
+    align-content: center;
+    text-transform: capitalize;
+}
+.badge.badge-danger{
+    background-color: red;
+    color: white;
+    height: 25px;
+    align-content: center;
+    text-transform: capitalize;
+}
+

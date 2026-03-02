@@ -13,43 +13,29 @@ block main
                 th(scope="col") Trạng thái
                 th(scope="col") Hành động
         tbody
-            tr
-                th(scope="row") 1
-                td
-                    img(
-                        src="https://m.media-amazon.com/images/I/81wcI-VydcL._AC_UL320_.jpg"
-                        alt="Product 1" 
-                        class="img-fluid"
-                        width= '120px'  
-                        height= "120px"
-                    )
-                td Otto
-                td @mdo
-                td.text-success Hoạt động
-                td
-                    a.btn.btn-primary(href="#") Sửa
-                    a.btn.btn-danger(href="#") Xóa
-            tr
-                th(scope="row") 2
-                td
-                    img(
-                        src="https://m.media-amazon.com/images/I/71YdvW+LzRL._AC_UY218_.jpg"
-                        alt="Product 1" 
-                        class="img-fluid"
-                        width= '120px'  
-                        height= "120px"
-                    )
-                td Thornton
-                td @fat
-                td.text-success Hoạt động
-                td
-                    a.btn.btn-primary(href="#") Sửa
-                    a.btn.btn-danger(href="#") Xóa
-            tr
-                th(scope="row") 3
-                td(colspan="2") Larry the Bird
-                td @twitter
-                td.text-danger Không hoạt động
-                td
-                    a.btn.btn-primary(href="#") Sửa
-                    a.btn.btn-danger(href="#") Xóa
+            for item, index in products
+                tr
+                    th(scope="row") #{index + 1}
+                    td.item-img
+                        img(
+                            src=item.imgUrl
+                            alt=item.title 
+                            class="img-fluid"
+                            width= '120px'  
+                            height= "120px"
+                        )
+                    td.item-title #{item.title}
+                    td.item-price #{item.price}$
+
+                    if item.status === 'active'
+                        td
+                            span.badge.badge-success #{item.status}
+                    else if item.status === 'inactive'
+                        td
+                            span.badge.badge-danger #{item.status}
+
+
+                    td.item-action
+                        a.btn.btn-primary(href="/admin/products/edit/#{item._id}") Sửa
+                        a.btn.btn-danger(href="/admin/products/delete/#{item._id}") Xóa
+                
