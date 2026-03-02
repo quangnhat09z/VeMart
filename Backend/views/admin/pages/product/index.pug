@@ -1,0 +1,55 @@
+extend ../../layout/default.pug
+
+block main
+    h1 Trang quản lý sản phẩm
+
+    table.table
+        thead
+            tr
+                th(scope="col") #
+                th(scope="col") Minh họa
+                th(scope="col") Tiêu đề
+                th(scope="col") Giá
+                th(scope="col") Trạng thái
+                th(scope="col") Hành động
+        tbody
+            tr
+                th(scope="row") 1
+                td
+                    img(
+                        src="https://m.media-amazon.com/images/I/81wcI-VydcL._AC_UL320_.jpg"
+                        alt="Product 1" 
+                        class="img-fluid"
+                        width= '120px'  
+                        height= "120px"
+                    )
+                td Otto
+                td @mdo
+                td.text-success Hoạt động
+                td
+                    a.btn.btn-primary(href="#") Sửa
+                    a.btn.btn-danger(href="#") Xóa
+            tr
+                th(scope="row") 2
+                td
+                    img(
+                        src="https://m.media-amazon.com/images/I/71YdvW+LzRL._AC_UY218_.jpg"
+                        alt="Product 1" 
+                        class="img-fluid"
+                        width= '120px'  
+                        height= "120px"
+                    )
+                td Thornton
+                td @fat
+                td.text-success Hoạt động
+                td
+                    a.btn.btn-primary(href="#") Sửa
+                    a.btn.btn-danger(href="#") Xóa
+            tr
+                th(scope="row") 3
+                td(colspan="2") Larry the Bird
+                td @twitter
+                td.text-danger Không hoạt động
+                td
+                    a.btn.btn-primary(href="#") Sửa
+                    a.btn.btn-danger(href="#") Xóa

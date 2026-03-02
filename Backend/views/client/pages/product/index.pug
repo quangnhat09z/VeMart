@@ -11,7 +11,7 @@ block main
             for item in products
                 .item
                     if item.discountPercentage > 0  
-                        div.item__discount - #{item.discountPercentage}%
+                        div.item__discount - #{item.discountPercentage * 100}%
 
                     div.item__box-image
                         img.item__image(

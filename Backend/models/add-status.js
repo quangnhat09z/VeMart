@@ -7,9 +7,9 @@ async function migrate() {
 
   await Product.updateMany(
     { listPrice: { $exists: false } },
-  {
-    $set: { listPrice: 0 }
-  }
+      {
+        $set: { listPrice: 0 }
+      }
   );
 
   console.log("Migration done");
