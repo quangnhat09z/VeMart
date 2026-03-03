@@ -3,8 +3,16 @@ extend ../../layout/default.pug
 block main
     h1 Trang quản lý sản phẩm
 
+    div(class="filter mb-3")
+        div.filter-title
+            h5 Product Filter Status
+        div.filter-content
+            for item in filterStatus
+                button(class=`button-status btn btn-outline-primary ${item.class}` data-status = item.status) #{item.name}
+
+
     table.table
-        thead
+        thead.table-header
             tr
                 th(scope="col") #
                 th(scope="col") Minh họa
@@ -38,4 +46,3 @@ block main
                     td.item-action
                         a.btn.btn-primary(href="/admin/products/edit/#{item._id}") Sửa
                         a.btn.btn-danger(href="/admin/products/delete/#{item._id}") Xóa
-                

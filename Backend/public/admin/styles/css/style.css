@@ -94,4 +94,47 @@ td {
     align-content: center;
     text-transform: capitalize;
 }
+.table-header th {
+    background-color: #707b86;
+    color: white;
+}
+.filter {
+    border:solid 1px #ccc;
+    width: 300px;
+}
+
+.filter .filter-title {
+    background-color: #707b86;
+    padding: 5px 10px;
+    border-bottom: solid 1px #ccc;
+    color: white;
+}
+
+.custom-group .btn-primary.active {
+    background: red;
+}
+
+.filter .filter-content {
+    padding: 10px;
+    text-align: center;
+
+    
+}
+
+.filter .filter-content .btn{
+    width: 80px;
+    margin-right: 10px;
+    background-color: white;
+    color: #707B86;
+    border: solid 1px #707B86;
+}
+
+.filter .filter-content .active {
+    background-color: #707B86;
+    color: white;
+}
+
+.filter .filter-content .btn:last-child {
+    margin-right: 0;
+}
 
