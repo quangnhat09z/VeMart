@@ -1,0 +1,12 @@
+mixin search-form(searchValue)
+    .col-md-7.form-floating
+        form(id="search-form") 
+            .input-group
+                button(type="submit" class="btn btn-outline-secondary")
+                    i.fa-solid.fa-magnifying-glass
+                input.form-control(
+                    id="search-input"
+                    type="text"
+                    placeholder="Tìm kiếm..."
+                    value=searchValue
+                )

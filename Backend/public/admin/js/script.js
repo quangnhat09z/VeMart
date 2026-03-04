@@ -37,10 +37,10 @@ if (searchForm) {
         // console.log(searchInput.value);
         let url = new URL(window.location.href);
         if (searchInput.value) {
-            url.searchParams.set('search', searchInput.value.trim());
+            url.searchParams.set('keyword', searchInput.value.trim());
         }
         else {
-            url.searchParams.delete('search');
+            url.searchParams.delete('keyword');
         }
         window.location.href = url.href;
         

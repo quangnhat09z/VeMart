@@ -1,0 +1,5 @@
+mixin filter-status-buttons(filterStatus)
+    .col-md-5.filter-buttons
+        for item in filterStatus
+            button(class=`button-status btn btn-outline-primary ${item.class}` data-status = item.status) #{item.name}
+
