@@ -3,6 +3,7 @@
 const Product = require('../../models/product.model.js')
 
 module.exports.index = async (req, res) => {
+    console.log(req.query);
     let filterButton = [
         {
             name: "All",
@@ -21,12 +22,21 @@ module.exports.index = async (req, res) => {
         }
     ]
 
+    // Lọc cơ bản
     let filter = {
-        deleted: false
+        deleted: false,
     }
+    // Thêm trường hợp
     if (req.query.status) {
-        filter.status = req.query.status || "active";
+        filter.status = req.query.status;
     }
+    let search = "";
+    if (req.query.search) {
+        search = req.query.search.trim(); // Xóa space đầu và cuối
+        const regex = new RegExp(search, 'i'); // 'i' ko phân biệt chữ hoa chữ thường
+        filter.title = regex; 
+    }
+    
     
 
     const products = await Product.find(filter);
@@ -34,6 +44,7 @@ module.exports.index = async (req, res) => {
     res.render("admin/pages/product/index", {
         pageTitle: "Quản lý sản phẩm",
         products: products,
-        filterStatus: filterButton
+        filterStatus: filterButton,
+        searchValue: search
     })
 }

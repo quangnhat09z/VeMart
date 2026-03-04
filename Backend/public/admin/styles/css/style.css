@@ -87,20 +87,24 @@ td {
     align-content: center;
     text-transform: capitalize;
 }
-.badge.badge-danger{
+
+.badge.badge-danger {
     background-color: red;
     color: white;
     height: 25px;
     align-content: center;
     text-transform: capitalize;
 }
+
 .table-header th {
     background-color: #707b86;
     color: white;
 }
+
 .filter {
-    border:solid 1px #ccc;
-    width: 300px;
+    border: solid 1px #ccc;
+    width: 60%;
+    /* background-color: aquamarine; */
 }
 
 .filter .filter-title {
@@ -118,15 +122,43 @@ td {
     padding: 10px;
     text-align: center;
 
-    
 }
 
-.filter .filter-content .btn{
-    width: 80px;
+.filter .filter-content .filter-buttons {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.filter .filter-content .form-floating {
+    display: flex;
+    justify-content: center;
+    /* background-color: yellow; */
+}
+
+.filter .filter-content .form-floating form {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    height: 40px;
+    width: 350px;
+}
+
+.filter .filter-content .form-floating input {
+    padding: 0 10px;
+    border: solid 1px #ccc;
+    border-radius: 10px;
+}
+
+
+.filter .filter-content .btn {
+    width: 70px;
     margin-right: 10px;
     background-color: white;
     color: #707B86;
     border: solid 1px #707B86;
+    font-size: 14px;
+    text-align: center;
 }
 
 .filter .filter-content .active {
@@ -137,4 +169,3 @@ td {
 .filter .filter-content .btn:last-child {
     margin-right: 0;
 }
-

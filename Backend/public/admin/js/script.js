@@ -25,3 +25,24 @@ if (buttonStatus.length > 0) {
         })
     })
 }
+// End button status
+
+// Search by title
+const searchForm = document.querySelector('#search-form'); 
+// console.log(searchForm);
+if (searchForm) {
+    searchForm.addEventListener('submit', function (event) {
+        event.preventDefault(); 
+        let searchInput = document.querySelector('#search-input');
+        // console.log(searchInput.value);
+        let url = new URL(window.location.href);
+        if (searchInput.value) {
+            url.searchParams.set('search', searchInput.value.trim());
+        }
+        else {
+            url.searchParams.delete('search');
+        }
+        window.location.href = url.href;
+        
+    });
+}
