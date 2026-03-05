@@ -169,3 +169,36 @@ td {
 .filter .filter-content .btn:last-child {
     margin-right: 0;
 }
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.pagination .page-item {
+    margin: 0 2px;
+    /* width: 40px; */
+}
+
+.pagination .page-item .page-link {
+    display: block;
+    padding: 5px 10px;
+    border: solid 1px #ccc;
+    color: #707B86;
+    text-decoration: none;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: rgba(112, 123, 134, 0.2);
+}
+
+.pagination .page-item .page-link:active {
+    background-color: #707B86;
+    color: white;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #707B86;
+    color: white;
+}
