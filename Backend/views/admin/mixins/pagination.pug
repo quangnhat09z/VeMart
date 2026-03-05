@@ -1,0 +1,12 @@
+mixin pagination(pagination)
+    nav(aria-label="Page navigation example" data-total=pagination.totalPages)
+        ul.pagination
+            li.page-item
+                button(class="page-link" data-page="prev") Previous
+
+            -for (let i = 1; i <= pagination.totalPages; i++)
+                li.page-item(class=(i === pagination.currentPage ? 'active' : ''))
+                    button(class="page-link" data-page=i) #{i}
+
+            li.page-item
+                button(class="page-link" data-page="next") Next

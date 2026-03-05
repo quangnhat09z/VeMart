@@ -1,6 +1,8 @@
 extend ../../layout/default.pug
 include ../../mixins/filterButton.pug
 include ../../mixins/searchForm.pug
+include ../../mixins/pagination.pug
+
 block main
     h1 Trang quản lý sản phẩm
 
@@ -11,7 +13,7 @@ block main
             .row 
                 +filter-status-buttons(filterStatus)
                 +search-form(searchValue)
-                
+
     table.table
         thead.table-header
             tr
@@ -47,3 +49,5 @@ block main
                     td.item-action
                         a.btn.btn-primary(href="/admin/products/edit/#{item._id}") Sửa
                         a.btn.btn-danger(href="/admin/products/delete/#{item._id}") Xóa
+
+    +pagination(pagination)

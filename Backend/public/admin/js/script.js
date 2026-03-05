@@ -1,4 +1,6 @@
 
+
+
 // Button status
 const buttonStatus = document.querySelectorAll('.button-status');
 if (buttonStatus.length > 0) {
@@ -28,11 +30,11 @@ if (buttonStatus.length > 0) {
 // End button status
 
 // Search by title
-const searchForm = document.querySelector('#search-form'); 
+const searchForm = document.querySelector('#search-form');
 // console.log(searchForm);
 if (searchForm) {
     searchForm.addEventListener('submit', function (event) {
-        event.preventDefault(); 
+        event.preventDefault();
         let searchInput = document.querySelector('#search-input');
         // console.log(searchInput.value);
         let url = new URL(window.location.href);
@@ -43,6 +45,30 @@ if (searchForm) {
             url.searchParams.delete('keyword');
         }
         window.location.href = url.href;
-        
+
+    });
+}
+
+// Pagination
+const nav = document.querySelector('nav[aria-label="Page navigation example"]');
+if (nav) {
+    const totalPages = parseInt(nav.dataset.total);
+    nav.querySelectorAll('.page-link').forEach(pageLink => {
+        pageLink.addEventListener('click', function (event) {
+            event.preventDefault();
+            const url = new URL(window.location.href);
+            const currentPage = parseInt(url.searchParams.get('page')) || 1;
+            const target = this.dataset.page;
+
+            if (target === 'prev' && currentPage > 1) {
+                url.searchParams.set('page', currentPage - 1);
+            } else if (target === 'next' && currentPage < totalPages) {
+                url.searchParams.set('page', currentPage + 1);
+            } else if (target !== 'prev' && target !== 'next') {
+                url.searchParams.set('page', target);
+            } else return;
+
+            window.location.href = url.href;
+        });
     });
 }
