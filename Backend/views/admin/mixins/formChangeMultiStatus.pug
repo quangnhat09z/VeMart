@@ -1,0 +1,21 @@
+mixin form-change-multiple-status(path)
+    form(
+            action=path
+            method="POST" 
+            id="changeMultipleStatusForm"
+        ) 
+            div(class="d-flex align-items-start mb-3")
+                .form-group 
+                    select(name="type" class="form-select")
+                        option(value="active") Active
+                        option(value="inactive") Inactive
+                .form-group 
+                    input(
+                        type="text", 
+                        name="ids" 
+                        value="" 
+                        class="form-control" 
+                        id="selectedIdList" 
+                        placeholder="Selected IDs" 
+                        hidden)
+                button(type="submit" class="btn btn-primary") Confirm

@@ -56,7 +56,8 @@ module.exports.index = function _callee(req, res) {
       }
     }
   });
-};
+}; // [PATCH] /admin/products/change-status/:status/:id
+
 
 module.exports.changeStatus = function _callee2(req, res) {
   var status, id;
@@ -80,6 +81,38 @@ module.exports.changeStatus = function _callee2(req, res) {
         case 6:
         case "end":
           return _context2.stop();
+      }
+    }
+  });
+}; // [PATCH] /admin/products/change-multiple-status
+
+
+module.exports.changeMultipleStatus = function _callee3(req, res) {
+  var type, ids;
+  return regeneratorRuntime.async(function _callee3$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          type = req.body.type;
+          ids = req.body.ids;
+          idsArray = ids.split(',').map(function (id) {
+            return id.trim();
+          });
+          _context3.next = 5;
+          return regeneratorRuntime.awrap(Product.updateMany({
+            _id: {
+              $in: idsArray
+            }
+          }, {
+            status: type
+          }));
+
+        case 5:
+          res.redirect(req.get('Referrer') || '/');
+
+        case 6:
+        case "end":
+          return _context3.stop();
       }
     }
   });

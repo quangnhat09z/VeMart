@@ -1,5 +1,6 @@
 const express = require('express')
 const methodOverride = require('method-override')
+const bodyParser = require('body-parser')
 
 require('dotenv').config(); 
 
@@ -22,6 +23,9 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 app.use(express.static('public'));
 app.use(methodOverride('_method'))
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded())
 
 // Routes
 route(app);

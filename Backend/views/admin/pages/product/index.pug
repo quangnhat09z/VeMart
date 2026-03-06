@@ -2,9 +2,10 @@ extend ../../layout/default.pug
 include ../../mixins/filterButton.pug
 include ../../mixins/searchForm.pug
 include ../../mixins/pagination.pug
+include ../../mixins/formChangeMultiStatus.pug
 
 block main
-    h1 Trang quản lý sản phẩm
+    h1 Management Products Page
 
     div(class="filter mb-3")
         div.filter-title
@@ -14,18 +15,27 @@ block main
                 +filter-status-buttons(filterStatus)
                 +search-form(searchValue)
 
-    table.table
+    table(
+        class="table"
+        checkbox-multi
+    )
+        +form-change-multiple-status(`${prefixAdmin}/products/change-multiple-status?_method=PATCH` )
         thead.table-header
             tr
+                th 
+                    input(type="checkbox" name="selectAll" id="selectAll")
                 th(scope="col") #
-                th(scope="col") Minh họa
-                th(scope="col") Tiêu đề
-                th(scope="col") Giá
-                th(scope="col") Trạng thái
-                th(scope="col") Hành động
+                th(scope="col") Illustration
+                th(scope="col") Title
+                th(scope="col") Price
+                th(scope="col") Status
+                th(scope="col") Action
         tbody
             for item, index in products
                 tr
+                    td
+                        input(type="checkbox" class="checkbox-item" name="selectedItems" value=item._id)
+                    
                     th(scope="row") #{index + 1}
                     td.item-img
                         img(
@@ -47,7 +57,7 @@ block main
                                 button-change-status
                                 class="badge badge-success"
                             ) #{item.status}
-                                 
+
                         else if item.status === 'inactive'
                             a(
                                 href=`javascript:`
@@ -58,8 +68,8 @@ block main
                             )  #{item.status}
 
                     td.item-action
-                        a.btn.btn-primary(href="/admin/products/edit/#{item._id}") Sửa
-                        a.btn.btn-danger(href="/admin/products/delete/#{item._id}") Xóa
+                        a.btn.btn-primary(href="/admin/products/edit/#{item._id}") Update
+                        a.btn.btn-danger(href="/admin/products/delete/#{item._id}") Delete
 
     +pagination(pagination)
 

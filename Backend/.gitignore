@@ -1,2 +1,7 @@
 .env*
 /node_modules
+
+**/dist/
+*.dev.js
+.DS_Store
+node_modules/

@@ -72,3 +72,57 @@ if (nav) {
         });
     });
 }
+
+
+// Checkbox multi
+const checkboxMulti = document.querySelector('[checkbox-multi]');
+if (checkboxMulti) {
+    const checkboxAll = checkboxMulti.querySelector('#selectAll');
+    const checkboxItems = checkboxMulti.querySelectorAll('.checkbox-item');
+
+    checkboxAll.addEventListener('change', function () {
+        checkboxItems.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+
+    checkboxItems.forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            if (!this.checked) {
+                checkboxAll.checked = false;
+            }
+            else {
+                const allChecked = Array.from(checkboxItems).every(item => item.checked);
+                checkboxAll.checked = allChecked;
+            }
+        });
+    });
+}
+
+// End Checkbox multi
+
+// Form change muiltiple status
+const formChangeMultipleStatus = document.querySelector('#changeMultipleStatusForm');
+
+if (formChangeMultipleStatus) {
+    formChangeMultipleStatus.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const selectedItems = document.querySelectorAll('.checkbox-item:checked');
+
+        if (selectedItems.length > 0) {
+            const selectedIdList = document.querySelector('#selectedIdList'); // Ô input ẩn để lưu danh sách ID đã chọn
+            const ids = [];
+
+            selectedItems.forEach(item => {
+                ids.push(item.value);
+            });
+            console.log(ids.join(','));
+            selectedIdList.value = ids.join(','); // Gán giá trị cho ô input ẩn
+            formChangeMultipleStatus.submit();
+        }
+        else {
+            alert("Please select at least 1 item to change status.");
+        }
+    });
+}
+// End form change muiltiple status

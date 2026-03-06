@@ -6,5 +6,5 @@ const controller = require('../../controllers/admin/product.controller.js')
 router.get('/', controller.index);
 
 router.patch('/change-status/:status/:id', controller.changeStatus);
-
+router.patch('/change-multiple-status', controller.changeMultipleStatus);
 module.exports = router;

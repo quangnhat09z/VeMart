@@ -37,6 +37,7 @@ module.exports.index = async (req, res) => {
     })
 }
 
+// [PATCH] /admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
     console.log(req.params);
     const status = req.params.status;
@@ -46,4 +47,15 @@ module.exports.changeStatus = async (req, res) => {
 
     res.redirect(req.get('Referrer') || '/');
 
+}
+
+// [PATCH] /admin/products/change-multiple-status
+module.exports.changeMultipleStatus = async (req, res) => {
+    const type = req.body.type;
+    const ids = req.body.ids;
+    idsArray = ids.split(',').map(id => id.trim());
+
+    await Product.updateMany({ _id: { $in: idsArray } }, { status: type });
+
+    res.redirect(req.get('Referrer') || '/');
 }

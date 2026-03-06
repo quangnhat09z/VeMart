@@ -16,7 +16,6 @@ module.exports = () => {
             class:""
         }
     ]
-
-        return filterButton;
+    return filterButton;
 }
 
