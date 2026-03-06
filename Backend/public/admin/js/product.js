@@ -6,7 +6,7 @@ const statusElements = document.querySelectorAll('[button-change-status]');
 if (statusElements.length > 0) {
     const formChangeStatus = document.getElementById('changeStatusForm');
     const path = formChangeStatus.getAttribute('data-path');
-    console.log(path);
+    // console.log(path);
 
     statusElements.forEach(element => {
         element.addEventListener('click', function () {
@@ -15,7 +15,7 @@ if (statusElements.length > 0) {
 
             let newStatus = currentStatus == "active" ? "inactive" : "active";
             
-            const action = path + `/${newStatus}/${id}`;
+            const action = path + `/${newStatus}/${id}` + `?_method=PATCH`;
             formChangeStatus.action = action;
             formChangeStatus.submit();
         })

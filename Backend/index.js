@@ -1,4 +1,6 @@
 const express = require('express')
+const methodOverride = require('method-override')
+
 require('dotenv').config(); 
 
 const db = require('./config/database.js')
@@ -19,6 +21,7 @@ app.set('view engine', 'pug');
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 app.use(express.static('public'));
+app.use(methodOverride('_method'))
 
 // Routes
 route(app);

@@ -86,6 +86,7 @@ td {
     height: 25px;
     align-content: center;
     text-transform: capitalize;
+    text-decoration: none;
 }
 
 .badge.badge-danger {
@@ -94,6 +95,7 @@ td {
     height: 25px;
     align-content: center;
     text-transform: capitalize;
+    text-decoration: none;
 }
 
 .table-header th {

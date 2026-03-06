@@ -44,7 +44,6 @@ module.exports.changeStatus = async (req, res) => {
 
     await Product.updateOne({ _id: id }, { status: status });
 
- 
-   res.redirect(req.get('Referrer') || '/');
+    res.redirect(req.get('Referrer') || '/');
 
 }
