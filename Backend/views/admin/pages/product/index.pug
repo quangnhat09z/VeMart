@@ -38,16 +38,38 @@ block main
                     td.item-title #{item.title}
                     td.item-price #{item.price}$
 
-                    if item.status === 'active'
-                        td
-                            span.badge.badge-success #{item.status}
-                    else if item.status === 'inactive'
-                        td
-                            span.badge.badge-danger #{item.status}
-
+                    td 
+                        if item.status === 'active'
+                            a(
+                                href=`javascript:`
+                                data-status=item.status
+                                data-id=item.id
+                                button-change-status
+                                class="badge badge-success"
+                            ) #{item.status}
+                                 
+                        else if item.status === 'inactive'
+                            a(
+                                href=`javascript:`
+                                data-status=item.status
+                                data-id=item.id
+                                button-change-status
+                                class="badge badge-danger"
+                            )  #{item.status}
 
                     td.item-action
                         a.btn.btn-primary(href="/admin/products/edit/#{item._id}") Sửa
                         a.btn.btn-danger(href="/admin/products/delete/#{item._id}") Xóa
 
     +pagination(pagination)
+
+    form(
+        action=""
+        id = "changeStatusForm"
+        method="GET" 
+        data-path = `${prefixAdmin}/products/change-status`
+    )
+        //- input(type="hidden" name="status" value=filterStatus)
+        //- input(type="hidden" name="keyword" value=searchValue)
+
+    script(src="/admin/js/product.js") 

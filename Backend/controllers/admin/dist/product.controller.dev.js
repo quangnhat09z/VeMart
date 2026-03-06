@@ -57,3 +57,30 @@ module.exports.index = function _callee(req, res) {
     }
   });
 };
+
+module.exports.changeStatus = function _callee2(req, res) {
+  var status, id;
+  return regeneratorRuntime.async(function _callee2$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          console.log(req.params);
+          status = req.params.status;
+          id = req.params.id;
+          _context2.next = 5;
+          return regeneratorRuntime.awrap(Product.updateOne({
+            _id: id
+          }, {
+            status: status
+          }));
+
+        case 5:
+          res.redirect(req.get('Referrer') || '/');
+
+        case 6:
+        case "end":
+          return _context2.stop();
+      }
+    }
+  });
+};
