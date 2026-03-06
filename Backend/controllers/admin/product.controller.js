@@ -55,7 +55,14 @@ module.exports.changeMultipleStatus = async (req, res) => {
     const ids = req.body.ids;
     idsArray = ids.split(',').map(id => id.trim());
 
-    await Product.updateMany({ _id: { $in: idsArray } }, { status: type });
+    if (type !== "delete-all") {
+        await Product.updateMany({ _id: { $in: idsArray } }, { status: type });
+    }
+    else {
+        await Product.updateMany(
+            { _id: { $in: idsArray } },
+            { deleted: true, deletedAt: new Date() });
+    }
 
     res.redirect(req.get('Referrer') || '/');
 }
@@ -65,7 +72,12 @@ module.exports.changeMultipleStatus = async (req, res) => {
 module.exports.deleteItem = async (req, res) => {
     const id = req.params.id;
     // await Product.deleteOne({ _id: id });        
-    await Product.updateOne({ _id: id }, { deleted: true });
+    await Product.updateOne(
+        { _id: id },
+        {
+            deleted: true,
+            deletedAt: new Date()
+        });
     res.redirect(req.get('Referrer') || '/');
 }
 

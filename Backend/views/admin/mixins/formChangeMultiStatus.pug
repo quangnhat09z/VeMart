@@ -7,8 +7,10 @@ mixin form-change-multiple-status(path)
             div(class="d-flex align-items-start mb-3")
                 .form-group 
                     select(name="type" class="form-select")
+                        option(value="" selected disabled) Select action
                         option(value="active") Active
                         option(value="inactive") Inactive
+                        option(value="delete-all") Delete all
                 .form-group 
                     input(
                         type="text", 

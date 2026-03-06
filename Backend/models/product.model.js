@@ -14,6 +14,7 @@ const productSchema = new mongoose.Schema({
     boughtInLastMonth: Number,
     discountPercentage: Number,
     deleted: { type: Boolean, default: false },
+    deletedAt: Date,
     status: { 
         type: String, 
         enum: ['active', 'inactive'], 

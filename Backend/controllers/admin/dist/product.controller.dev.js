@@ -98,7 +98,13 @@ module.exports.changeMultipleStatus = function _callee3(req, res) {
           idsArray = ids.split(',').map(function (id) {
             return id.trim();
           });
-          _context3.next = 5;
+
+          if (!(type !== "delete-all")) {
+            _context3.next = 8;
+            break;
+          }
+
+          _context3.next = 6;
           return regeneratorRuntime.awrap(Product.updateMany({
             _id: {
               $in: idsArray
@@ -107,10 +113,25 @@ module.exports.changeMultipleStatus = function _callee3(req, res) {
             status: type
           }));
 
-        case 5:
+        case 6:
+          _context3.next = 10;
+          break;
+
+        case 8:
+          _context3.next = 10;
+          return regeneratorRuntime.awrap(Product.updateMany({
+            _id: {
+              $in: idsArray
+            }
+          }, {
+            deleted: true,
+            deletedAt: new Date()
+          }));
+
+        case 10:
           res.redirect(req.get('Referrer') || '/');
 
-        case 6:
+        case 11:
         case "end":
           return _context3.stop();
       }
@@ -131,7 +152,8 @@ module.exports.deleteItem = function _callee4(req, res) {
           return regeneratorRuntime.awrap(Product.updateOne({
             _id: id
           }, {
-            deleted: true
+            deleted: true,
+            deletedAt: new Date()
           }));
 
         case 3:

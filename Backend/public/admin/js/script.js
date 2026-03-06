@@ -106,7 +106,16 @@ const formChangeMultipleStatus = document.querySelector('#changeMultipleStatusFo
 if (formChangeMultipleStatus) {
     formChangeMultipleStatus.addEventListener('submit', function (event) {
         event.preventDefault();
+
         const selectedItems = document.querySelectorAll('.checkbox-item:checked');
+        const actionType = event.target.type.value;
+        if (actionType === "delete-all") {
+            let isConfirm = confirm("Are you sure you want to delete all selected items?");
+            if (!isConfirm) {
+                return;
+            }
+        }
+
 
         if (selectedItems.length > 0) {
             const selectedIdList = document.querySelector('#selectedIdList'); // Ô input ẩn để lưu danh sách ID đã chọn
@@ -115,7 +124,7 @@ if (formChangeMultipleStatus) {
             selectedItems.forEach(item => {
                 ids.push(item.value);
             });
-            console.log(ids.join(','));
+            // console.log(ids.join(','));
             selectedIdList.value = ids.join(','); // Gán giá trị cho ô input ẩn
             formChangeMultipleStatus.submit();
         }
