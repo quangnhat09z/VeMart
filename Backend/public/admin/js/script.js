@@ -1,6 +1,5 @@
 
 
-
 // Button status
 const buttonStatus = document.querySelectorAll('.button-status');
 if (buttonStatus.length > 0) {
@@ -126,3 +125,26 @@ if (formChangeMultipleStatus) {
     });
 }
 // End form change muiltiple status
+
+
+// Delete item
+const deleteButtons = document.querySelectorAll('#button-delete');
+if (deleteButtons) {
+    const deleteForm = document.querySelector('#deleteItemForm');
+    // console.log(deleteForm);
+    const path = deleteForm.getAttribute('data-path');
+    // console.log(path);
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const id = this.getAttribute('data-id');
+            let isConfirm = confirm("Are you sure you want to delete this item?");
+            if (isConfirm) {
+                let action = path + `${id}?_method=DELETE`;
+                deleteForm.setAttribute('action', action);
+                deleteForm.submit();
+            }
+        });
+    });
+}
+// End delete item

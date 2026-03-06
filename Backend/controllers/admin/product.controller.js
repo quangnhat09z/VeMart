@@ -1,5 +1,5 @@
 const Product = require('../../models/product.model.js')
-const filterStatusHelper = require('../../helpers/filterStatus')();
+const filterStatusHelperFn = require('../../helpers/filterStatus');
 const searchHelper = require('../../helpers/search');
 const paginationHelper = require('../../helpers/pagination');
 
@@ -23,7 +23,7 @@ module.exports.index = async (req, res) => {
     const objectPagination = paginationHelper(req.query, totalProducts);
     // console.log(objectPagination);
 
-    // lọc sản phẩm + phân trang 
+    // lọc sản phẩm + phân trang
     const products = await Product.find(filter)
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip);
@@ -31,7 +31,7 @@ module.exports.index = async (req, res) => {
     res.render("admin/pages/product/index", {
         pageTitle: "Quản lý sản phẩm",
         products: products,
-        filterStatus: filterStatusHelper,
+        filterStatus: filterStatusHelperFn(),
         searchValue: objectSearch.keyword,
         pagination: objectPagination
     })
@@ -59,3 +59,19 @@ module.exports.changeMultipleStatus = async (req, res) => {
 
     res.redirect(req.get('Referrer') || '/');
 }
+
+
+// [DELETE] /admin/products/delete/:id
+module.exports.deleteItem = async (req, res) => {
+    const id = req.params.id;
+    // await Product.deleteOne({ _id: id });        
+    await Product.updateOne({ _id: id }, { deleted: true });
+    res.redirect(req.get('Referrer') || '/');
+}
+
+// [PATCH] /admin/products/soft-delete/:id
+// module.exports.softDeleteItem = async (req, res) => {
+//     const id = req.params.id;
+//     await Product.updateOne({ _id: id }, { deleted: true });
+//     res.redirect(req.get('Referrer') || '/');
+// }

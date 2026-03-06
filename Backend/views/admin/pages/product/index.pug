@@ -69,7 +69,11 @@ block main
 
                     td.item-action
                         a.btn.btn-primary(href="/admin/products/edit/#{item._id}") Update
-                        a.btn.btn-danger(href="/admin/products/delete/#{item._id}") Delete
+                        button(
+                            class="btn btn-danger" 
+                            data-id=item.id 
+                            id=`button-delete`
+                        ) Delete
 
     +pagination(pagination)
 
@@ -78,6 +82,13 @@ block main
         id = "changeStatusForm"
         method="POST" 
         data-path = `${prefixAdmin}/products/change-status`
+    )
+
+    form(
+        action=""
+        id = "deleteItemForm"
+        method="POST" 
+        data-path = `${prefixAdmin}/products/delete/`
     )
 
 

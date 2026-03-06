@@ -2,7 +2,7 @@
 
 var Product = require('../../models/product.model.js');
 
-var filterStatusHelper = require('../../helpers/filterStatus')();
+var filterStatusHelperFn = require('../../helpers/filterStatus');
 
 var searchHelper = require('../../helpers/search');
 
@@ -35,7 +35,7 @@ module.exports.index = function _callee(req, res) {
         case 6:
           totalProducts = _context.sent;
           objectPagination = paginationHelper(req.query, totalProducts); // console.log(objectPagination);
-          // lọc sản phẩm + phân trang 
+          // lọc sản phẩm + phân trang
 
           _context.next = 10;
           return regeneratorRuntime.awrap(Product.find(filter).limit(objectPagination.limitItems).skip(objectPagination.skip));
@@ -45,7 +45,7 @@ module.exports.index = function _callee(req, res) {
           res.render("admin/pages/product/index", {
             pageTitle: "Quản lý sản phẩm",
             products: products,
-            filterStatus: filterStatusHelper,
+            filterStatus: filterStatusHelperFn(),
             searchValue: objectSearch.keyword,
             pagination: objectPagination
           });
@@ -116,4 +116,36 @@ module.exports.changeMultipleStatus = function _callee3(req, res) {
       }
     }
   });
-};
+}; // [DELETE] /admin/products/delete/:id
+
+
+module.exports.deleteItem = function _callee4(req, res) {
+  var id;
+  return regeneratorRuntime.async(function _callee4$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          id = req.params.id; // await Product.deleteOne({ _id: id });        
+
+          _context4.next = 3;
+          return regeneratorRuntime.awrap(Product.updateOne({
+            _id: id
+          }, {
+            deleted: true
+          }));
+
+        case 3:
+          res.redirect(req.get('Referrer') || '/');
+
+        case 4:
+        case "end":
+          return _context4.stop();
+      }
+    }
+  });
+}; // [PATCH] /admin/products/soft-delete/:id
+// module.exports.softDeleteItem = async (req, res) => {
+//     const id = req.params.id;
+//     await Product.updateOne({ _id: id }, { deleted: true });
+//     res.redirect(req.get('Referrer') || '/');
+// }
