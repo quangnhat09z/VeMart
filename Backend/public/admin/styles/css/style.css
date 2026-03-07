@@ -178,6 +178,7 @@ td {
     justify-content: center;
     margin-top: 20px;
 }
+
 .pagination .page-item {
     margin: 0 2px;
     /* width: 40px; */
@@ -203,4 +204,29 @@ td {
 .pagination .page-item.active .page-link {
     background-color: #707B86;
     color: white;
+}
+
+.alert {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    width: 20%;
+    position: fixed;
+    /* top: 20px; */
+    right: 50px;
+    z-index: 1001;
+}
+
+.fade-out {
+    animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
 }

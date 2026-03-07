@@ -25,6 +25,7 @@ module.exports.index = async (req, res) => {
 
     // lọc sản phẩm + phân trang
     const products = await Product.find(filter)
+        .sort({ price: "asc" })
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip);
 
@@ -44,6 +45,8 @@ module.exports.changeStatus = async (req, res) => {
     const id = req.params.id;
 
     await Product.updateOne({ _id: id }, { status: status });
+
+    req.flash('success', 'Status updated successfully.');
 
     res.redirect(req.get('Referrer') || '/');
 

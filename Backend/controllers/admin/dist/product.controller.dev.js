@@ -38,7 +38,9 @@ module.exports.index = function _callee(req, res) {
           // lọc sản phẩm + phân trang
 
           _context.next = 10;
-          return regeneratorRuntime.awrap(Product.find(filter).limit(objectPagination.limitItems).skip(objectPagination.skip));
+          return regeneratorRuntime.awrap(Product.find(filter).sort({
+            price: "asc"
+          }).limit(objectPagination.limitItems).skip(objectPagination.skip));
 
         case 10:
           products = _context.sent;
@@ -76,9 +78,10 @@ module.exports.changeStatus = function _callee2(req, res) {
           }));
 
         case 5:
+          req.flash('success', 'Status updated successfully.');
           res.redirect(req.get('Referrer') || '/');
 
-        case 6:
+        case 7:
         case "end":
           return _context2.stop();
       }

@@ -1,36 +1,47 @@
 const express = require('express')
 const methodOverride = require('method-override')
-const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
+const flash = require('express-flash')
 
-require('dotenv').config(); 
+require('dotenv').config()
 
 const db = require('./config/database.js')
-
-const systemConfig = require('./config/system.js');
+const systemConfig = require('./config/system.js')
 const route = require('./routes/client/index.route.js')
 const routeAdmin = require('./routes/admin/index.route.js')
 
-db.connect();
+db.connect()
 
 const app = express()
-const port = process.env.PORT;
+const port = process.env.PORT
 
-app.set('views', './views');
-app.set('view engine', 'pug');
+app.set('views', './views')
+app.set('view engine', 'pug')
 
-// App local variables
-app.locals.prefixAdmin = systemConfig.prefixAdmin;
+app.locals.prefixAdmin = systemConfig.prefixAdmin
 
-app.use(express.static('public'));
+app.use(express.static('public'))
 app.use(methodOverride('_method'))
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded())
+// Parse body
+app.use(express.urlencoded({ extended: true }))
+
+app.use(cookieParser())
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 60000 }
+}))
+
+app.use(flash())
 
 // Routes
-route(app);
-routeAdmin(app);
+route(app)
+routeAdmin(app)
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+  console.log(`Server is running on http://localhost:${port}`)
+})

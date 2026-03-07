@@ -1,0 +1,9 @@
+mixin aleart(messages)
+    if messages && messages.success && messages.success.length
+        each message in messages.success
+            div(class="alert alert-success" role="alert")= message
+            
+
+    if messages && messages.error && messages.error.length
+        each message in messages.error
+            div(class="alert alert-danger" role="alert")= message

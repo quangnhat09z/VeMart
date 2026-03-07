@@ -1,3 +1,25 @@
+// Admin scroll position
+const adminScrollPositionKey = 'admin:scroll-position';
+
+function saveAdminScrollPosition() {
+    sessionStorage.setItem(adminScrollPositionKey, String(window.scrollY || window.pageYOffset || 0));
+}
+
+function restoreAdminScrollPosition() {
+    const savedPosition = sessionStorage.getItem(adminScrollPositionKey);
+
+    if (savedPosition === null) {
+        return;
+    }
+
+    sessionStorage.removeItem(adminScrollPositionKey);
+    window.scrollTo(0, parseInt(savedPosition, 10) || 0);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    restoreAdminScrollPosition();
+});
+// End Admin scroll position
 
 
 // Button status
@@ -113,7 +135,7 @@ if (formChangeMultipleStatus) {
             let isConfirm = confirm("Are you sure you want to delete all selected items?");
             if (!isConfirm) {
                 return;
-            }
+            } 
         }
 
 
@@ -126,6 +148,7 @@ if (formChangeMultipleStatus) {
             });
             // console.log(ids.join(','));
             selectedIdList.value = ids.join(','); // Gán giá trị cho ô input ẩn
+            saveAdminScrollPosition();
             formChangeMultipleStatus.submit();
         }
         else {
@@ -151,9 +174,25 @@ if (deleteButtons) {
             if (isConfirm) {
                 let action = path + `${id}?_method=DELETE`;
                 deleteForm.setAttribute('action', action);
+                saveAdminScrollPosition();
                 deleteForm.submit();
             }
         });
     });
 }
 // End delete item
+
+
+// Alert auto hide
+const alerts = document.querySelectorAll('.alert');
+if (alerts.length > 0) {
+    setTimeout(() => {
+        alerts.forEach(alert => {
+            alert.classList.add('fade-out');
+
+            alert.addEventListener('animationend', () => {
+                alert.remove();
+            }, { once: true });
+        });
+    }, 3000);
+}

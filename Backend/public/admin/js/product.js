@@ -17,6 +17,7 @@ if (statusElements.length > 0) {
             
             const action = path + `/${newStatus}/${id}` + `?_method=PATCH`;
             formChangeStatus.action = action;
+            saveAdminScrollPosition();
             formChangeStatus.submit();
         })
     })

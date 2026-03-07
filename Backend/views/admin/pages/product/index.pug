@@ -3,8 +3,11 @@ include ../../mixins/filterButton.pug
 include ../../mixins/searchForm.pug
 include ../../mixins/pagination.pug
 include ../../mixins/formChangeMultiStatus.pug
+include ../../mixins/alert.pug
 
 block main
+    +aleart(messages)
+            
     h1 Management Products Page
 
     div(class="filter mb-3")
@@ -35,7 +38,7 @@ block main
                 tr
                     td
                         input(type="checkbox" class="checkbox-item" name="selectedItems" value=item._id)
-                    
+
                     th(scope="row") #{index + 1}
                     td.item-img
                         img(
