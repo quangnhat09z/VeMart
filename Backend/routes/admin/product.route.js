@@ -8,6 +8,7 @@ router.get('/', controller.index);
 router.patch('/change-status/:status/:id', controller.changeStatus);
 router.patch('/change-multiple-status', controller.changeMultipleStatus);
 router.delete('/delete/:id', controller.deleteItem);
-
+router.get('/create', controller.create);
+router.post('/create', controller.store);
 
 module.exports = router;

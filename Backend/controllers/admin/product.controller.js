@@ -2,6 +2,7 @@ const Product = require('../../models/product.model.js')
 const filterStatusHelperFn = require('../../helpers/filterStatus');
 const searchHelper = require('../../helpers/search');
 const paginationHelper = require('../../helpers/pagination');
+const systemConfig = require('../../config/system.js');
 
 module.exports.index = async (req, res) => {
 
@@ -25,7 +26,7 @@ module.exports.index = async (req, res) => {
 
     // lọc sản phẩm + phân trang
     const products = await Product.find(filter)
-        .sort({ price: "asc" })
+        // .sort({ price: "asc" })
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip);
 
@@ -60,11 +61,14 @@ module.exports.changeMultipleStatus = async (req, res) => {
 
     if (type !== "delete-all") {
         await Product.updateMany({ _id: { $in: idsArray } }, { status: type });
+        req.flash('success', 'Status updated successfully.');
+
     }
     else {
         await Product.updateMany(
             { _id: { $in: idsArray } },
             { deleted: true, deletedAt: new Date() });
+        req.flash('success', 'Items deleted successfully.');
     }
 
     res.redirect(req.get('Referrer') || '/');
@@ -74,13 +78,15 @@ module.exports.changeMultipleStatus = async (req, res) => {
 // [DELETE] /admin/products/delete/:id
 module.exports.deleteItem = async (req, res) => {
     const id = req.params.id;
-    // await Product.deleteOne({ _id: id });        
     await Product.updateOne(
         { _id: id },
         {
             deleted: true,
             deletedAt: new Date()
-        });
+        },
+        { timestamps: false }  // Ngăn cập nhật updatedAt
+    );
+    req.flash('success', 'Item deleted successfully.');
     res.redirect(req.get('Referrer') || '/');
 }
 
@@ -90,3 +96,38 @@ module.exports.deleteItem = async (req, res) => {
 //     await Product.updateOne({ _id: id }, { deleted: true });
 //     res.redirect(req.get('Referrer') || '/');
 // }
+
+// [GET] /admin/products/create
+module.exports.create = async (req, res) => {
+    res.render("admin/pages/product/create", {
+        pageTitle: "Create Product"
+    })
+}
+
+// [POST] /admin/products/store
+module.exports.store = async (req, res) => {
+    try {
+        const productData = req.body;
+        
+        // Xử lý các field số có giá trị mặc định
+        const numericDefaults = ['listPrice', 'boughtInLastMonth', 'reviews', 'discountPercentage'];
+        numericDefaults.forEach(field => {
+            if (!productData[field] || productData[field] === '') {
+                productData[field] = 0;
+            }   
+        });
+
+        // Xử lý checkbox isBestSeller
+        productData.isBestSeller = productData.isBestSeller === 'true' || productData.isBestSeller === true;
+
+        const product = new Product(productData);
+        await product.save();
+        
+        req.flash('success', 'Tạo sản phẩm thành công');
+        res.redirect( `${systemConfig.prefixAdmin}/products`);
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Lỗi tạo sản phẩm: ' + error.message);
+        res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products`);
+    }
+}

@@ -1,4 +1,4 @@
-extend ../../layout/default.pug
+extends ../../layout/default.pug
 include ../../mixins/filterButton.pug
 include ../../mixins/searchForm.pug
 include ../../mixins/pagination.pug
@@ -22,7 +22,14 @@ block main
         class="table"
         checkbox-multi
     )
-        +form-change-multiple-status(`${prefixAdmin}/products/change-multiple-status?_method=PATCH` )
+        .row 
+            .col-md-4
+                +form-change-multiple-status(`${prefixAdmin}/products/change-multiple-status?_method=PATCH` )
+            .col-md-8
+                a(
+                    href=`${prefixAdmin}/products/create`
+                    class="btn btn-outline-success"
+                ) + Create
         thead.table-header
             tr
                 th 

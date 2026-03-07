@@ -1,0 +1,153 @@
+extends ../../layout/default
+
+block main
+    .container-fluid
+        .row.mb-4
+            .col-12
+                h1.mb-3 Tạo Sản Phẩm Mới
+                a.btn.btn-secondary(href="/admin/products") 
+                    i.fas.fa-arrow-left
+                    |  Quay lại
+
+        .row
+            .col-md-8.offset-md-2
+                .card
+                    .card-body
+                        form#createProductForm(method="POST" action="/admin/products/create")
+
+                            .mb-3
+                                label.form-label(for="asin") ASIN <span class="text-danger">*</span>
+                                input.form-control#asin(
+                                    type="text"
+                                    name="asin"
+                                    required
+                                    placeholder="VD: B0D5X8K9Z2"
+                                )
+                                .form-text ASIN là mã định danh duy nhất của sản phẩm
+
+                            .mb-3
+                                label.form-label(for="title") Tiêu đề sản phẩm <span class="text-danger">*</span>
+                                input.form-control#title(
+                                    type="text"
+                                    name="title"
+                                    required
+                                    placeholder="Nhập tiêu đề sản phẩm"
+                                )
+
+                            .row
+                                .col-md-6
+                                    .mb-3
+                                        label.form-label(for="price") Giá (VNĐ) <span class="text-danger">*</span>
+                                        input.form-control#price(
+                                            type="number"
+                                            name="price"
+                                            required
+                                            step="0.01"
+                                            placeholder="0"
+                                        )
+
+                                .col-md-6
+                                    .mb-3
+                                        label.form-label(for="listPrice") Giá gốc (VNĐ)
+                                        input.form-control#listPrice(
+                                            type="number"
+                                            name="listPrice"
+                                            step="0.01"
+                                            placeholder="0"
+                                        )
+
+                            .mb-3
+                                label.form-label(for="imgUrl") URL Hình ảnh <span class="text-danger">*</span>
+                                input.form-control#imgUrl(
+                                    type="url"
+                                    name="imgUrl"
+                                    required
+                                    placeholder="https://example.com/image.jpg"
+                                )
+
+                            .mb-3
+                                label.form-label(for="productURL") URL sản phẩm
+                                input.form-control#productURL(
+                                    type="url"
+                                    name="productURL"
+                                    placeholder="https://example.com/product"
+                                )
+
+                            .row
+                                .col-md-6
+                                    .mb-3
+                                        label.form-label(for="category_id") Danh mục
+                                        input.form-control#category_id(
+                                            type="number"
+                                            name="category_id"
+                                            placeholder="ID danh mục"
+                                        )
+
+                                .col-md-6
+                                    .mb-3
+                                        label.form-label(for="discountPercentage") Chiết khấu (%)
+                                        input.form-control#discountPercentage(
+                                            type="number"
+                                            name="discountPercentage"
+                                            step="0.01"
+                                            min="0"
+                                            max="100"
+                                            placeholder="0"
+                                        )
+
+                            .row
+                                .col-md-4
+                                    .mb-3
+                                        label.form-label(for="stars") Đánh giá <span class="text-muted">(sao)</span>
+                                        input.form-control#stars(
+                                            type="number"
+                                            name="stars"
+                                            step="0.1"
+                                            min="0"
+                                            max="5"
+                                            placeholder="0"
+                                        )
+
+                                .col-md-4
+                                    .mb-3
+                                        label.form-label(for="reviews") Số đánh giá
+                                        input.form-control#reviews(
+                                            type="number"
+                                            name="reviews"
+                                            min="0"
+                                            placeholder="0"
+                                        )
+
+                                .col-md-4
+                                    .mb-3
+                                        label.form-label(for="boughtInLastMonth") Mua trong tháng cuối
+                                        input.form-control#boughtInLastMonth(
+                                            type="number"
+                                            name="boughtInLastMonth"
+                                            min="0"
+                                            placeholder="0"
+                                        )
+
+                            .mb-3
+                                .form-check
+                                    input.form-check-input#isBestSeller(
+                                        type="checkbox"
+                                        name="isBestSeller"
+                                        value="true"
+                                    )
+                                    label.form-check-label(for="isBestSeller")
+                                        | Là sản phẩm bán chạy
+
+                            .mb-3
+                                label.form-label(for="status") Trạng thái
+                                select.form-select#status(name="status")
+                                    option(value="active") Hoạt động
+                                    option(value="inactive") Không hoạt động
+
+                            .mb-3
+                                button.btn.btn-primary(type="submit")
+                                    i.fas.fa-save
+                                    |  Tạo sản phẩm
+                                a.btn.btn-secondary.ms-2(href="/admin/products")
+                                    i.fas.fa-times
+                                    |  Hủy

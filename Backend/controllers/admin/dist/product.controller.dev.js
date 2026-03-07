@@ -8,6 +8,8 @@ var searchHelper = require('../../helpers/search');
 
 var paginationHelper = require('../../helpers/pagination');
 
+var systemConfig = require('../../config/system.js');
+
 module.exports.index = function _callee(req, res) {
   var filter, objectSearch, totalProducts, objectPagination, products;
   return regeneratorRuntime.async(function _callee$(_context) {
@@ -38,9 +40,8 @@ module.exports.index = function _callee(req, res) {
           // lọc sản phẩm + phân trang
 
           _context.next = 10;
-          return regeneratorRuntime.awrap(Product.find(filter).sort({
-            price: "asc"
-          }).limit(objectPagination.limitItems).skip(objectPagination.skip));
+          return regeneratorRuntime.awrap(Product.find(filter) // .sort({ price: "asc" })
+          .limit(objectPagination.limitItems).skip(objectPagination.skip));
 
         case 10:
           products = _context.sent;
@@ -103,7 +104,7 @@ module.exports.changeMultipleStatus = function _callee3(req, res) {
           });
 
           if (!(type !== "delete-all")) {
-            _context3.next = 8;
+            _context3.next = 9;
             break;
           }
 
@@ -117,11 +118,12 @@ module.exports.changeMultipleStatus = function _callee3(req, res) {
           }));
 
         case 6:
-          _context3.next = 10;
+          req.flash('success', 'Status updated successfully.');
+          _context3.next = 12;
           break;
 
-        case 8:
-          _context3.next = 10;
+        case 9:
+          _context3.next = 11;
           return regeneratorRuntime.awrap(Product.updateMany({
             _id: {
               $in: idsArray
@@ -131,10 +133,13 @@ module.exports.changeMultipleStatus = function _callee3(req, res) {
             deletedAt: new Date()
           }));
 
-        case 10:
+        case 11:
+          req.flash('success', 'Items deleted successfully.');
+
+        case 12:
           res.redirect(req.get('Referrer') || '/');
 
-        case 11:
+        case 13:
         case "end":
           return _context3.stop();
       }
@@ -149,20 +154,23 @@ module.exports.deleteItem = function _callee4(req, res) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
-          id = req.params.id; // await Product.deleteOne({ _id: id });        
-
+          id = req.params.id;
           _context4.next = 3;
           return regeneratorRuntime.awrap(Product.updateOne({
             _id: id
           }, {
             deleted: true,
             deletedAt: new Date()
-          }));
+          }, {
+            timestamps: false
+          } // Ngăn cập nhật updatedAt
+          ));
 
         case 3:
+          req.flash('success', 'Item deleted successfully.');
           res.redirect(req.get('Referrer') || '/');
 
-        case 4:
+        case 5:
         case "end":
           return _context4.stop();
       }
@@ -174,3 +182,65 @@ module.exports.deleteItem = function _callee4(req, res) {
 //     await Product.updateOne({ _id: id }, { deleted: true });
 //     res.redirect(req.get('Referrer') || '/');
 // }
+// [GET] /admin/products/create
+
+
+module.exports.create = function _callee5(req, res) {
+  return regeneratorRuntime.async(function _callee5$(_context5) {
+    while (1) {
+      switch (_context5.prev = _context5.next) {
+        case 0:
+          res.render("admin/pages/product/create", {
+            pageTitle: "Create Product"
+          });
+
+        case 1:
+        case "end":
+          return _context5.stop();
+      }
+    }
+  });
+}; // [POST] /admin/products/store
+
+
+module.exports.store = function _callee6(req, res) {
+  var productData, numericDefaults, product;
+  return regeneratorRuntime.async(function _callee6$(_context6) {
+    while (1) {
+      switch (_context6.prev = _context6.next) {
+        case 0:
+          _context6.prev = 0;
+          productData = req.body; // Xử lý các field số có giá trị mặc định
+
+          numericDefaults = ['listPrice', 'boughtInLastMonth', 'reviews', 'discountPercentage'];
+          numericDefaults.forEach(function (field) {
+            if (!productData[field] || productData[field] === '') {
+              productData[field] = 0;
+            }
+          }); // Xử lý checkbox isBestSeller
+
+          productData.isBestSeller = productData.isBestSeller === 'true' || productData.isBestSeller === true;
+          product = new Product(productData);
+          _context6.next = 8;
+          return regeneratorRuntime.awrap(product.save());
+
+        case 8:
+          req.flash('success', 'Tạo sản phẩm thành công');
+          res.redirect("".concat(systemConfig.prefixAdmin, "/products"));
+          _context6.next = 17;
+          break;
+
+        case 12:
+          _context6.prev = 12;
+          _context6.t0 = _context6["catch"](0);
+          console.error(_context6.t0);
+          req.flash('error', 'Lỗi tạo sản phẩm: ' + _context6.t0.message);
+          res.redirect(req.get('Referrer') || "".concat(systemConfig.prefixAdmin, "/products"));
+
+        case 17:
+        case "end":
+          return _context6.stop();
+      }
+    }
+  }, null, null, [[0, 12]]);
+};
