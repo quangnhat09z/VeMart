@@ -135,7 +135,7 @@ if (formChangeMultipleStatus) {
             let isConfirm = confirm("Are you sure you want to delete all selected items?");
             if (!isConfirm) {
                 return;
-            } 
+            }
         }
 
 
@@ -164,7 +164,7 @@ const deleteButtons = document.querySelectorAll('#button-delete');
 if (deleteButtons) {
     const deleteForm = document.querySelector('#deleteItemForm');
     // console.log(deleteForm);
-    const path = deleteForm.getAttribute('data-path');
+    // const path = deleteForm.getAttribute('data-path');
     // console.log(path);
 
     deleteButtons.forEach(button => {
@@ -195,4 +195,36 @@ if (alerts.length > 0) {
             }, { once: true });
         });
     }, 3000);
+}
+// End Alert auto hide
+
+// Preview image before upload
+const imgInput = document.querySelector('[upload-image]');
+if (imgInput) {
+    const uploadImageInput = imgInput.querySelector('[upload-image-input]');
+    const uploadImagePreview = imgInput.querySelector('[upload-image-preview]');
+    const clearImageButton = imgInput.querySelector('[upload-image-clear]');
+
+    uploadImageInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                console.log(e);
+                uploadImagePreview.src = e.target.result;
+                uploadImagePreview.classList.remove('d-none');
+            }
+            reader.readAsDataURL(file);
+        }
+
+        // Xóa ảnh
+        clearImageButton.style.display = 'inline-block';
+        clearImageButton.addEventListener('click', function () {
+            uploadImageInput.value = '';
+            uploadImagePreview.classList.add('d-none');
+            clearImageButton.style.display = 'none';
+        });
+    });
+
+
 }

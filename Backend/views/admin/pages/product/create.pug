@@ -40,7 +40,7 @@ block main
                             .row
                                 .col-md-6
                                     .mb-3
-                                        label.form-label(for="price") Giá (VNĐ) <span class="text-danger">*</span>
+                                        label.form-label(for="price") Giá ($) <span class="text-danger">*</span>
                                         input.form-control#price(
                                             type="number"
                                             name="price"
@@ -51,7 +51,7 @@ block main
 
                                 .col-md-6
                                     .mb-3
-                                        label.form-label(for="listPrice") Giá gốc (VNĐ)
+                                        label.form-label(for="listPrice") Giá gốc ($)
                                         input.form-control#listPrice(
                                             type="number"
                                             name="listPrice"
@@ -60,15 +60,30 @@ block main
                                         )
 
                             .mb-3
-                                label.form-label(for="imgUrl") URL Hình ảnh <span class="text-danger">*</span>
-                                input.form-control#imgUrl(
-                                    type="file"
-                                    class="form-control-file"
-                                    accept="image/*"
-                                    name="imgUrl"
-                                    required
-                                    placeholder="https://example.com/image.jpg"
-                                )
+                                div(upload-image)
+                                    label.form-label(for="imgUrl") URL Hình ảnh <span class="text-danger">*</span>
+                                    input.form-control#imgUrl(
+                                        type="file"
+                                        class="form-control-file"
+                                        accept="image/*"
+                                        name="imgUrl"
+                                        required
+                                        //- placeholder="https://example.com/image.jpg"
+                                        upload-image-input
+                                    )
+
+                                    img(
+                                        src="", 
+                                        alt="Preview Image", 
+                                        class="img-thumbnail mt-2 d-none", 
+                                        upload-image-preview
+                                    )
+                                    button.btn-close(
+                                        type='button' 
+                                        aria-label='Close' 
+                                        upload-image-clear 
+                                        style="display:none")
+
 
                             .mb-3
                                 label.form-label(for="productURL") URL sản phẩm
@@ -135,13 +150,14 @@ block main
 
                             .mb-3
                                 .form-check
+                                    label.form-check-label(for="isBestSeller")
+                                        | Là sản phẩm bán chạy
                                     input.form-check-input#isBestSeller(
                                         type="checkbox"
                                         name="isBestSeller"
                                         value="true"
                                     )
-                                    label.form-check-label(for="isBestSeller")
-                                        | Là sản phẩm bán chạy
+
 
                             .mb-3
                                 label.form-label(for="status") Trạng thái
