@@ -3,6 +3,7 @@ const filterStatusHelperFn = require('../../helpers/filterStatus');
 const searchHelper = require('../../helpers/search');
 const paginationHelper = require('../../helpers/pagination');
 const systemConfig = require('../../config/system.js');
+const fs = require('fs').promises;  // Thêm dòng này ở đầu file
 
 module.exports.index = async (req, res) => {
 
@@ -106,28 +107,58 @@ module.exports.create = async (req, res) => {
 
 // [POST] /admin/products/store
 module.exports.store = async (req, res) => {
+    let uploadedFilename = null;  
+
     try {
+        // console.log('Received file data:', req.file);
         const productData = req.body;
         
-        // Xử lý các field số có giá trị mặc định
         const numericDefaults = ['listPrice', 'boughtInLastMonth', 'reviews', 'discountPercentage'];
         numericDefaults.forEach(field => {
             if (!productData[field] || productData[field] === '') {
                 productData[field] = 0;
+            } else {
+                productData[field] = Number(productData[field]);
+                if (isNaN(productData[field])) {
+                    productData[field] = 0;
+                }
             }   
         });
 
-        // Xử lý checkbox isBestSeller
         productData.isBestSeller = productData.isBestSeller === 'true' || productData.isBestSeller === true;
+
+        //  Xử lý file ảnh với validation
+        if (req.file) {
+            uploadedFilename = req.file.filename; 
+            productData.imgUrl = `/uploads/${req.file.filename}`;
+        } else {
+            productData.imgUrl = ''; 
+        }
+
+        if (!productData.title || !productData.title.trim()) {
+            throw new Error('Tên sản phẩm là bắt buộc');
+        }
 
         const product = new Product(productData);
         await product.save();
         
         req.flash('success', 'Tạo sản phẩm thành công');
-        res.redirect( `${systemConfig.prefixAdmin}/products`);
+        res.redirect(`${systemConfig.prefixAdmin}/products`);
+
     } catch (error) {
-        console.error(error);
+        // Cleanup file nếu database save thất bại
+        if (uploadedFilename) {
+            try {
+                const filePath = `./public/uploads/${uploadedFilename}`;
+                await fs.unlink(filePath);
+                console.log(`Deleted orphaned file: ${uploadedFilename}`);
+            } catch (unlinkError) {
+                console.error(`Failed to delete file ${uploadedFilename}:`, unlinkError);
+            }
+        }
+
+        console.error('Store error:', error);
         req.flash('error', 'Lỗi tạo sản phẩm: ' + error.message);
-        res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products`);
+        res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products/create`);
     }
 }

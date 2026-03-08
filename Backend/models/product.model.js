@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const slug = require('mongoose-slug-updater');
+mongoose.plugin(slug);
 
 const productSchema = new mongoose.Schema({
     asin: { type: String, required: true, unique: true },
@@ -13,6 +15,7 @@ const productSchema = new mongoose.Schema({
     isBestSeller: { type: Boolean, default: false },
     boughtInLastMonth: { type: Number, default: 0 },
     discountPercentage: { type: Number, default: 0 },
+    slug: { type: String, slug: "title", unique: true },
     deleted: { type: Boolean, default: false },
     deletedAt: Date,
     status: { 

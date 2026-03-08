@@ -6,9 +6,13 @@ async function migrate() {
   await mongoose.connect("mongodb://localhost:27017/VeMart");
 
   await Product.updateMany(
-    { status: { $exists: false } },
+
     {
-      $set: { status: "active" }
+
+      $set: {
+        createdAt: new Date("2026-03-06T00:00:00Z")
+      }
+
     }
   )
 

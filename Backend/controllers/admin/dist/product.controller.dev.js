@@ -10,6 +10,9 @@ var paginationHelper = require('../../helpers/pagination');
 
 var systemConfig = require('../../config/system.js');
 
+var fs = require('fs').promises; // Thêm dòng này ở đầu file
+
+
 module.exports.index = function _callee(req, res) {
   var filter, objectSearch, totalProducts, objectPagination, products;
   return regeneratorRuntime.async(function _callee$(_context) {
@@ -204,43 +207,87 @@ module.exports.create = function _callee5(req, res) {
 
 
 module.exports.store = function _callee6(req, res) {
-  var productData, numericDefaults, product;
+  var uploadedFilename, productData, numericDefaults, product, filePath;
   return regeneratorRuntime.async(function _callee6$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
-          _context6.prev = 0;
-          productData = req.body; // Xử lý các field số có giá trị mặc định
-
+          uploadedFilename = null;
+          _context6.prev = 1;
+          // console.log('Received file data:', req.file);
+          productData = req.body;
           numericDefaults = ['listPrice', 'boughtInLastMonth', 'reviews', 'discountPercentage'];
           numericDefaults.forEach(function (field) {
             if (!productData[field] || productData[field] === '') {
               productData[field] = 0;
-            }
-          }); // Xử lý checkbox isBestSeller
+            } else {
+              productData[field] = Number(productData[field]);
 
-          productData.isBestSeller = productData.isBestSeller === 'true' || productData.isBestSeller === true;
+              if (isNaN(productData[field])) {
+                productData[field] = 0;
+              }
+            }
+          });
+          productData.isBestSeller = productData.isBestSeller === 'true' || productData.isBestSeller === true; //  Xử lý file ảnh với validation
+
+          if (req.file) {
+            uploadedFilename = req.file.filename;
+            productData.imgUrl = "/uploads/".concat(req.file.filename);
+          } else {
+            productData.imgUrl = '';
+          }
+
+          if (!(!productData.title || !productData.title.trim())) {
+            _context6.next = 9;
+            break;
+          }
+
+          throw new Error('Tên sản phẩm là bắt buộc');
+
+        case 9:
           product = new Product(productData);
-          _context6.next = 8;
+          _context6.next = 12;
           return regeneratorRuntime.awrap(product.save());
 
-        case 8:
+        case 12:
           req.flash('success', 'Tạo sản phẩm thành công');
           res.redirect("".concat(systemConfig.prefixAdmin, "/products"));
-          _context6.next = 17;
+          _context6.next = 32;
           break;
 
-        case 12:
-          _context6.prev = 12;
-          _context6.t0 = _context6["catch"](0);
-          console.error(_context6.t0);
-          req.flash('error', 'Lỗi tạo sản phẩm: ' + _context6.t0.message);
-          res.redirect(req.get('Referrer') || "".concat(systemConfig.prefixAdmin, "/products"));
+        case 16:
+          _context6.prev = 16;
+          _context6.t0 = _context6["catch"](1);
 
-        case 17:
+          if (!uploadedFilename) {
+            _context6.next = 29;
+            break;
+          }
+
+          _context6.prev = 19;
+          filePath = "./public/uploads/".concat(uploadedFilename);
+          _context6.next = 23;
+          return regeneratorRuntime.awrap(fs.unlink(filePath));
+
+        case 23:
+          console.log("Deleted orphaned file: ".concat(uploadedFilename));
+          _context6.next = 29;
+          break;
+
+        case 26:
+          _context6.prev = 26;
+          _context6.t1 = _context6["catch"](19);
+          console.error("Failed to delete file ".concat(uploadedFilename, ":"), _context6.t1);
+
+        case 29:
+          console.error('Store error:', _context6.t0);
+          req.flash('error', 'Lỗi tạo sản phẩm: ' + _context6.t0.message);
+          res.redirect(req.get('Referrer') || "".concat(systemConfig.prefixAdmin, "/products/create"));
+
+        case 32:
         case "end":
           return _context6.stop();
       }
     }
-  }, null, null, [[0, 12]]);
+  }, null, null, [[1, 16], [19, 26]]);
 };

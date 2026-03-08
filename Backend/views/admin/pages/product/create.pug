@@ -13,7 +13,10 @@ block main
             .col-md-8.offset-md-2
                 .card
                     .card-body
-                        form#createProductForm(method="POST" action="/admin/products/create")
+                        form#createProductForm(
+                            method="POST" 
+                            action="/admin/products/create"
+                            enctype="multipart/form-data")
 
                             .mb-3
                                 label.form-label(for="asin") ASIN <span class="text-danger">*</span>
@@ -59,7 +62,9 @@ block main
                             .mb-3
                                 label.form-label(for="imgUrl") URL Hình ảnh <span class="text-danger">*</span>
                                 input.form-control#imgUrl(
-                                    type="url"
+                                    type="file"
+                                    class="form-control-file"
+                                    accept="image/*"
                                     name="imgUrl"
                                     required
                                     placeholder="https://example.com/image.jpg"
