@@ -1,0 +1,25 @@
+//- AI Chatbox Widget
+#chatbox.chatbox
+    #chatbox-toggle.chatbox__toggle(aria-label="Mở chat")
+        i.fas.fa-comments
+    #chatbox-window.chatbox__window
+        .chatbox__header
+            span.chatbox__title
+                i.fas.fa-robot
+                |  Trợ lý VeMart
+            button#chatbox-close.chatbox__close(aria-label="Đóng")
+                i.fas.fa-times
+        .chatbox__body
+            #chatbox-messages.chatbox__messages
+                .chatbox__message.chatbox__message--bot
+                    .chatbox__message-content
+                        | Xin chào! Tôi là trợ lý AI của VeMart. Bạn cần tôi hỗ trợ gì?
+        .chatbox__footer
+            form#chatbox-form.chatbox__form
+                input#chatbox-input.chatbox__input(
+                    type="text"
+                    placeholder="Nhập tin nhắn..."
+                    autocomplete="off"
+                )
+                button.chatbox__send(type="submit" aria-label="Gửi")
+                    i.fas.fa-paper-plane
