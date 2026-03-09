@@ -10,7 +10,7 @@ const db = require('./config/database.js')
 const systemConfig = require('./config/system.js')
 const route = require('./routes/client/index.route.js')
 const routeAdmin = require('./routes/admin/index.route.js')
-const routeApi = require('./routes/api/chat.route.js')
+const routeApi = require('./routes/api/index.route.js')
 
 db.connect()
 
@@ -45,7 +45,8 @@ app.use(flash())
 // Routes
 route(app)
 routeAdmin(app)
-app.use('/api/chat', routeApi)
+routeApi(app)
+// app.use('/api/chat', routeApi)
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
