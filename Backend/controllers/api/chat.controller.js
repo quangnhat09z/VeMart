@@ -60,14 +60,14 @@ module.exports.chat = async (req, res) => {
             .select('role content')
             .lean();
 
-        // Xây dựng messages cho Groq: system + history + message mới
+        // Xây messages cho Groq: system + history + message mới
         const messages = [
             { role: 'system', content: CHAT_SYSTEM_PROMPT },
             ...history.map(m => ({ role: m.role, content: m.content })),
             { role: 'user', content: trimmedMessage }
         ];
-        console.log(messages);
 
+        
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
             headers: {

@@ -107,12 +107,13 @@ module.exports.create = async (req, res) => {
 
 // [POST] /admin/products/store
 module.exports.store = async (req, res) => {
-    let uploadedFilename = null;  
+    let uploadedFilename = null;
 
     try {
         // console.log('Received file data:', req.file);
         const productData = req.body;
-        
+        // console.log('Received product data:', productData);
+
         const numericDefaults = ['listPrice', 'boughtInLastMonth', 'reviews', 'discountPercentage'];
         numericDefaults.forEach(field => {
             if (!productData[field] || productData[field] === '') {
@@ -122,26 +123,30 @@ module.exports.store = async (req, res) => {
                 if (isNaN(productData[field])) {
                     productData[field] = 0;
                 }
-            }   
+            }
         });
 
         productData.isBestSeller = productData.isBestSeller === 'true' || productData.isBestSeller === true;
 
         //  Xử lý file ảnh với validation
         if (req.file) {
-            uploadedFilename = req.file.filename; 
+            uploadedFilename = req.file.filename;
             productData.imgUrl = `/uploads/${req.file.filename}`;
         } else {
-            productData.imgUrl = ''; 
+            productData.imgUrl = '';
         }
 
         if (!productData.title || !productData.title.trim()) {
-            throw new Error('Tên sản phẩm là bắt buộc');
+            req.flash('error', 'Tên sản phẩm là bắt buộc');
+            return res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products/create`);
+        } else if (!productData.price || (productData.price && isNaN(productData.price))) {
+            req.flash('error', 'Giá sản phẩm phải là một số');
+            return res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products/create`);
         }
 
         const product = new Product(productData);
         await product.save();
-        
+
         req.flash('success', 'Tạo sản phẩm thành công');
         res.redirect(`${systemConfig.prefixAdmin}/products`);
 
@@ -158,7 +163,20 @@ module.exports.store = async (req, res) => {
         }
 
         console.error('Store error:', error);
-        req.flash('error', 'Lỗi tạo sản phẩm: ' + error.message);
-        res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products/create`);
+        console.error('Error type:', error.constructor.name);
+        console.error('Error stack:', error.stack);
+
+        // Check if response is still valid
+        if (!res.headersSent) {
+            if (typeof req.flash === 'function') {
+                req.flash('error', 'Lỗi tạo sản phẩm: ' + error.message);
+                res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products/create`);
+            } else {
+                console.error('Flash middleware is not available!');
+                res.status(500).json({ error: error.message });
+            }
+        } else {
+            console.error('Response already sent, cannot send error to client');
+        }
     }
 }

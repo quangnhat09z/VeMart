@@ -32,7 +32,6 @@ app.use(express.json())
 app.use(cookieParser())
 
 
-
 app.use(session({
   secret: process.env.SESSION_SECRET || 'keyboard cat',
   resave: false,
@@ -46,7 +45,6 @@ app.use(flash())
 route(app)
 routeAdmin(app)
 routeApi(app)
-// app.use('/api/chat', routeApi)
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)

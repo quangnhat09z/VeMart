@@ -1,6 +1,9 @@
 extends ../../layout/default
+include ../../mixins/alert.pug
 
 block main
+    +alert(messages)
+    
     .container-fluid
         .row.mb-4
             .col-12
@@ -29,11 +32,10 @@ block main
                                 .form-text ASIN là mã định danh duy nhất của sản phẩm
 
                             .mb-3
-                                label.form-label(for="title") Tiêu đề sản phẩm <span class="text-danger">*</span>
-                                input.form-control#title(
+                                label.form-label(for="title") Tiêu đề sản phẩm 
+                                input.form-control#title(          
                                     type="text"
                                     name="title"
-                                    required
                                     placeholder="Nhập tiêu đề sản phẩm"
                                 )
 
@@ -41,10 +43,9 @@ block main
                                 .col-md-6
                                     .mb-3
                                         label.form-label(for="price") Giá ($) <span class="text-danger">*</span>
-                                        input.form-control#price(
+                                        input.form-control#price(    
                                             type="number"
-                                            name="price"
-                                            required
+                                            name="price"                    
                                             step="0.01"
                                             placeholder="0"
                                         )
@@ -67,10 +68,9 @@ block main
                                         class="form-control-file"
                                         accept="image/*"
                                         name="imgUrl"
-                                        required
-                                        //- placeholder="https://example.com/image.jpg"
                                         upload-image-input
                                     )
+
 
                                     img(
                                         src="", 

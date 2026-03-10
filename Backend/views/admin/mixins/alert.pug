@@ -1,4 +1,4 @@
-mixin aleart(messages)
+mixin alert(messages)
     if messages && messages.success && messages.success.length
         each message in messages.success
             div(class="alert alert-success" role="alert")= message
