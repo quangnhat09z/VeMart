@@ -225,6 +225,4 @@ if (imgInput) {
             clearImageButton.style.display = 'none';
         });
     });
-
-
 }

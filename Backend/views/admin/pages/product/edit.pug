@@ -1,0 +1,199 @@
+extends ../../layout/default
+include ../../mixins/alert.pug
+
+block main
+    +alert(messages)
+
+    .container-fluid
+        .row.mb-4
+            .col-12
+                h1.mb-3 Cập nhật sản phẩm 
+                a.btn.btn-secondary(href="/admin/products") 
+                    i.fas.fa-arrow-left
+                    |  Quay lại
+
+        .row
+            .col-md-8.offset-md-2
+                .card
+                    .card-body
+                        form#editProductForm(
+                            method="POST"
+                            action=`${prefixAdmin}/products/edit/${product._id}?_method=PATCH`
+                            enctype="multipart/form-data")  
+
+                            .mb-3
+                                label.form-label(for="asin") ASIN <span class="text-danger">*</span>
+                                input.form-control#asin(
+                                    type="text"
+                                    name="asin"
+                                    required
+                                    placeholder="VD: B0D5X8K9Z2"
+                                    value=product.asin
+                                )
+                                .form-text ASIN là mã định danh duy nhất của sản phẩm
+
+                            .mb-3
+                                label.form-label(for="title") Tiêu đề sản phẩm 
+                                input.form-control#title(          
+                                    type="text"
+                                    name="title"
+                                    placeholder="Nhập tiêu đề sản phẩm"
+                                    value=product.title
+                                )
+
+                            .row
+                                .col-md-6
+                                    .mb-3
+                                        label.form-label(for="price") Giá ($) <span class="text-danger">*</span>
+                                        input.form-control#price(    
+                                            type="number"
+                                            name="price"                    
+                                            step="0.01"
+                                            placeholder="0"
+                                            value=product.price
+                                        )
+
+                                .col-md-6
+                                    .mb-3
+                                        label.form-label(for="listPrice") Giá gốc ($)
+                                        input.form-control#listPrice(
+                                            type="number"
+                                            name="listPrice"
+                                            step="0.01"
+                                            placeholder="0"
+                                            value=product.listPrice
+                                        )
+
+                            .mb-3
+                                div(upload-image)
+                                    label.form-label(for="imgUrl") URL Hình ảnh <span class="text-danger">*</span>
+                                    input.form-control#imgUrl(
+                                        type="file"
+                                        class="form-control-file"
+                                        accept="image/*"
+                                        name="imgUrl"
+                                        upload-image-input
+                                    )
+                                    img(
+                                        src=product.imgUrl || "", 
+                                        alt="Preview Image", 
+                                        class="img-thumbnail mt-2 d-none", 
+                                        upload-image-preview
+                                    )
+                                    button.btn-close(
+                                        type='button' 
+                                        aria-label='Close' 
+                                        upload-image-clear 
+                                        style="display:none")
+
+
+                            .mb-3
+                                label.form-label(for="productURL") URL sản phẩm
+                                input.form-control#productURL(
+                                    type="url"
+                                    name="productURL"
+                                    placeholder="https://example.com/product"
+                                    value=product.productURL
+                                )
+
+                            .row
+                                .col-md-6
+                                    .mb-3
+                                        label.form-label(for="category_id") Danh mục
+                                        input.form-control#category_id(
+                                            type="number"
+                                            name="category_id"
+                                            placeholder="ID danh mục"
+                                        )
+
+                                .col-md-6
+                                    .mb-3
+                                        label.form-label(for="discountPercentage") Chiết khấu (%)
+                                        input.form-control#discountPercentage(
+                                            type="number"
+                                            name="discountPercentage"
+                                            step="0.01"
+                                            min="0"
+                                            max="100"
+                                            placeholder="0"
+                                            value=product.discountPercentage * 100
+                                        )
+
+                            .row
+                                .col-md-4
+                                    .mb-3
+                                        label.form-label(for="stars") Đánh giá <span class="text-muted">(sao)</span>
+                                        input.form-control#stars(
+                                            type="number"
+                                            name="stars"
+                                            step="0.1"
+                                            min="0"
+                                            max="5"
+                                            placeholder="0"
+                                            value=product.stars
+                                        )
+
+                                .col-md-4
+                                    .mb-3
+                                        label.form-label(for="reviews") Số đánh giá
+                                        input.form-control#reviews(
+                                            type="number"
+                                            name="reviews"
+                                            min="0"
+                                            placeholder="0"
+                                        )
+
+                                .col-md-4
+                                    .mb-3
+                                        label.form-label(for="boughtInLastMonth") Mua trong tháng cuối
+                                        input.form-control#boughtInLastMonth(
+                                            type="number"
+                                            name="boughtInLastMonth"
+                                            min="0"
+                                            placeholder="0"
+                                            value=product.boughtInLastMonth
+                                        )
+
+                            .mb-3
+                                .form-check
+                                    label.form-check-label(for="isBestSeller")
+                                        | Là sản phẩm bán chạy
+                                    input.form-check-input#isBestSeller(
+                                        type="checkbox"
+                                        name="isBestSeller"
+                                        value="true"
+                                        checked=product.isBestSeller
+                                    )
+
+                            .mb-3
+                                label.form-label(for="status") Trạng thái
+                                div(class="form-check")
+                                    label.form-check-label(for="statusActive")
+                                        | Hoạt động
+                                    input.form-check-input#statusActive(
+                                        type="radio"
+                                        name="status"
+                                        value="active"
+                                        checked=product.status === 'active'
+                                    )
+
+                                div(class="form-check")
+                                    label.form-check-label(for="statusInactive")
+                                        | Không hoạt động
+                                    input.form-check-input#statusInactive(
+                                        type="radio"
+                                        name="status"
+                                        value="inactive"
+                                        checked=product.status === 'inactive'
+                                    )
+
+                            .mb-3
+                                button.btn.btn-primary(
+                                    type="submit"
+                                    id="submitEditBtn"
+                                )
+                                    i.fas.fa-save
+                                    |  Cập nhật sản phẩm
+                                a.btn.btn-secondary.ms-2(href="/admin/products")
+                                    i.fas.fa-times
+                                    |  Hủy

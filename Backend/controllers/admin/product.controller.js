@@ -3,7 +3,8 @@ const filterStatusHelperFn = require('../../helpers/filterStatus');
 const searchHelper = require('../../helpers/search');
 const paginationHelper = require('../../helpers/pagination');
 const systemConfig = require('../../config/system.js');
-const fs = require('fs').promises;  // Thêm dòng này ở đầu file
+
+const fs = require('fs').promises;
 
 module.exports.index = async (req, res) => {
 
@@ -136,14 +137,6 @@ module.exports.store = async (req, res) => {
             productData.imgUrl = '';
         }
 
-        if (!productData.title || !productData.title.trim()) {
-            req.flash('error', 'Tên sản phẩm là bắt buộc');
-            return res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products/create`);
-        } else if (!productData.price || (productData.price && isNaN(productData.price))) {
-            req.flash('error', 'Giá sản phẩm phải là một số');
-            return res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products/create`);
-        }
-
         const product = new Product(productData);
         await product.save();
 
@@ -178,5 +171,55 @@ module.exports.store = async (req, res) => {
         } else {
             console.error('Response already sent, cannot send error to client');
         }
+    }
+}
+
+// [GET] /admin/products/edit/:id
+module.exports.edit = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const getProduct = await Product.findById({
+            _id: id,
+            deleted: false
+        });
+        if (!getProduct) {
+            req.flash('error', 'Product not found');
+            return res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products`);
+        }
+        res.render("admin/pages/product/edit", {
+            pageTitle: "Edit Product",
+            product: getProduct
+        });
+
+    } catch (error) {
+        console.error('Update error:', error);
+        req.flash('error', 'Error updating product');
+        res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products`);
+    }
+
+}
+
+// [PATCH] /admin/products/edit/:id
+module.exports.update = async (req, res) => {
+    console.log('Update request body:', req.body);
+    const id = req.params.id;
+
+    if (req.file) {
+        const uploadedFilename = req.file.filename;
+        req.body.imgUrl = `/uploads/${uploadedFilename}`;
+    }
+    try {
+        await Product.findOne({
+            _id: id,
+            deleted: false
+        },
+        ).updateOne(req.body);
+
+        req.flash('success', 'Product updated successfully');
+        res.redirect(`${systemConfig.prefixAdmin}/products`);
+    } catch (error) {
+        console.error('Update error:', error);
+        req.flash('error', 'Error updating product');
+        res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products`);
     }
 }

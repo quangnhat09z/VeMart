@@ -78,7 +78,12 @@ block main
                             )  #{item.status}
 
                     td.item-action
-                        a.btn.btn-primary(href="/admin/products/edit/#{item._id}") Update
+                        a(
+                            href = `${prefixAdmin}/products/edit/${item._id}`
+                            class="btn btn-primary"
+                            id=`button-edit`
+                            data-id=item.id
+                            ) Update
                         button(
                             class="btn btn-danger" 
                             data-id=item.id 
