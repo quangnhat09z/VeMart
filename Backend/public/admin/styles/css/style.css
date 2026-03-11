@@ -339,6 +339,12 @@ td {
     padding-bottom: 1rem;
 }
 
+.view-detail-header {
+    color: #333;
+    border-bottom: 2px solid #707b86;
+    padding-bottom: 1rem;
+}
+
 .img-thumbnail{
     width: 300px;
     height: 200px;

@@ -79,6 +79,10 @@ block main
 
                     td.item-action
                         a(
+                            href=`${prefixAdmin}/products/${item._id}` 
+                            class="btn btn-info"
+                        ) View
+                        a(
                             href = `${prefixAdmin}/products/edit/${item._id}`
                             class="btn btn-primary"
                             id=`button-edit`

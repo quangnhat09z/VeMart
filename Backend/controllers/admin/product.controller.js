@@ -211,7 +211,7 @@ module.exports.update = async (req, res) => {
     try {
         await Product.findOne({
             _id: id,
-            deleted: false
+            deleted: false  
         },
         ).updateOne(req.body);
 
@@ -222,4 +222,18 @@ module.exports.update = async (req, res) => {
         req.flash('error', 'Error updating product');
         res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products`);
     }
+}
+
+// [GET] /admin/products/:id
+module.exports.detail = async (req, res) => {
+    const id = req.params.id;
+    const product = await Product.findOne({
+        _id: id,
+        deleted: false
+    });
+    console.log('Product details:', product);
+    res.render('admin/pages/product/viewDetail', {
+        pageTitle: "Product Details",
+        product: product
+    });
 }
