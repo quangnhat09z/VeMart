@@ -163,15 +163,13 @@ if (formChangeMultipleStatus) {
 const deleteButtons = document.querySelectorAll('#button-delete');
 if (deleteButtons) {
     const deleteForm = document.querySelector('#deleteItemForm');
-    // console.log(deleteForm);
-    // const path = deleteForm.getAttribute('data-path');
-    // console.log(path);
-
+    
     deleteButtons.forEach(button => {
         button.addEventListener('click', function () {
             const id = this.getAttribute('data-id');
             let isConfirm = confirm("Are you sure you want to delete this item?");
             if (isConfirm) {
+                path = deleteForm.getAttribute('data-path');
                 let action = path + `${id}?_method=DELETE`;
                 deleteForm.setAttribute('action', action);
                 saveAdminScrollPosition();

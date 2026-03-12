@@ -8,7 +8,7 @@ block main
         .row.mb-4
             .col-12
                 h1.mb-3 Cập nhật sản phẩm 
-                a.btn.btn-secondary(href="/admin/products") 
+                a.btn.btn-secondary(href=`${prefixAdmin}/products`) 
                     i.fas.fa-arrow-left
                     |  Quay lại
 
@@ -194,6 +194,6 @@ block main
                                 )
                                     i.fas.fa-save
                                     |  Cập nhật sản phẩm
-                                a.btn.btn-secondary.ms-2(href="/admin/products")
+                                a.btn.btn-secondary.ms-2(href=`${prefixAdmin}/products`)
                                     i.fas.fa-times
                                     |  Hủy

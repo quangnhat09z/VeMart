@@ -80,6 +80,7 @@ module.exports.changeMultipleStatus = async (req, res) => {
 // [DELETE] /admin/products/delete/:id
 module.exports.deleteItem = async (req, res) => {
     const id = req.params.id;
+    // console.log('Deleting product with ID:', id);
     await Product.updateOne(
         { _id: id },
         {
@@ -201,7 +202,7 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /admin/products/edit/:id
 module.exports.update = async (req, res) => {
-    console.log('Update request body:', req.body);
+    // console.log('Update request body:', req.body);
     const id = req.params.id;
 
     if (req.file) {
@@ -231,7 +232,7 @@ module.exports.detail = async (req, res) => {
         _id: id,
         deleted: false
     });
-    console.log('Product details:', product);
+    // console.log('Product details:', product);
     res.render('admin/pages/product/viewDetail', {
         pageTitle: "Product Details",
         product: product

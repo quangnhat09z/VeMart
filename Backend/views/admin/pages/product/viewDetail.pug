@@ -5,7 +5,7 @@ block main
         .row.mb-4
             .col-12
                 h1.mb-3.view-detail-header Product Detail
-                a.btn.btn-secondary(href="/admin/products") 
+                a.btn.btn-secondary(href="${prefixAdmin}/products") 
                     i.fas.fa-arrow-left
                     |  Back
 
@@ -83,9 +83,14 @@ block main
                         button.btn.btn-success.btn-lg.me-2
                             i.fas.fa-shopping-cart
                             | &nbsp;Add to Cart
-                        button.btn.btn-outline-primary.btn-lg
+                        button.btn.btn-outline-secondary.btn-lg
                             i.fas.fa-heart
                             | &nbsp;Add to Wishlist
+                        a.btn.btn-outline-secondary.btn-lg.ms-2(
+                            href=`${prefixAdmin}/products/edit/${product._id}`
+                        ) 
+                            i.fas.fa-edit
+                            | &nbsp;Edit 
 
                     // Chia sẻ
                     .mb-3
