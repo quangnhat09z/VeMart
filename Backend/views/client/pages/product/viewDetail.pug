@@ -1,0 +1,112 @@
+extends ../../layout/default.pug
+
+block main 
+    .container.mt-4
+        .row.mb-4
+            .col-12
+                h1.mb-3.view-detail-header Product Detail
+                a.btn.btn-secondary(href="${prefixClient}/products") 
+                    i.fas.fa-arrow-left
+                    |  Back
+
+        .row.mt-4
+            // Hình ảnh sản phẩm
+            .col-md-5
+                .product-image
+                    img(
+                        src=product.imgUrl 
+                        alt=product.title 
+                        class="img-fluid")
+
+            // Thông tin sản phẩm
+            .col-md-7
+                .product-info
+                    h3 #{product.title}
+
+                    // Đánh giá
+                    .mb-3
+                        span.badge.bg-warning 4.5 ⭐ 
+                            if(product.reviewCount)
+                                | (#{product.reviewCount} reviews)
+                            else
+                                | (No reviews yet)
+
+                    // Giá
+                    .mb-3
+                        h3.text-danger
+                            strong #{product.price}$
+                            span.text-muted.text-decoration-line-through 
+                                if(product.listPrice)
+                                    | #{product.listPrice}$
+
+
+
+                    // Trạng thái
+                    .mb-3
+                        if product.status === 'active'
+                            span.badge.bg-success In Stock
+                        else
+                            span.badge.bg-danger Out of Stock
+
+                    // Mô tả
+                    .mb-3
+                        h5 Description:
+                        p #{product.description} 
+                        || Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                        | Nobis porro necessitatibus provident, animi veniam a asperiores amet voluptates inventore numquam,
+                        | minus ea deserunt molestias? Officia rem nobis iusto assumenda commodi?
+
+                    // Thông tin chi tiết
+                    .mb-3
+                        h5  Information:
+                        ul.list-unstyled
+                            li
+                                strong Category: 
+                                span #{product.category_id || 'N/A'}
+
+                            li
+                                strong ASIN: 
+                                span #{product.asin}
+                                
+
+                    // Lựa chọn sản phẩm
+                    .mb-3
+                        label(for="quantity") Stock Quantity:
+                        input#quantity.form-control.w-25(
+                            type="number" 
+                            min="1" 
+                            max="100" 
+                            value=product.stock || 1)
+
+                    // Nút hành động
+                    .mb-3
+                        button.btn.btn-success.btn-lg.me-2
+                            i.fas.fa-shopping-cart
+                            | &nbsp;Add to Cart
+                        button.btn.btn-outline-secondary.btn-lg
+                            i.fas.fa-heart
+                            | &nbsp;Add to Wishlist
+
+                    // Chia sẻ
+                    .mb-3
+                        strong Share: 
+                        a.me-2(href="#") 
+                            i.fab.fa-facebook
+                        a.me-2(href="#")
+                            i.fab.fa-twitter
+                        a(href="#")
+                            i.fab.fa-pinterest
+
+        // Sản phẩm liên quan
+        .row.mt-5
+            .col-12
+                h3 Relate Products
+                .row
+                    - for (let i = 0; i < 4; i++)
+                        .col-md-3.mb-3
+                            .card
+                                img.card-img-top(src=`/images/product-${i}.jpg` alt="...")
+                                .card-body
+                                    h5.card-title Product ${i+1}
+                                    p.card-text $99.99
+                                    a.btn.btn-sm.btn-primary(href="#") View Details

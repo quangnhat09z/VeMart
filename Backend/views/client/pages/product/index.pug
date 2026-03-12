@@ -6,14 +6,14 @@ block main
         .row 
             .col-12
                 +box-head("Danh sách sản phẩm")
-        
+
         .row 
             for item in products
                 .item
                     if item.discountPercentage > 0  
                         div.item__discount - #{item.discountPercentage * 100}%
 
-                    div.item__box-image
+                    div.item__box-image.view-detail
                         img.item__image(
                             alt=item.title 
                             src=item.imgUrl
@@ -21,7 +21,7 @@ block main
 
                     div.item__content
                         //- h6.item__content--name Onion - 1kg
-                        h6.item__content--name #{item.title}
+                        h6.item__content--name.view-detail #{item.title}
 
                         div.item__content--rate
                             i.fa-regular.fa-star
@@ -44,3 +44,5 @@ block main
                         //-     button.item__content--button.watch_button
                         //-         i.fa-regular.fa-eye
     
+
+    script(src="client/js/product.js") 

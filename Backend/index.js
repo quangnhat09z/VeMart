@@ -21,6 +21,7 @@ app.set('views', './views')
 app.set('view engine', 'pug')
 
 app.locals.prefixAdmin = systemConfig.prefixAdmin
+app.locals.prefixClient = systemConfig.prefixClient
 
 app.use(express.static('public'))
 app.use(methodOverride('_method'))

@@ -2,7 +2,6 @@
 const Product = require('../../models/product.model.js')
 
 module.exports.index = async (req, res) => {
-
     const products = await Product.find({
         deleted: false,
     }).sort({ price: "asc" });
@@ -10,5 +9,15 @@ module.exports.index = async (req, res) => {
     res.render("client/pages/product/index", {
         pageTitle: "Danh sách sản phẩm",
         products: products
+    })
+}
+
+// [GET]   /products/detail/:id
+module.exports.detail = async (req, res) => {
+    const id = req.params.id;
+    const product = await Product.findById(id);
+    res.render(`client/pages/product/detail.pug`, {
+        pageTitle: "Chi tiết sản phẩm",
+        product: product
     })
 }
