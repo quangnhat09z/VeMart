@@ -3,14 +3,14 @@ include ../../mixins/alert.pug
 
 block main
     +alert(messages)
-    
+
     .container-fluid
         .row.mb-4
             .col-12
-                h1.mb-3 Tạo Sản Phẩm Mới
+                h1.mb-3 Create New Product
                 a.btn.btn-secondary(href="/admin/products") 
                     i.fas.fa-arrow-left
-                    |  Quay lại
+                    |  Back
 
         .row
             .col-md-8.offset-md-2
@@ -29,20 +29,20 @@ block main
                                     required
                                     placeholder="VD: B0D5X8K9Z2"
                                 )
-                                .form-text ASIN là mã định danh duy nhất của sản phẩm
+                                .form-text ASIN is the unique identifier for products.
 
                             .mb-3
-                                label.form-label(for="title") Tiêu đề sản phẩm 
+                                label.form-label(for="title") Title <span class="text-danger">*</span>
                                 input.form-control#title(          
                                     type="text"
                                     name="title"
-                                    placeholder="Nhập tiêu đề sản phẩm"
+                                    placeholder="Type product title here"
                                 )
 
                             .row
                                 .col-md-6
                                     .mb-3
-                                        label.form-label(for="price") Giá ($) <span class="text-danger">*</span>
+                                        label.form-label(for="price") Price ($) <span class="text-danger">*</span>
                                         input.form-control#price(    
                                             type="number"
                                             name="price"                    
@@ -52,7 +52,7 @@ block main
 
                                 .col-md-6
                                     .mb-3
-                                        label.form-label(for="listPrice") Giá gốc ($)
+                                        label.form-label(for="listPrice") List Price ($) 
                                         input.form-control#listPrice(
                                             type="number"
                                             name="listPrice"
@@ -60,33 +60,37 @@ block main
                                             placeholder="0"
                                         )
 
+                                .mb-3
+                                    div(upload-image)
+                                        label.form-label(for="imgUrl") Image <span class="text-danger">*</span>
+                                        .d-flex.gap-2.align-items-center
+                                            input.form-control#imgUrl(
+                                                type="file"
+                                                class="form-control-file"
+                                                accept="image/*"
+                                                name="imgUrl"
+                                                upload-image-input
+                                                style="display: none;"
+                                            )
+                                            label.btn.btn-outline-secondary.mb-0(for="imgUrl" style="cursor: pointer;")
+                                                i.fas.fa-upload
+                                                |  Choose File
+                                            span.badge.bg-secondary(upload-image-label) No file chosen
+
+                                        img(
+                                            src="", 
+                                            alt="Preview Image", 
+                                            class="img-thumbnail mt-2 d-none", 
+                                            upload-image-preview
+                                        )
+                                        button.btn-close(
+                                            type='button' 
+                                            aria-label='Close' 
+                                            upload-image-clear 
+                                            style="display:none")
+
                             .mb-3
-                                div(upload-image)
-                                    label.form-label(for="imgUrl") URL Hình ảnh <span class="text-danger">*</span>
-                                    input.form-control#imgUrl(
-                                        type="file"
-                                        class="form-control-file"
-                                        accept="image/*"
-                                        name="imgUrl"
-                                        upload-image-input
-                                    )
-
-
-                                    img(
-                                        src="", 
-                                        alt="Preview Image", 
-                                        class="img-thumbnail mt-2 d-none", 
-                                        upload-image-preview
-                                    )
-                                    button.btn-close(
-                                        type='button' 
-                                        aria-label='Close' 
-                                        upload-image-clear 
-                                        style="display:none")
-
-
-                            .mb-3
-                                label.form-label(for="productURL") URL sản phẩm
+                                label.form-label(for="productURL") Product URL
                                 input.form-control#productURL(
                                     type="url"
                                     name="productURL"
@@ -96,16 +100,16 @@ block main
                             .row
                                 .col-md-6
                                     .mb-3
-                                        label.form-label(for="category_id") Danh mục
+                                        label.form-label(for="category_id") Category
                                         input.form-control#category_id(
                                             type="number"
                                             name="category_id"
-                                            placeholder="ID danh mục"
+                                            placeholder="ID category"
                                         )
 
                                 .col-md-6
                                     .mb-3
-                                        label.form-label(for="discountPercentage") Chiết khấu (%)
+                                        label.form-label(for="discountPercentage") Discount (%)
                                         input.form-control#discountPercentage(
                                             type="number"
                                             name="discountPercentage"
@@ -118,7 +122,7 @@ block main
                             .row
                                 .col-md-4
                                     .mb-3
-                                        label.form-label(for="stars") Đánh giá <span class="text-muted">(sao)</span>
+                                        label.form-label(for="stars") Rating <span class="text-muted">(stars)</span>
                                         input.form-control#stars(
                                             type="number"
                                             name="stars"
@@ -130,7 +134,7 @@ block main
 
                                 .col-md-4
                                     .mb-3
-                                        label.form-label(for="reviews") Số đánh giá
+                                        label.form-label(for="reviews") Number of Reviews
                                         input.form-control#reviews(
                                             type="number"
                                             name="reviews"
@@ -140,7 +144,7 @@ block main
 
                                 .col-md-4
                                     .mb-3
-                                        label.form-label(for="boughtInLastMonth") Mua trong tháng cuối
+                                        label.form-label(for="boughtInLastMonth") Purchased in the Last Month
                                         input.form-control#boughtInLastMonth(
                                             type="number"
                                             name="boughtInLastMonth"
@@ -151,7 +155,7 @@ block main
                             .mb-3
                                 .form-check
                                     label.form-check-label(for="isBestSeller")
-                                        | Là sản phẩm bán chạy
+                                        | Is Best Seller
                                     input.form-check-input#isBestSeller(
                                         type="checkbox"
                                         name="isBestSeller"
@@ -159,15 +163,15 @@ block main
                                     )
 
                             .mb-3
-                                label.form-label(for="status") Trạng thái
+                                label.form-label(for="status") Status
                                 select.form-select#status(name="status")
-                                    option(value="active") Hoạt động
-                                    option(value="inactive") Không hoạt động
+                                    option(value="active") Active
+                                    option(value="inactive") Inactive
 
                             .mb-3
                                 button.btn.btn-primary(type="submit")
                                     i.fas.fa-save
-                                    |  Tạo sản phẩm
+                                    |  Create Product
                                 a.btn.btn-secondary.ms-2(href="/admin/products")
                                     i.fas.fa-times
-                                    |  Hủy
+                                    |  Cancel

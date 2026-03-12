@@ -203,6 +203,7 @@ const imgInput = document.querySelector('[upload-image]');
 if (imgInput) {
     const uploadImageInput = imgInput.querySelector('[upload-image-input]');
     const uploadImagePreview = imgInput.querySelector('[upload-image-preview]');
+    const uploadImageLabel = imgInput.querySelector('[upload-image-label]');
     const clearImageButton = imgInput.querySelector('[upload-image-clear]');
 
     uploadImageInput.addEventListener('change', function () {
@@ -215,13 +216,17 @@ if (imgInput) {
                 uploadImagePreview.classList.remove('d-none');
             }
             reader.readAsDataURL(file);
+            
+            // Update label with filename
+            uploadImageLabel.textContent = file.name;
         }
 
-        // Xóa ảnh
+        // Clear image button
         clearImageButton.style.display = 'inline-block';
         clearImageButton.addEventListener('click', function () {
             uploadImageInput.value = '';
             uploadImagePreview.classList.add('d-none');
+            uploadImageLabel.textContent = 'No file chosen';
             clearImageButton.style.display = 'none';
         });
     });
