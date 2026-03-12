@@ -13,15 +13,20 @@ block main
                     if item.discountPercentage > 0  
                         div.item__discount - #{item.discountPercentage * 100}%
 
-                    div.item__box-image.view-detail
+                    div.item__box-image
                         img.item__image(
                             alt=item.title 
                             src=item.imgUrl
+                            class="view-detail"
+                            data-product-slug=item.slug
                         )
 
                     div.item__content
                         //- h6.item__content--name Onion - 1kg
-                        h6.item__content--name.view-detail #{item.title}
+                        h6.item__content--name(
+                            class="view-detail"
+                            data-product-slug=item.slug
+                        ) #{item.title}
 
                         div.item__content--rate
                             i.fa-regular.fa-star
@@ -43,6 +48,6 @@ block main
                         //-         i.fa-solid.fa-cart-plus
                         //-     button.item__content--button.watch_button
                         //-         i.fa-regular.fa-eye
-    
 
-    script(src="client/js/product.js") 
+
+    script(src="/client/js/script.js") 

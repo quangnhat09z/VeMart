@@ -12,11 +12,14 @@ module.exports.index = async (req, res) => {
     })
 }
 
-// [GET]   /products/detail/:id
+// [GET]   /products/detail/:slug
 module.exports.detail = async (req, res) => {
-    const id = req.params.id;
-    const product = await Product.findById(id);
-    res.render(`client/pages/product/detail.pug`, {
+    const slug = req.params.slug;
+    const product = await Product.findOne({
+        slug: slug,
+        deleted: false
+    });
+    res.render(`client/pages/product/viewDetail`, {
         pageTitle: "Chi tiết sản phẩm",
         product: product
     })

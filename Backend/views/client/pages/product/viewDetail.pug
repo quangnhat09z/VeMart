@@ -5,7 +5,7 @@ block main
         .row.mb-4
             .col-12
                 h1.mb-3.view-detail-header Product Detail
-                a.btn.btn-secondary(href="${prefixClient}/products") 
+                a.btn.btn-secondary(href=`/product`) 
                     i.fas.fa-arrow-left
                     |  Back
 
@@ -16,7 +16,8 @@ block main
                     img(
                         src=product.imgUrl 
                         alt=product.title 
-                        class="img-fluid")
+                        class="img-fluid"
+                    )
 
             // Thông tin sản phẩm
             .col-md-7
