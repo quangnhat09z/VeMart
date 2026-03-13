@@ -5,8 +5,9 @@ mixin form-change-multiple-status(path)
             id="changeMultipleStatusForm"
         ) 
             div(class="d-flex align-items-start mb-3")
+                label.form-label.mb-0.align-self-center(for="select") Select:
                 .form-group 
-                    select(name="type" class="form-select")
+                    select(name="type" class="form-select" style="width: 200px;")
                         option(value="" selected disabled) Select action
                         option(value="active") Active
                         option(value="inactive") Inactive
@@ -20,4 +21,7 @@ mixin form-change-multiple-status(path)
                         id="selectedIdList" 
                         placeholder="Selected IDs" 
                         hidden)
-                button(type="submit" class="btn btn-primary") Confirm
+
+
+                button(type="submit" class="btn btn-primary ms-2") Apply
+

@@ -5,15 +5,15 @@ mixin sortForm
                 method="GET"
                 class="sortable-table"
                 )
-                label.form-label.mb-0.align-self-center(for="sort") Sắp xếp:
-                select.form-control.form-control-sm(id="sort" name="sort" style="max-width: 250px;")
-                    option(value="" selected=(sortValue === '')) Mặc định
-                    option(value="newest" selected=(sortValue === 'newest')) Mới nhất
-                    option(value="price-asc" selected=(sortValue === 'price-asc')) Giá tăng dần
-                    option(value="price-desc" selected=(sortValue === 'price-desc')) Giá giảm dần
-                    option(value="name-asc" selected=(sortValue === 'name-asc')) Tên A-Z
-                    option(value="name-desc" selected=(sortValue === 'name-desc')) Tên Z-A
-                    option(value="discount-desc" selected=(sortValue === 'discount-desc')) Giảm giá nhiều nhất
-                    option(value="rating-desc" selected=(sortValue === 'rating-desc')) Đánh giá cao nhất
+                label.form-label.mb-0.align-self-center(for="sort") Sort:
+                select.form-select.form-select-sm(id="sort" name="sort" style="max-width: 200px;")
+                    option(value="" selected=(sortValue === '')) Default
+                    option(value="newest" selected=(sortValue === 'newest')) Newest
+                    option(value="price-asc" selected=(sortValue === 'price-asc')) Price Low to High
+                    option(value="price-desc" selected=(sortValue === 'price-desc')) Price High to Low
+                    option(value="name-asc" selected=(sortValue === 'name-asc')) Name A-Z
+                    option(value="name-desc" selected=(sortValue === 'name-desc')) Name Z-A
+                    option(value="discount-desc" selected=(sortValue === 'discount-desc')) Highest Discount
+                    option(value="rating-desc" selected=(sortValue === 'rating-desc')) Highest Rating
 
-                button.btn.btn-sm.btn-primary(type="submit") Sắp xếp
+                //- button.btn.btn-sm.btn-primary(type="submit") Sort
