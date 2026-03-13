@@ -163,7 +163,7 @@ if (formChangeMultipleStatus) {
 const deleteButtons = document.querySelectorAll('#button-delete');
 if (deleteButtons) {
     const deleteForm = document.querySelector('#deleteItemForm');
-    
+
     deleteButtons.forEach(button => {
         button.addEventListener('click', function () {
             const id = this.getAttribute('data-id');
@@ -214,7 +214,7 @@ if (imgInput) {
                 uploadImagePreview.classList.remove('d-none');
             }
             reader.readAsDataURL(file);
-            
+
             // Update label with filename
             uploadImageLabel.textContent = file.name;
         }
@@ -228,4 +228,23 @@ if (imgInput) {
             clearImageButton.style.display = 'none';
         });
     });
+}
+
+// Sortable table
+const sortableTables = document.querySelectorAll('.sortable-table');
+if (sortableTables.length > 0) {
+    sortableTables.forEach(table => {
+        table.addEventListener('change', function (event) {
+            const sortValue = event.target.value;
+            let url = new URL(window.location.href);
+            if (sortValue) {
+                url.searchParams.set('sort', sortValue);
+            }
+            else {
+                url.searchParams.delete('sort');
+            }
+            window.location.href = url.toString();
+        });
+    });
+
 }

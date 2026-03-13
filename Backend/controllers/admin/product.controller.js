@@ -3,6 +3,7 @@ const filterStatusHelperFn = require('../../helpers/filterStatus');
 const searchHelper = require('../../helpers/search');
 const paginationHelper = require('../../helpers/pagination');
 const systemConfig = require('../../config/system.js');
+const sort = require('../../helpers/sort.js');
 
 const fs = require('fs').promises;
 
@@ -24,11 +25,13 @@ module.exports.index = async (req, res) => {
     // pagination
     const totalProducts = await Product.countDocuments(filter);
     const objectPagination = paginationHelper(req.query, totalProducts);
-    // console.log(objectPagination);
+
+    // sắp xếp
+    sortOption = sort.sort(req, res);
 
     // lọc sản phẩm + phân trang
     const products = await Product.find(filter)
-        // .sort({ price: "asc" })
+        .sort(sortOption)
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip);
 
@@ -37,13 +40,14 @@ module.exports.index = async (req, res) => {
         products: products,
         filterStatus: filterStatusHelperFn(),
         searchValue: objectSearch.keyword,
-        pagination: objectPagination
+        pagination: objectPagination,
+        sortValue: req.query.sort 
     })
 }
 
 // [PATCH] /admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
-    console.log(req.params);
+    // console.log(req.params);
     const status = req.params.status;
     const id = req.params.id;
 

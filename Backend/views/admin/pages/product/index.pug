@@ -4,10 +4,11 @@ include ../../mixins/searchForm.pug
 include ../../mixins/pagination.pug
 include ../../mixins/formChangeMultiStatus.pug
 include ../../mixins/alert.pug
+include ../../mixins/sortForm.pug
 
 block main
     +alert(messages)
-            
+
     h1 Management Products Page
 
     div(class="filter mb-3")
@@ -18,6 +19,9 @@ block main
                 +filter-status-buttons(filterStatus)
                 +search-form(searchValue)
 
+    div(class="sort mb-3")
+        +sortForm(sortValue)
+            
     table(
         class="table"
         checkbox-multi
