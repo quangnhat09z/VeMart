@@ -51,10 +51,10 @@ block main
                     // Mô tả
                     .mb-3
                         h5 Description:
-                        p #{product.description} 
-                        || Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        | Nobis porro necessitatibus provident, animi veniam a asperiores amet voluptates inventore numquam,
-                        | minus ea deserunt molestias? Officia rem nobis iusto assumenda commodi?
+                        if (product.description)
+                            p !{product.description}
+                        else
+                            p.text-muted No description available.
 
                     // Thông tin chi tiết
                     .mb-3

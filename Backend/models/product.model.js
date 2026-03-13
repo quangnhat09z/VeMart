@@ -5,6 +5,7 @@ mongoose.plugin(slug);
 const productSchema = new mongoose.Schema({
     asin: { type: String, required: true, unique: true },
     title: String,
+    description: String,
     imgUrl: String,
     productURL: String,
     stars: { type: Number, default: 0 },

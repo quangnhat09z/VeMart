@@ -40,6 +40,16 @@ block main
                                 )
 
                             .row
+                                label.form-label(for="description") Description
+                                .mb-3
+                                    textarea.form-control.tinymce(
+                                        id="desc"
+                                        name="description"
+                                        rows="5"
+                                        placeholder="Type product description here"
+                                    ) 
+
+                            .row
                                 .col-md-6
                                     .mb-3
                                         label.form-label(for="price") Price ($) <span class="text-danger">*</span>

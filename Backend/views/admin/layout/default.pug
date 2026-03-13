@@ -4,6 +4,7 @@ html
     title #{pageTitle}
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css")
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css")
+    
     link(rel="stylesheet", href="/admin/styles/css/style.css")
   body
 
@@ -20,3 +21,5 @@ html
 
     script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js")
     script(src="/admin/js/script.js") 
+    script(src=`https://cdn.tiny.cloud/1/${process.env.TINYMCE_API_KEY}/tinymce/8/tinymce.min.js` referrerpolicy="origin" crossorigin="anonymous")
+    script(src="/admin/js/tinymce-init.js")

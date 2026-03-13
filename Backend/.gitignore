@@ -2,6 +2,7 @@
 .env.local
 .env.*.local
 /node_modules
+/public/uploads
 
 **/dist/
 *.dev.js
