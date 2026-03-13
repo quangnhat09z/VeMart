@@ -1,0 +1,22 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+include ../../mixins/filterButton.pug
+include ../../mixins/searchForm.pug
+
+block main
+
+    +alert(messages) 
+    
+    h1 Category Management Page
+    
+    div(class="filter mb-3")
+        div.filter-title
+            h5 Category Filter Status
+        div.filter-content
+            .row 
+                .col-md-8
+                    a(
+                        href=`${prefixAdmin}/categories/create`
+                        class="btn btn-outline-success"
+                    ) + Create
+                    

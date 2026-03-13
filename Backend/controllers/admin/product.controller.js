@@ -145,7 +145,7 @@ module.exports.store = async (req, res) => {
         const product = new Product(productData);
         await product.save();
 
-        req.flash('success', 'Tạo sản phẩm thành công');
+        req.flash('success', 'Create product successfully');
         res.redirect(`${systemConfig.prefixAdmin}/products`);
 
     } catch (error) {
@@ -167,7 +167,7 @@ module.exports.store = async (req, res) => {
         // Check if response is still valid
         if (!res.headersSent) {
             if (typeof req.flash === 'function') {
-                req.flash('error', 'Lỗi tạo sản phẩm: ' + error.message);
+                req.flash('error', 'Error creating product: ' + error.message);
                 res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products/create`);
             } else {
                 console.error('Flash middleware is not available!');

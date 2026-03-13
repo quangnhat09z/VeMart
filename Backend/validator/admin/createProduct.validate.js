@@ -10,7 +10,7 @@ module.exports.validateCreateProduct = (req, res, next) => {
                 if (err) console.log(err);
             });
         }
-        req.flash('error', 'Tên sản phẩm là bắt buộc');
+        req.flash('error', 'Product title is required.');
         return res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products/create`);
     } else if (!productData.price || isNaN(productData.price)) {
         if (req.file) {
@@ -18,7 +18,7 @@ module.exports.validateCreateProduct = (req, res, next) => {
                 if (err) console.log(err);
             });
         }
-        req.flash('error', 'Giá sản phẩm phải là một số');
+        req.flash('error', 'Product price must be a number.');
         return res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products/create`);
     }
     next();

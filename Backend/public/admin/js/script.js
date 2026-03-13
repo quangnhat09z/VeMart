@@ -197,35 +197,37 @@ if (alerts.length > 0) {
 // End Alert auto hide
 
 // Preview image before upload
-const imgInput = document.querySelector('[upload-image]');
-if (imgInput) {
-    const uploadImageInput = imgInput.querySelector('[upload-image-input]');
-    const uploadImagePreview = imgInput.querySelector('[upload-image-preview]');
-    const uploadImageLabel = imgInput.querySelector('[upload-image-label]');
-    const clearImageButton = imgInput.querySelector('[upload-image-clear]');
+const imgInputs = document.querySelectorAll('[upload-image]');
+if (imgInputs.length > 0) {
+    imgInputs.forEach(imgInput => {
+        const uploadImageInput = imgInput.querySelector('[upload-image-input]');
+        const uploadImagePreview = imgInput.querySelector('[upload-image-preview]');
+        const uploadImageLabel = imgInput.querySelector('[upload-image-label]');
+        const clearImageButton = imgInput.querySelector('[upload-image-clear]');
 
-    uploadImageInput.addEventListener('change', function () {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                console.log(e);
-                uploadImagePreview.src = e.target.result;
-                uploadImagePreview.classList.remove('d-none');
+        uploadImageInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    console.log(e);
+                    uploadImagePreview.src = e.target.result;
+                    uploadImagePreview.classList.remove('d-none');
+                }
+                reader.readAsDataURL(file);
+
+                // Update label with filename
+                uploadImageLabel.textContent = file.name;
             }
-            reader.readAsDataURL(file);
 
-            // Update label with filename
-            uploadImageLabel.textContent = file.name;
-        }
-
-        // Clear image button
-        clearImageButton.style.display = 'inline-block';
-        clearImageButton.addEventListener('click', function () {
-            uploadImageInput.value = '';
-            uploadImagePreview.classList.add('d-none');
-            uploadImageLabel.textContent = 'No file chosen';
-            clearImageButton.style.display = 'none';
+            // Clear image button
+            clearImageButton.style.display = 'inline-block';
+            clearImageButton.addEventListener('click', function () {
+                uploadImageInput.value = '';
+                uploadImagePreview.classList.add('d-none');
+                uploadImageLabel.textContent = 'No file chosen';
+                clearImageButton.style.display = 'none';
+            });
         });
     });
 }
