@@ -56,6 +56,27 @@ module.exports.changeStatus = async (req, res) => {
     res.redirect(req.get('Referrer') || '/');
 }
 
+// [PATCH] /admin/categories/change-multiple-status
+module.exports.changeMultipleStatus = async (req, res) => {
+    const type = req.body.type;
+    const ids = req.body.ids;
+    idsArray = ids.split(',').map(id => id.trim());
+
+    if (type !== "delete-all") {
+        await Category.updateMany({ _id: { $in: idsArray } }, { status: type });
+        req.flash('success', 'Status updated successfully.');
+
+    }
+    else {
+        await Category.updateMany(
+            { _id: { $in: idsArray } },
+            { deleted: true, deletedAt: new Date() });
+        req.flash('success', 'Items deleted successfully.');
+    }
+
+    res.redirect(req.get('Referrer') || '/');
+}
+
 // [GET] /admin/categories/create
 module.exports.create = (req, res) => {
     res.render("admin/pages/category/create", {

@@ -15,6 +15,7 @@ router.post('/create',
     controller.store
 );
 router.patch('/change-status/:status/:id', controller.changeStatus);
+router.patch('/change-multiple-status', controller.changeMultipleStatus);
 
 
 module.exports = router;
