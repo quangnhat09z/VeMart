@@ -1,0 +1,77 @@
+extends ../../layout/default.pug
+
+block main 
+    .container.mt-4
+        .row.mb-4
+            .col-12
+                h1.mb-3.view-detail-header Product Detail
+                a.btn.btn-secondary(href=`${prefixAdmin}/categories`) 
+                    i.fas.fa-arrow-left
+                    |  Back
+
+        .row.mt-4
+            // Hình ảnh danh mục
+            .col-md-5
+                .product-image
+                    img(
+                        src=category.imgUrl 
+                        alt=category.title 
+                        class="img-fluid")
+
+            // Thông tin danh mục
+            .col-md-7
+                .product-info
+                    h3 #{category.title}
+
+                    // Trạng thái
+                    .mb-3
+                        if category.status === 'active'
+                            span.badge.bg-success 5 In Stock
+                        else
+                            span.badge.bg-danger Out of Stock
+
+                    // Mô tả
+                    .mb-3
+                        h5 Description:
+                        if (category.description)
+                            p !{category.description}
+                        else
+                            p.text-muted No description available.
+
+
+                    // Nút hành động
+                    .mb-3
+                        a.btn.btn-outline-secondary.btn-lg(
+                            href=`${prefixAdmin}/categories/edit/${category._id}`
+                        ) 
+                            i.fas.fa-edit
+                            | &nbsp;Edit
+                        a.btn.btn-outline-secondary.btn-lg.ms-2(
+                            href=`${prefixAdmin}/categories/delete/${category._id}`
+                        ) 
+                            i.fas.fa-trash
+                            | &nbsp;Delete
+
+                    // Chia sẻ
+                    .mb-3
+                        strong Share: 
+                        a.me-2(href="#") 
+                            i.fab.fa-facebook
+                        a.me-2(href="#")
+                            i.fab.fa-twitter
+                        a(href="#")
+                            i.fab.fa-pinterest
+
+        // Sản phẩm liên quan
+        .row.mt-5
+            .col-12
+                h3 Relate Products
+                .row
+                    - for (let i = 0; i < 4; i++)
+                        .col-md-3.mb-3
+                            .card
+                                img.card-img-top(src=`/images/product-${i}.jpg` alt="...")
+                                .card-body
+                                    h5.card-title Product ${i+1}
+                                    p.card-text $99.99
+                                    a.btn.btn-sm.btn-primary(href="#") View Details

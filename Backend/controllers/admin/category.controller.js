@@ -77,6 +77,33 @@ module.exports.changeMultipleStatus = async (req, res) => {
     res.redirect(req.get('Referrer') || '/');
 }
 
+// [GET] /admin/categories/:id
+module.exports.detail = async (req, res) => {
+    const id = req.params.id;
+    const category = await Category.findById(id);
+    res.render("admin/pages/category/viewDetail", {
+        pageTitle: "Chi tiết danh mục",
+        category: category
+    });
+}
+
+// [DELETE] /admin/categories/delete/:id
+module.exports.deleteItem = async (req, res) => {
+    const id = req.params.id;
+    // console.log('Deleting product with ID:', id);
+    await Category.updateOne(
+        { _id: id },
+        {
+            deleted: true,
+            deletedAt: new Date()
+        },
+        { timestamps: false }  // Ngăn cập nhật updatedAt
+    );
+    req.flash('success', 'Item deleted successfully.');
+    res.redirect(req.get('Referrer') || '/');
+}
+
+
 // [GET] /admin/categories/create
 module.exports.create = (req, res) => {
     res.render("admin/pages/category/create", {

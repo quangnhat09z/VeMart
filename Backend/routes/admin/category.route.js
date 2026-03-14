@@ -16,6 +16,7 @@ router.post('/create',
 );
 router.patch('/change-status/:status/:id', controller.changeStatus);
 router.patch('/change-multiple-status', controller.changeMultipleStatus);
-
+router.get('/:id', controller.detail);
+router.delete('/delete/:id', controller.deleteItem);
 
 module.exports = router;
