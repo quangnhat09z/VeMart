@@ -8,9 +8,41 @@ const sort = require('../../helpers/sort.js');
 const fs = require('fs').promises;
 
 // [GET] /admin/categories
-module.exports.index = (req, res) => {
+module.exports.index = async (req, res) => {
+
+    let filter = {
+        deleted: false,
+    }
+
+    if (req.query.status) {
+        filter.status = req.query.status;
+    }
+
+    const objectSearch = searchHelper(req.query);
+    if (objectSearch.regex) {
+        filter.title = objectSearch.regex;
+    }
+
+    // pagination
+    const totalCategories = await Category.countDocuments(filter);
+    const objectPagination = paginationHelper(req.query, totalCategories);
+
+    // sắp xếp
+    sortOption = sort.sort(req, res);
+
+    // lọc danh mục + phân trang
+    const categories = await Category.find(filter)
+        .sort(sortOption)
+        .limit(objectPagination.limitItems)
+        .skip(objectPagination.skip);
+
     res.render("admin/pages/category/index", {
-        pageTitle: "Quản lý danh mục"
+        pageTitle: "Quản lý danh mục",
+        categories: categories,
+        filterStatus: filterStatusHelperFn(),
+        searchValue: objectSearch.keyword,
+        pagination: objectPagination,
+        sortValue: req.query.sort
     })
 }
 

@@ -2,21 +2,121 @@ extends ../../layout/default.pug
 include ../../mixins/alert.pug
 include ../../mixins/filterButton.pug
 include ../../mixins/searchForm.pug
+include ../../mixins/pagination.pug
+include ../../mixins/formChangeMultiStatus.pug
+include ../../mixins/sortForm.pug
 
 block main
+    +alert(messages)
 
-    +alert(messages) 
-    
     h1 Category Management Page
-    
+
     div(class="filter mb-3")
         div.filter-title
             h5 Category Filter Status
         div.filter-content
             .row 
-                .col-md-8
-                    a(
-                        href=`${prefixAdmin}/categories/create`
-                        class="btn btn-outline-success"
-                    ) + Create
-                    
+                +filter-status-buttons(filterStatus)
+                +search-form(searchValue)
+
+    div(class="sort mb-3")
+        +sortForm(sortValue)
+
+    table(
+        class="table"
+        checkbox-multi
+    )
+        .row 
+            .col-md-4
+                +form-change-multiple-status(`${prefixAdmin}/categories/change-multiple-status?_method=PATCH`)
+            .col-md-8
+                a(
+                    href=`${prefixAdmin}/categories/create`
+                    class="btn btn-outline-success"
+                ) + Create
+        thead.table-header
+            tr
+                th 
+                    input(type="checkbox" name="selectAll" id="selectAll")
+                th(scope="col") #
+                th(scope="col") Title
+                th(scope="col") Image URL
+                th(scope="col") Icon URL
+                th(scope="col") Status
+                th(scope="col") Display Order
+                th(scope="col") Created Date
+                th(scope="col") Action
+        tbody
+            for item, index in categories
+                tr
+                    td
+                        input(type="checkbox" class="checkbox-item" name="selectedItems" value=item._id)
+
+                    th(scope="row") #{index + 1}
+                    td.item-title #{item.title}
+                    td.item-imgUrl 
+                        if item.imgUrl
+                            img(src=item.imgUrl alt=item.title width="150")
+                        else
+                            span No image
+                    td.item-iconUrl 
+                        if item.iconUrl
+                            img(src=item.iconUrl alt=item.title width="50")
+                        else
+                            span No icon
+
+                    td 
+                        if item.status === 'active'
+                            a(
+                                href=`javascript:`
+                                data-status=item.status
+                                data-id=item._id
+                                button-change-status
+                                class="badge badge-success"
+                            ) #{item.status}
+                        else if item.status === 'inactive'
+                            a(
+                                href=`javascript:`
+                                data-status=item.status
+                                data-id=item._id
+                                button-change-status
+                                class="badge badge-danger"
+                            ) #{item.status}
+
+                    td.item-order #{item.displayOrder}
+                    td.item-date #{new Date(item.createdAt).toLocaleDateString('vi-VN')}
+
+                    td.item-action
+                        a(
+                            href=`${prefixAdmin}/categories/${item._id}` 
+                            class="btn btn-info"
+                        ) View
+                        a(
+                            href=`${prefixAdmin}/categories/edit/${item._id}`
+                            class="btn btn-primary"
+                            id=`button-edit`
+                            data-id=item._id
+                        ) Update
+                        a(              
+                            class="btn btn-danger" 
+                            data-id=item._id 
+                            id=`button-delete`
+                        ) Delete
+
+    +pagination(pagination)
+
+    form(
+        action=""
+        id="changeStatusForm"
+        method="POST" 
+        data-path=`${prefixAdmin}/categories/change-status`
+    )
+
+    form(
+        action=""
+        id="deleteItemForm"
+        method="POST" 
+        data-path=`${prefixAdmin}/categories/delete/`
+    )
+
+    script(src="/admin/js/category.js")
