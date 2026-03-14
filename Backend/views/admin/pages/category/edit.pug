@@ -1,0 +1,140 @@
+extends ../../layout/default
+include ../../mixins/alert.pug
+
+block main
+    +alert(messages)
+
+    .container-fluid
+        .row.mb-4
+            .col-12
+                h1.mb-3 Edit Category
+                a.btn.btn-secondary(href=`${prefixAdmin}/categories`) 
+                    i.fas.fa-arrow-left
+                    |  Back
+
+        .row
+            .col-md-8.offset-md-2
+                .card
+                    .card-body
+                        form#createProductForm(
+                            method="POST" 
+                            action=`${prefixAdmin}/categories/edit/${category._id}?_method=PATCH`
+                            enctype="multipart/form-data")
+
+
+                            .mb-3
+                                label.form-label(for="title") Title <span class="text-danger">*</span>
+                                input.form-control#title(          
+                                    type="text"
+                                    name="title"
+                                    placeholder="Type product title here"
+                                    value=`${category.title}`
+                                )
+
+                            .mb-3
+                                label.form-label(for="categoryParent") Parent Category
+                                input.form-control#categoryParent(          
+                                    type="text"
+                                    name="categoryParent"
+                                    placeholder="Type parent category here"
+                                    value=`${category.categoryParent}`
+                                )
+
+                            .row
+                                label.form-label(for="description") Description
+                                .mb-3
+                                    textarea.form-control.tinymce(
+                                        id="desc"
+                                        name="description"
+                                        rows="5"
+                                        placeholder="Type product description here"
+                                    ) !{category.description}
+
+                            .row
+                                .col-md-6
+                                    .mb-3
+                                        div(upload-image)
+                                            label.form-label(for="imgUrl") Image <span class="text-danger">*</span>
+                                            .d-flex.gap-2.align-items-center
+                                                input.form-control#imgUrl(
+                                                    type="file"
+                                                    class="form-control-file"
+                                                    accept="image/*"
+                                                    name="imgUrl"
+                                                    upload-image-input
+                                                    style="display: none;"
+                                                )
+                                                label.btn.btn-outline-secondary.mb-0(for="imgUrl" style="cursor: pointer;")
+                                                    i.fas.fa-upload
+                                                    |  Choose File
+                                                span.badge.bg-secondary(upload-image-label) No file chosen
+
+                                            img(
+                                                src=`${category.imgUrl}`, 
+                                                alt="Preview Image", 
+                                                class="img-thumbnail mt-2", 
+                                                upload-image-preview
+                                            )
+                                            button.btn-close(
+                                                type='button' 
+                                                aria-label='Close' 
+                                                upload-image-clear 
+                                                style="display:none")
+                                .col-md-6
+                                    .mb-3
+                                        div(upload-image)
+                                            label.form-label(for="iconUrl") Icon <span class="text-danger">*</span>
+                                            .d-flex.gap-2.align-items-center
+                                                input.form-control#iconUrl(
+                                                    type="file"
+                                                    class="form-control-file"
+                                                    accept="image/*"
+                                                    name="iconUrl"
+                                                    upload-image-input
+                                                    style="display: none;"
+                                                )
+                                                label.btn.btn-outline-secondary.mb-0(for="iconUrl" style="cursor: pointer;")
+                                                    i.fas.fa-upload
+                                                    |  Choose File
+                                                span.badge.bg-secondary(upload-image-label) No file chosen
+
+                                            img(
+                                                src=`${category.iconUrl}`, 
+                                                alt="Preview Icon", 
+                                                class="img-thumbnail mt-2", 
+                                                upload-image-preview
+                                            )
+                                            button.btn-close(
+                                                type='button' 
+                                                aria-label='Close' 
+                                                upload-image-clear 
+                                                style="display:none")
+                            .row
+                                .mb-3
+                                    label.form-label(for="status") Trạng thái
+                                    div(class="form-check")
+                                        label.form-check-label(for="statusActive")
+                                            | Hoạt động
+                                        input.form-check-input#statusActive(
+                                            type="radio"
+                                            name="status"
+                                            value="active"
+                                            checked=category.status === 'active'
+                                        )
+                                    div(class="form-check")
+                                        label.form-check-label(for="statusInactive")
+                                            | Không hoạt động
+                                        input.form-check-input#statusInactive(
+                                            type="radio"
+                                            name="status"
+                                            value="inactive"
+                                            checked=category.status === 'inactive'
+                                        )
+
+                                .mb-3
+                                    button.btn.btn-primary(type="submit")
+                                        i.fas.fa-save
+                                        |  Update Category
+                                    a.btn.btn-secondary.ms-2(href=`${prefixAdmin}/categories`)
+                                        i.fas.fa-times
+                                        |  Cancel

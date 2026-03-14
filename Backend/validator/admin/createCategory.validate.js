@@ -1,6 +1,9 @@
 const systemConfig = require('../../config/system.js');
 const fs = require("fs");
 
+// Danh sách các định dạng ảnh được phép
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
 module.exports.validateCreateCategory = (req, res, next) => {
     const categoryData = req.body;
     // console.log(categoryData);

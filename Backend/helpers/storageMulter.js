@@ -1,6 +1,6 @@
-
 const path = require('path');
 const multer = require('multer');
+const systemConfig = require('../config/system.js');
 
 const storage = multer.diskStorage({
     destination: './public/uploads/',
@@ -15,7 +15,7 @@ const fileFilter = (req, file, cb) => {
     if (allowed.test(file.originalname)) {
         cb(null, true);
     } else {
-        cb(new Error('Chỉ cho phép upload file ảnh (jpg, png, gif, webp)'));
+        cb(new Error('invalid_file_type'));
     }
 };
 
@@ -25,4 +25,23 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
+// Middleware xử lý lỗi Multer
+const handleMulterError = (err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        if (err.code === 'LIMIT_FILE_SIZE') {
+            req.flash('error', 'File không được vượt quá 5MB.');
+        } else {
+            req.flash('error', 'Lỗi khi upload file.');
+        }
+    } else if (err && err.message === 'invalid_file_type') {
+        req.flash('error', 'Allowed file types are: jpg, png, gif, webp.');
+    } else if (err) {
+        req.flash('error', err.message);
+    }
+    
+    // Redirect về trang trước
+    return res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/categories`);
+};
+
 module.exports = upload;
+module.exports.handleMulterError = handleMulterError;

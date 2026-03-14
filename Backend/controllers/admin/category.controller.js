@@ -103,6 +103,56 @@ module.exports.deleteItem = async (req, res) => {
     res.redirect(req.get('Referrer') || '/');
 }
 
+// [GET] /admin/categories/edit/:id
+module.exports.edit = async (req, res) => {
+    const id = req.params.id;
+    const category = await Category.findById(id);
+    res.render("admin/pages/category/edit", {
+        pageTitle: "Chỉnh sửa danh mục",
+        category: category
+    });
+}
+
+// [PATCH] /admin/categories/edit/:id
+module.exports.update = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const categoryData = req.body;  
+        const category = await Category.findById(id);
+
+        // Xử lý file imgUrl        
+        if (req.files && req.files.imgUrl && req.files.imgUrl[0]) {
+            // Xóa file cũ nếu tồn tại
+            if (category.imgUrl) {
+                const oldImagePath = `.${category.imgUrl}`;
+                await fs.unlink(oldImagePath).catch(err => console.error('Error deleting old image:', err));
+            }
+            categoryData.imgUrl = `/uploads/${req.files.imgUrl[0].filename}`;
+        } else {
+            categoryData.imgUrl = category.imgUrl || '';
+        }           
+        // Xử lý file iconUrl
+        if (req.files && req.files.iconUrl && req.files.iconUrl[0]) {
+            // Xóa file cũ nếu tồn tại
+            if (category.iconUrl) {
+                const oldIconPath = `.${category.iconUrl}`;
+                await fs.unlink(oldIconPath).catch(err => console.error('Error deleting old icon:', err));
+            }   
+            categoryData.iconUrl = `/uploads/${req.files.iconUrl[0].filename}`;
+        } else {
+            categoryData.iconUrl = category.iconUrl || '';
+        }   
+        await Category.updateOne({ _id: id }, categoryData);
+
+        req.flash('success', 'Category updated successfully');
+        res.redirect(`${systemConfig.prefixAdmin}/categories`);
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Error updating category');
+        res.redirect(`${systemConfig.prefixAdmin}/categories/edit/${req.params.id}`);
+    }   
+}
+
 
 // [GET] /admin/categories/create
 module.exports.create = (req, res) => {
