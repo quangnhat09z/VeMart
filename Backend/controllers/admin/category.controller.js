@@ -46,6 +46,16 @@ module.exports.index = async (req, res) => {
     })
 }
 
+// [PATCH] /admin/categories/change-status/:status/:id
+module.exports.changeStatus = async (req, res) => {
+    const status = req.params.status;
+    const id = req.params.id;
+    await Category.updateOne({ _id: id }, { status: status });
+
+    req.flash('success', 'Status updated successfully.');
+    res.redirect(req.get('Referrer') || '/');
+}
+
 // [GET] /admin/categories/create
 module.exports.create = (req, res) => {
     res.render("admin/pages/category/create", {

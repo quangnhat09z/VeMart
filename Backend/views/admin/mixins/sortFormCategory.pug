@@ -1,0 +1,15 @@
+mixin sortFormCategory
+    .row
+        .col-12.col-md-6
+            form.d-flex.gap-2(
+                method="GET"
+                class="sortable-table"
+                )
+                label.form-label.mb-0.align-self-center(for="sort") Sort:
+                select.form-select.form-select-sm(id="sort" name="sort" style="max-width: 200px;")
+                    option(value="" selected=(sortValue === '')) Default
+                    option(value="newest" selected=(sortValue === 'newest')) Newest
+                    option(value="name-asc" selected=(sortValue === 'name-asc')) Name A-Z
+                    option(value="name-desc" selected=(sortValue === 'name-desc')) Name Z-A
+
+                //- button.btn.btn-sm.btn-primary(type="submit") Sort

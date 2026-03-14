@@ -4,7 +4,7 @@ include ../../mixins/filterButton.pug
 include ../../mixins/searchForm.pug
 include ../../mixins/pagination.pug
 include ../../mixins/formChangeMultiStatus.pug
-include ../../mixins/sortForm.pug
+include ../../mixins/sortFormCategory.pug
 
 block main
     +alert(messages)
@@ -20,7 +20,7 @@ block main
                 +search-form(searchValue)
 
     div(class="sort mb-3")
-        +sortForm(sortValue)
+        +sortFormCategory(sortValue)
 
     table(
         class="table"
@@ -119,4 +119,5 @@ block main
         data-path=`${prefixAdmin}/categories/delete/`
     )
 
+    script(src="/admin/js/script.js")
     script(src="/admin/js/category.js")

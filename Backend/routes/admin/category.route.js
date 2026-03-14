@@ -14,5 +14,7 @@ router.post('/create',
     validate.validateCreateCategory,
     controller.store
 );
+router.patch('/change-status/:status/:id', controller.changeStatus);
+
 
 module.exports = router;

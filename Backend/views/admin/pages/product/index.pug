@@ -4,7 +4,7 @@ include ../../mixins/searchForm.pug
 include ../../mixins/pagination.pug
 include ../../mixins/formChangeMultiStatus.pug
 include ../../mixins/alert.pug
-include ../../mixins/sortForm.pug
+include ../../mixins/sortFormProduct.pug
 
 block main
     +alert(messages)
@@ -20,7 +20,7 @@ block main
                 +search-form(searchValue)
 
     div(class="sort mb-3")
-        +sortForm(sortValue)
+        +sortFormProduct(sortValue)
             
     table(
         class="table"
@@ -70,7 +70,7 @@ block main
                                 data-id=item.id
                                 button-change-status
                                 class="badge badge-success"
-                            ) #{item.status}
+                            ) #{item.status} 
 
                         else if item.status === 'inactive'
                             a(
