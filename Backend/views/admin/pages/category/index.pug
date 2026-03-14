@@ -52,8 +52,8 @@ block main
                     td
                         input(type="checkbox" class="checkbox-item" name="selectedItems" value=item._id)
 
-                    th(scope="row") #{index + 1}
-                    td.item-title #{item.title}
+                    th(scope="row" style="align-content: center;") #{index + 1}
+                    td.item-title(style="width: 200px;") #{item.title}
                     td.item-imgUrl 
                         if item.imgUrl
                             img(src=item.imgUrl alt=item.title width="150")

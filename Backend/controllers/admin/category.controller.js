@@ -4,6 +4,7 @@ const searchHelper = require('../../helpers/search');
 const paginationHelper = require('../../helpers/pagination');
 const systemConfig = require('../../config/system.js');
 const sort = require('../../helpers/sort.js');
+const { buildCategoryHierarchy } = require('../../helpers/categoryTree.js');
 
 const fs = require('fs').promises;
 
@@ -104,14 +105,17 @@ module.exports.deleteItem = async (req, res) => {
 }
 
 // [GET] /admin/categories/edit/:id
-module.exports.edit = async (req, res) => {
-    const id = req.params.id;
-    const category = await Category.findById(id);
-    res.render("admin/pages/category/edit", {
-        pageTitle: "Chỉnh sửa danh mục",
-        category: category
+exports.edit = async (req, res) => {
+    const category = await Category.findById(req.params.id);
+    const allCategories = await Category.find({ deleted: false });
+    const categoriesHierarchy = buildCategoryHierarchy(allCategories);
+    
+    res.render('admin/pages/category/edit', {
+        prefixAdmin: systemConfig.prefixAdmin,
+        category: category,
+        categories: categoriesHierarchy
     });
-}
+};
 
 // [PATCH] /admin/categories/edit/:id
 module.exports.update = async (req, res) => {
@@ -155,11 +159,15 @@ module.exports.update = async (req, res) => {
 
 
 // [GET] /admin/categories/create
-module.exports.create = (req, res) => {
-    res.render("admin/pages/category/create", {
-        pageTitle: "Thêm danh mục"
-    })
-}
+exports.create = async (req, res) => {
+    const allCategories = await Category.find({ deleted: false });
+    const categoriesHierarchy = buildCategoryHierarchy(allCategories);
+    
+    res.render('admin/pages/category/create', {
+        prefixAdmin: systemConfig.prefixAdmin,
+        categories: categoriesHierarchy
+    });
+};
 
 // [POST] /admin/categories/create
 module.exports.store = async (req, res) => {

@@ -26,7 +26,6 @@ const categorySchema = new mongoose.Schema(
         },
         parentCategory: {
             type: String,
-            ref: 'Category',
             default: null,
         },
         status: {

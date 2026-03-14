@@ -31,12 +31,13 @@ block main
                                 )
 
                             .mb-3
-                                label.form-label(for="categoryParent") Parent Category
-                                input.form-control#categoryParent(          
-                                    type="text"
-                                    name="categoryParent"
-                                    placeholder="Type parent category here"
+                                label.form-label(for="parentCategory") Parent Category
+                                select.form-control#parentCategory(          
+                                    name="parentCategory"
                                 )
+                                    option(value="" selected disabled) -- Select a parent category --
+                                    each category in categories
+                                        option(value=category._id)= category.displayTitle
 
                             .row
                                 label.form-label(for="description") Description
