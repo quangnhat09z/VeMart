@@ -41,6 +41,15 @@ block main
                                     value=product.title
                                 )
 
+                            .mb-3 
+                                label.form-label(for="description") Description
+                                textarea.form-control.tinymce(
+                                    id="desc"
+                                    name="description"
+                                    rows="5"
+                                    placeholder="Enter product description"
+                                ) !{product.description}
+
                             .row
                                 .col-md-6
                                     .mb-3

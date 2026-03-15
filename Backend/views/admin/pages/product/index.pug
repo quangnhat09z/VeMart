@@ -50,7 +50,7 @@ block main
                     td
                         input(type="checkbox" class="checkbox-item" name="selectedItems" value=item._id)
 
-                    th(scope="row" style="align-content: center;") #{index + 1}
+                    th(scope="row" style="align-content: center;") #{pagination.limitItems * (pagination.currentPage - 1) + index + 1}
                     td.item-img
                         img(
                             src=item.imgUrl

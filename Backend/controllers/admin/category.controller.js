@@ -28,23 +28,23 @@ module.exports.index = async (req, res) => {
     const totalCategories = await Category.countDocuments(filter);
     const objectPagination = paginationHelper(req.query, totalCategories);
 
-    const categories = await Category.find(filter);
-    const categoryHierarchy = buildCategoryHierarchy(categories);
+    // const categories = await Category.find(filter);
+    // const categoryHierarchy = buildCategoryHierarchy(categories);
 
     // sắp xếp
     sortOption = sort.sort(req, res);
 
     // lọc danh mục + phân trang
-    // const categoryHierarchy 
-    //     .sort(sortOption)
-    //     .limit(objectPagination.limitItems)
-    //     .skip(objectPagination.skip);
+    const categories = await Category.find(filter)
+        .sort(sortOption)
+        .limit(objectPagination.limitItems)
+        .skip(objectPagination.skip);
 
-    console.log('Category hierarchy:', categoryHierarchy);
+    // console.log('Category hierarchy:', categoryHierarchy);
 
     res.render("admin/pages/category/index", {
         pageTitle: "Quản lý danh mục",
-        categories: categoryHierarchy,
+        categories: categories,
         filterStatus: filterStatusHelperFn(),
         searchValue: objectSearch.keyword,
         pagination: objectPagination,
