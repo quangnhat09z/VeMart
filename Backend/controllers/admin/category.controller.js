@@ -28,18 +28,23 @@ module.exports.index = async (req, res) => {
     const totalCategories = await Category.countDocuments(filter);
     const objectPagination = paginationHelper(req.query, totalCategories);
 
+    const categories = await Category.find(filter);
+    const categoryHierarchy = buildCategoryHierarchy(categories);
+
     // sắp xếp
     sortOption = sort.sort(req, res);
 
     // lọc danh mục + phân trang
-    const categories = await Category.find(filter)
-        .sort(sortOption)
-        .limit(objectPagination.limitItems)
-        .skip(objectPagination.skip);
+    // const categoryHierarchy 
+    //     .sort(sortOption)
+    //     .limit(objectPagination.limitItems)
+    //     .skip(objectPagination.skip);
+
+    console.log('Category hierarchy:', categoryHierarchy);
 
     res.render("admin/pages/category/index", {
         pageTitle: "Quản lý danh mục",
-        categories: categories,
+        categories: categoryHierarchy,
         filterStatus: filterStatusHelperFn(),
         searchValue: objectSearch.keyword,
         pagination: objectPagination,
@@ -109,7 +114,7 @@ exports.edit = async (req, res) => {
     const category = await Category.findById(req.params.id);
     const allCategories = await Category.find({ deleted: false });
     const categoriesHierarchy = buildCategoryHierarchy(allCategories);
-    
+
     res.render('admin/pages/category/edit', {
         prefixAdmin: systemConfig.prefixAdmin,
         category: category,
@@ -121,7 +126,7 @@ exports.edit = async (req, res) => {
 module.exports.update = async (req, res) => {
     try {
         const id = req.params.id;
-        const categoryData = req.body;  
+        const categoryData = req.body;
         const category = await Category.findById(id);
 
         // Xử lý file imgUrl        
@@ -134,18 +139,18 @@ module.exports.update = async (req, res) => {
             categoryData.imgUrl = `/uploads/${req.files.imgUrl[0].filename}`;
         } else {
             categoryData.imgUrl = category.imgUrl || '';
-        }           
+        }
         // Xử lý file iconUrl
         if (req.files && req.files.iconUrl && req.files.iconUrl[0]) {
             // Xóa file cũ nếu tồn tại
             if (category.iconUrl) {
                 const oldIconPath = `.${category.iconUrl}`;
                 await fs.unlink(oldIconPath).catch(err => console.error('Error deleting old icon:', err));
-            }   
+            }
             categoryData.iconUrl = `/uploads/${req.files.iconUrl[0].filename}`;
         } else {
             categoryData.iconUrl = category.iconUrl || '';
-        }   
+        }
         await Category.updateOne({ _id: id }, categoryData);
 
         req.flash('success', 'Category updated successfully');
@@ -154,7 +159,7 @@ module.exports.update = async (req, res) => {
         console.error(error);
         req.flash('error', 'Error updating category');
         res.redirect(`${systemConfig.prefixAdmin}/categories/edit/${req.params.id}`);
-    }   
+    }
 }
 
 
@@ -162,7 +167,7 @@ module.exports.update = async (req, res) => {
 exports.create = async (req, res) => {
     const allCategories = await Category.find({ deleted: false });
     const categoriesHierarchy = buildCategoryHierarchy(allCategories);
-    
+
     res.render('admin/pages/category/create', {
         prefixAdmin: systemConfig.prefixAdmin,
         categories: categoriesHierarchy
@@ -174,14 +179,14 @@ module.exports.store = async (req, res) => {
     try {
         const categoryData = req.body;
         console.log(categoryData);
-        
+
         // Xử lý file imgUrl
         if (req.files && req.files.imgUrl && req.files.imgUrl[0]) {
             categoryData.imgUrl = `/uploads/${req.files.imgUrl[0].filename}`;
         } else {
             categoryData.imgUrl = '';
         }
-        
+
         // Xử lý file icon
         if (req.files && req.files.iconUrl && req.files.iconUrl[0]) {
             categoryData.iconUrl = `/uploads/${req.files.iconUrl[0].filename}`;
@@ -192,9 +197,9 @@ module.exports.store = async (req, res) => {
         categoryData.displayOrder = await Category.countDocuments() + 1;
 
         const category = new Category(categoryData);
-        
+
         await category.save();
-        
+
         req.flash('success', 'Category created successfully');
         res.redirect(`${systemConfig.prefixAdmin}/categories`);
     } catch (error) {
