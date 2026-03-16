@@ -39,6 +39,17 @@ block main
                                     placeholder="Type product title here"
                                 )
 
+                            .mb-3
+                                label.form-label(for="parentCategory") Category: 
+                                select.form-control#category_id(          
+                                    name="category_id"
+                                    placeholder="Select category"
+                                )
+                                    option(value="" selected disabled) -- Select a parent category --
+                                    each category in categories
+                                        option(value=category._id)= category.displayTitle
+
+                                        
                             .row
                                 label.form-label(for="description") Description
                                 .mb-3
@@ -108,13 +119,13 @@ block main
                                 )
 
                             .row
-                                .col-md-6
-                                    .mb-3
-                                        label.form-label(for="category_id") Category
-                                        input.form-control#category_id(
-                                            type="number"
-                                            name="category_id"
-                                            placeholder="ID category"
+                                //- .col-md-6
+                                    //- .mb-3
+                                    //-     label.form-label(for="category_id") Category
+                                    //-     input.form-control#category_id(
+                                    //-         type="number"
+                                    //-         name="category_id"
+                                    //-         placeholder="ID category"
                                         )
 
                                 .col-md-6

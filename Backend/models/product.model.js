@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema(
         reviews: { type: Number, default: 0 },
         price: { type: Number, default: 0 },
         listPrice: { type: Number, default: 0 },
-        category_id: Number,
+        category_id: { type: String, default: null },
         isBestSeller: { type: Boolean, default: false },
         boughtInLastMonth: { type: Number, default: 0 },
         discountPercentage: { type: Number, default: 0 },

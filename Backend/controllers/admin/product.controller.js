@@ -1,9 +1,12 @@
 const Product = require('../../models/product.model.js')
+const Category = require('../../models/category.model.js')
+
 const filterStatusHelperFn = require('../../helpers/filterStatus');
 const searchHelper = require('../../helpers/search');
 const paginationHelper = require('../../helpers/pagination');
 const systemConfig = require('../../config/system.js');
 const sort = require('../../helpers/sort.js');
+const { buildCategoryHierarchy } = require('../../helpers/categoryTree.js');
 
 const fs = require('fs').promises;
 
@@ -41,7 +44,7 @@ module.exports.index = async (req, res) => {
         filterStatus: filterStatusHelperFn(),
         searchValue: objectSearch.keyword,
         pagination: objectPagination,
-        sortValue: req.query.sort 
+        sortValue: req.query.sort
     })
 }
 
@@ -106,8 +109,12 @@ module.exports.deleteItem = async (req, res) => {
 
 // [GET] /admin/products/create
 module.exports.create = async (req, res) => {
+    const allCategories = await Category.find({ deleted: false });
+    const categoriesHierarchy = buildCategoryHierarchy(allCategories);
+
     res.render("admin/pages/product/create", {
-        pageTitle: "Create Product"
+        pageTitle: "Create Product",
+        categories: categoriesHierarchy
     })
 }
 
@@ -118,7 +125,7 @@ module.exports.store = async (req, res) => {
     try {
         // console.log('Received file data:', req.file);
         const productData = req.body;
-        // console.log('Received product data:', productData);
+        console.log('Received product data:', productData);
 
         const numericDefaults = ['listPrice', 'boughtInLastMonth', 'reviews', 'discountPercentage'];
         numericDefaults.forEach(field => {
@@ -182,18 +189,30 @@ module.exports.store = async (req, res) => {
 // [GET] /admin/products/edit/:id
 module.exports.edit = async (req, res) => {
     const id = req.params.id;
+
     try {
-        const getProduct = await Product.findById({
+        const product = await Product.findById({
             _id: id,
             deleted: false
         });
-        if (!getProduct) {
+        if (!product) {
             req.flash('error', 'Product not found');
             return res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products`);
         }
+
+        const allCategories = await Category.find({ deleted: false });
+        const categories = buildCategoryHierarchy(allCategories);
+
+        // console.log('Product category_id:', categories);
+
+        // Tìm tên danh mục từ ID
+        const categoryData = categories.find(cat => cat._id.toString() === product.category_id.toString());        const categoryDisplayTitle = categoryData ? categoryData.displayTitle : 'N/A';
+
         res.render("admin/pages/product/edit", {
             pageTitle: "Edit Product",
-            product: getProduct
+            product: product,
+            categories: categories,
+            categoryDisplayTitle: categoryDisplayTitle
         });
 
     } catch (error) {
@@ -216,7 +235,7 @@ module.exports.update = async (req, res) => {
     try {
         await Product.findOne({
             _id: id,
-            deleted: false  
+            deleted: false
         },
         ).updateOne(req.body);
 
@@ -232,13 +251,22 @@ module.exports.update = async (req, res) => {
 // [GET] /admin/products/:id
 module.exports.detail = async (req, res) => {
     const id = req.params.id;
+    const allCategories = await Category.find({ deleted: false });
+    const categories = buildCategoryHierarchy(allCategories);
+
     const product = await Product.findOne({
         _id: id,
         deleted: false
     });
-    // console.log('Product details:', product);
+
+    // Tìm tên danh mục từ ID
+    const categoryData = allCategories.find(cat => cat._id.toString() === product.category_id.toString());
+    const categoryName = categoryData ? categoryData.title : 'N/A';
+
     res.render('admin/pages/product/viewDetail', {
         pageTitle: "Product Details",
-        product: product
+        product: product,
+        categories: categories,
+        categoryName: categoryName
     });
 }
