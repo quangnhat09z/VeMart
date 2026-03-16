@@ -1,0 +1,50 @@
+extends ../../layout/default
+include ../../mixins/alert.pug
+
+block main
+    +alert(messages)
+
+    .container-fluid
+        .row.mb-4
+            .col-12
+                h1.mb-3 Create New Role
+                a.btn.btn-secondary(href=`${prefixAdmin}/roles`) 
+                    i.fas.fa-arrow-left
+                    |  Back
+
+        .row
+            .col-md-8.offset-md-2
+                .card
+                    .card-body
+                        form#createRoleForm(
+                            method="POST" 
+                            action=`${prefixAdmin}/roles/create`
+                            )
+
+
+                            .mb-3
+                                label.form-label(for="title") Title <span class="text-danger">*</span>
+                                input.form-control#title(          
+                                    type="text"
+                                    name="title"
+                                    placeholder="Type role title here"
+                                )
+
+                            .row
+                                label.form-label(for="description") Description
+                                .mb-3
+                                    textarea.form-control.tinymce(
+                                        id="desc"
+                                        name="description"
+                                        rows="5"
+                                        placeholder="Type role description here"
+                                    ) 
+ 
+                            .row
+                                .mb-3
+                                    button.btn.btn-primary(type="submit")
+                                        i.fas.fa-save
+                                        |  Create Role
+                                    a.btn.btn-secondary.ms-2(href=`${prefixAdmin}/roles`)
+                                        i.fas.fa-times
+                                        |  Cancel
