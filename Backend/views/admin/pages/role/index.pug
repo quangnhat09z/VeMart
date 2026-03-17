@@ -52,17 +52,17 @@ block main
                         td.item-date #{new Date(item.createdAt).toLocaleDateString('vi-VN')}
 
                         td.item-action
-                            a(
-                                href=`${prefixAdmin}/roles/${item._id}` 
-                                class="btn btn-sm btn-info"
-                            ) View
+                            //- a(
+                            //-     href=`${prefixAdmin}/roles/${item._id}` 
+                            //-     class="btn btn-sm btn-info"
+                            //- ) View
                             a(
                                 href=`${prefixAdmin}/roles/edit/${item._id}`
                                 class="btn btn-sm btn-primary"
                                 id=`button-edit`
                                 data-id=item._id
                             ) Edit
-                            a(              
+                            a(  
                                 class="btn btn-sm btn-danger" 
                                 data-id=item._id 
                                 id=`button-delete`
@@ -72,6 +72,13 @@ block main
                     td(colspan="7" class="text-center text-muted") No roles found
 
     +pagination(pagination)
+
+    form(
+        action=""
+        id = "deleteItemForm"
+        method="POST" 
+        data-path = `${prefixAdmin}/roles/delete/`
+    )
 
     script(src="/admin/js/script.js")
     script(src="/admin/js/role.js")
