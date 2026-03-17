@@ -350,3 +350,32 @@ td {
     height: 200px;
     object-fit: cover;
 }
+
+/* Sider */
+
+/* .dropdown:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+} */
+.dropdown-btn {
+    display: block;
+    padding: 5px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    width: 100%;
+    text-align: left;
+}
+.dropdown-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.dropdown-content {
+    display: none;
+}
+
+.dropdown-content.active {
+    margin-left: 25px;
+    display: block;
+}

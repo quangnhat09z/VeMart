@@ -110,3 +110,27 @@ module.exports.delete = async (req, res) => {
     req.flash('success', 'Role deleted successfully.');
     res.redirect(req.get('Referrer') || '/');
 }
+
+// [GET] /admin/roles/permissions
+module.exports.permissions = async (req, res) => {
+    const roles = await Role.find({ deleted: false });
+
+     const resources = [
+            {
+                name: 'Sản phẩm',
+                actions: ['Xem', 'Thêm mới', 'Thay đổi trạng thái', 'Cập nhật', 'Xóa'],
+                data_name:['product-view', 'product-create', 'product-change-status', 'product-update', 'product-delete']
+            },
+            {
+                name: 'Danh mục',
+                actions: ['Xem', 'Thêm mới', 'Thay đổi trạng thái', 'Cập nhật', 'Xóa'],
+                data_name: ['category-view', 'category-create', 'category-change-status', 'category-update', 'category-delete']
+            }
+        ];
+    
+    res.render("admin/pages/role/permissions", {
+        pageTitle: "Role permissions",
+        roles: roles,
+        resources: resources
+    });
+}

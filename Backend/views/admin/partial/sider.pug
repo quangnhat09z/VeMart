@@ -22,6 +22,14 @@
                     i.fas.fa-tags
                     |  Categories
             li
-                a(href = prefixAdmin + "/roles") 
-                    i.fas.fa-key
-                    |  Roles
+                div(class="dropdown")
+                    button(class="dropdown-btn") 
+                        i.fas.fa-key
+                        |  Authorization
+                    div(class="dropdown-content")
+                        a(href = prefixAdmin + "/roles") 
+                            |  Roles
+                        a(href = prefixAdmin + "/roles/permissions") 
+                            |  Permissions
+
+script(src="/admin/js/sider.js") 

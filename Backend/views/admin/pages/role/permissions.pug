@@ -1,0 +1,75 @@
+extends ../../layout/default
+include ../../mixins/alert.pug
+
+block main
+    +alert(messages)
+
+    .container-fluid
+        .row.mb-4
+            .col-12
+                h1.mb-3 Permission Management
+                a.btn.btn-secondary(href=`${prefixAdmin}/roles`) 
+                    i.fas.fa-arrow-left
+                    |  Back
+
+        if (resources.length === 0)
+            .row
+                .col-12
+                    .alert.alert-info No resources found. Please create resources and actions first.
+        else
+            .row
+                .col-12
+                    .card
+                        .card-body
+                            form#permissionForm(method="POST" action=`${prefixAdmin}/permissions`)
+                                .table-responsive#permissions-table
+                                    table.table.table-bordered.table-hover
+                                        thead.table-light
+                                            tr
+                                                th(style="width: 250px;") Resource / Action
+                                                each role in roles
+                                                    th(style="text-align: center;")
+                                                        strong= role.title
+
+                                                tr(class="role-ids")
+                                                    th 
+                                                    each role in roles 
+                                                        td(class="text-center")                                                              
+                                                            input(type="text" value=role._id readonly style="text-align: center; width: 100%; border: none; background: transparent;")
+
+
+                                            tbody
+                                            // Chọn tất cả
+                                            tr
+                                                td
+                                                    strong(class="text-primary" name="select-all") Chọn tất cả
+                                                    for role, index in roles
+                                                        td(class="text-center")
+                                                            input(type="checkbox")
+
+                                            // Các resource và action
+                                            each resource in resources
+                                                tr
+                                                    td 
+                                                        strong(class="text-primary") #{resource.name}
+                                                        for role, index in roles
+                                                            td(class="text-center")
+                                                                input(type="checkbox")
+                                                each action, i in resource.actions
+                                                    tr(data-name=resource.data_name[i])
+                                                        td(style="padding-left: 30px;")= action
+                                                        for role, index in roles
+                                                            td(class="text-center")
+                                                                input(type="checkbox")
+
+
+                            .row.mt-4
+                                .col-12
+                                    button.btn.btn-primary(type="submit" id="submitPermissions")
+                                        i.fas.fa-save
+                                        |  Save Permissions
+                                    a.btn.btn-secondary.ms-2(href=`${prefixAdmin}/roles`)
+                                        i.fas.fa-times
+                                        |  Cancel
+
+    script(src="/admin/js/role.js") 
