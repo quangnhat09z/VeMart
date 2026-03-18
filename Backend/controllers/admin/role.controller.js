@@ -17,7 +17,7 @@ module.exports.index = async (req, res) => {
     }
     const roles = await Role.find(filter);
 
-   // pagination
+    // pagination
     const totalCategories = await Category.countDocuments(filter);
     const objectPagination = paginationHelper(req.query, totalCategories);
 
@@ -38,12 +38,12 @@ module.exports.create = async (req, res) => {
 
 // [POST] /admin/roles/create
 module.exports.store = async (req, res) => {
-    console.log("Request body:", req.body); 
+    console.log("Request body:", req.body);
     try {
-        const { title, description } = req.body;        
+        const { title, description } = req.body;
         const newRole = new Role({
             title,
-            description,    
+            description,
         });
         await newRole.save();
         req.flash('success', 'Role created successfully.');
@@ -51,9 +51,9 @@ module.exports.store = async (req, res) => {
     } catch (error) {
         console.error("Error creating role:", error);
         res.status(500).send("Internal Server Error");
-    }   
+    }
 }
-    
+
 // [GET] /admin/roles/edit/:id
 module.exports.edit = async (req, res) => {
     const roleId = req.params.id;
@@ -62,7 +62,7 @@ module.exports.edit = async (req, res) => {
         if (!role) {
             req.flash('error', 'Role not found.');
             return res.redirect(systemConfig.prefixAdmin + '/roles');
-        }   
+        }
         res.render("admin/pages/role/edit", {
             pageTitle: "Edit role",
             role: role,
@@ -76,9 +76,9 @@ module.exports.edit = async (req, res) => {
 // [PATCH] /admin/roles/edit/:id
 module.exports.update = async (req, res) => {
     console.log("Request body for update:", req.body);
-    const roleId = req.params.id;   
+    const roleId = req.params.id;
     try {
-        const { title, description } = req.body;        
+        const { title, description } = req.body;
         const updatedRole = await Role.findById(roleId);
         if (!updatedRole) {
             req.flash('error', 'Role not found.');
@@ -114,24 +114,42 @@ module.exports.delete = async (req, res) => {
 // [GET] /admin/roles/permissions
 module.exports.permissions = async (req, res) => {
     const roles = await Role.find({ deleted: false });
+    const permissionsData = roles.map(role => ({
+        roleId: role._id,
+        permissions: role.permissions || []
+    }));
+    // console.log("Permissions data for rendering:", permissionsData);
 
-     const resources = [
-            {
-                name: 'Sản phẩm',
-                actions: ['Xem', 'Thêm mới', 'Thay đổi trạng thái', 'Cập nhật', 'Xóa'],
-                data_name:['product-view', 'product-create', 'product-change-status', 'product-update', 'product-delete']
-            },
-            {
-                name: 'Danh mục',
-                actions: ['Xem', 'Thêm mới', 'Thay đổi trạng thái', 'Cập nhật', 'Xóa'],
-                data_name: ['category-view', 'category-create', 'category-change-status', 'category-update', 'category-delete']
-            }
-        ];
-    
+    const resources = [
+        {
+            name: 'Sản phẩm',
+            actions: ['Xem', 'Thêm mới', 'Thay đổi trạng thái', 'Cập nhật', 'Xóa'],
+            data_name: ['product-view', 'product-create', 'product-change-status', 'product-update', 'product-delete']
+        },
+        {
+            name: 'Danh mục',
+            actions: ['Xem', 'Thêm mới', 'Thay đổi trạng thái', 'Cập nhật', 'Xóa'],
+            data_name: ['category-view', 'category-create', 'category-change-status', 'category-update', 'category-delete']
+        },
+        {
+            name: 'Nhóm quyền',
+            actions: ['Xem', 'Thêm mới', 'Cập nhật', 'Xóa', 'Phân quyền'],
+            data_name: ['role-view', 'role-create', 'role-update', 'role-delete', 'role-assign-permissions']
+        }
+    ];
+
+    let totalPermissions = 0;
+    resources.forEach(resource => {
+        totalPermissions += resource.actions.length;
+    });
+
+
     res.render("admin/pages/role/permissions", {
         pageTitle: "Role permissions",
         roles: roles,
-        resources: resources
+        resources: resources,
+        permissionsData: permissionsData,
+        totalPermissionsCount: totalPermissions
     });
 }
 

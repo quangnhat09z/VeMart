@@ -43,108 +43,85 @@ if (tablePermissions) {
 const selectAllCheckbox = document.querySelectorAll('[name="select-all"]');
 const selectAllPartialCheckboxes = document.querySelectorAll('[name="select-all-partial"]');
 const itemCheckboxes = document.querySelectorAll('[name="checkbox-item"]');
-const countRoles = selectAllCheckbox.length; //3
-const countTypes = selectAllPartialCheckboxes.length;//6
-const countItems = itemCheckboxes.length;//30
 
-const typePerRole = countTypes / countRoles; //2
-const itemsPerType = countItems / countTypes; //5
+const countRoles = selectAllCheckbox.length;
+const countTypes = selectAllPartialCheckboxes.length;
+const countItems = itemCheckboxes.length;
+const typePerRole = countTypes / countRoles;
+const itemsPerType = countItems / countTypes;
 
+// Tạo groups mapping
 const groups = {};
+const elementToGroup = {};
+const coefficient = countRoles * (itemsPerType - 1);
+
 for (let i = 0; i < countTypes; i++) {
-
-    const coefficient = countRoles * (itemsPerType - 1);
     const baseIndex = i + coefficient * Math.floor(i / countRoles);
-
-    // Tạo mảng indices cho selectAllPartialCheckboxes[i]
     const indices = [];
     for (let j = 0; j < itemsPerType; j++) {
         indices.push(baseIndex + j * countRoles);
     }
-
     groups[i] = indices;
-}
-
-const elementToGroup = {};
-for (let groupIndex in groups) {
-    groups[groupIndex].forEach(elementIndex => {
-        elementToGroup[elementIndex] = groupIndex;
+    indices.forEach(elementIndex => {
+        elementToGroup[elementIndex] = i;
     });
 }
 
-if (selectAllCheckbox && selectAllPartialCheckboxes && itemCheckboxes) {
-    const countRoles = selectAllCheckbox.length; //2
-    const countTypes = selectAllPartialCheckboxes.length //4
-    const countItems = itemCheckboxes.length; //20
+// Helper functions
+const isAllRolePartialChecked = (roleIndex) => {
+    for (let i = roleIndex; i < countTypes; i += countRoles) {
+        if (!selectAllPartialCheckboxes[i].checked) return false;
+    }
+    return true;
+};
 
-    // Select all
-    selectAllCheckbox.forEach((checkbox, index) => {
-        checkbox.addEventListener('change', function () {
-            for (let i = index; i < countTypes; i += countRoles) {
-                selectAllPartialCheckboxes[i].checked = checkbox.checked;
-                for (let j = 0; j < groups[i].length; j++) {
-                    itemCheckboxes[groups[i][j]].checked = checkbox.checked;
-                }
-            }
-        });
+const updateSelectAll = (roleIndex) => {
+    selectAllCheckbox[roleIndex].checked = isAllRolePartialChecked(roleIndex);
+};
+
+const updateItemsInGroup = (groupIndex, checked) => {
+    groups[groupIndex].forEach(itemIndex => {
+        itemCheckboxes[itemIndex].checked = checked;
     });
+};
 
-    // Select all partial
-    selectAllPartialCheckboxes.forEach((checkbox, index) => {
-        checkbox.addEventListener('change', function () {
-            if (!checkbox.checked) {
-                const roleIndex = index % countRoles;
-                selectAllCheckbox[roleIndex].checked = false;
-                for (let i = 0; i < groups[index].length; i++) {
-                    itemCheckboxes[groups[index][i]].checked = false;
-                }
-            }
-
-            else {
-                const roleIndex = index % countRoles;
-                var allCheckPartial = true;
-                for (let i = roleIndex; i < countTypes; i += countRoles) {
-                    if (!selectAllPartialCheckboxes[i].checked) {
-                        allCheckPartial = false;
-                        break;
-                    }
-                }
-                if (allCheckPartial) {
-                    selectAllCheckbox[roleIndex].checked = true;
-                }
-
-                for (let i = 0; i < groups[index].length; i++) {
-                    itemCheckboxes[groups[index][i]].checked = checkbox.checked;
-                }
-            }
-        });
+// Event listeners
+selectAllCheckbox.forEach((checkbox, roleIndex) => {
+    checkbox.addEventListener('change', function () {
+        for (let i = roleIndex; i < countTypes; i += countRoles) {
+            selectAllPartialCheckboxes[i].checked = this.checked;
+            updateItemsInGroup(i, this.checked);
+        }
     });
+});
 
-    // Item checkboxes
-    itemCheckboxes.forEach((checkbox, index) => {
-        checkbox.addEventListener('change', function () {
-            if (!checkbox.checked) {
-                const roleIndex = index % countRoles;
-                selectAllCheckbox[roleIndex].checked = false;
-                const groupIndex = elementToGroup[index];
-                selectAllPartialCheckboxes[groupIndex].checked = false;    
-            } else {
-                const checkPartAll = groups[elementToGroup[index]].every(i => itemCheckboxes[i].checked);
-                if (checkPartAll) {
-                    selectAllPartialCheckboxes[elementToGroup[index]].checked = true;
-                }
-                const roleIndex = index % countRoles;
-                var allCheckPartial = true;
-                for (let i = roleIndex; i < countTypes; i += countRoles) {
-                    if (!selectAllPartialCheckboxes[i].checked) {
-                        allCheckPartial = false;
-                        break;
-                    }
-                }
-                if (allCheckPartial) {
-                    selectAllCheckbox[roleIndex].checked = true;
-                }
-            }
-        });
+selectAllPartialCheckboxes.forEach((checkbox, groupIndex) => {
+    checkbox.addEventListener('change', function () {
+        updateItemsInGroup(groupIndex, this.checked);
+        
+        const roleIndex = groupIndex % countRoles;
+        if (!this.checked) {
+            selectAllCheckbox[roleIndex].checked = false;
+        } else {
+            updateSelectAll(roleIndex);
+        }
     });
-}
+});
+
+itemCheckboxes.forEach((checkbox, itemIndex) => {
+    checkbox.addEventListener('change', function () {
+        const groupIndex = elementToGroup[itemIndex];
+        const roleIndex = itemIndex % countRoles;
+        
+        if (!this.checked) {
+            selectAllCheckbox[roleIndex].checked = false;
+            selectAllPartialCheckboxes[groupIndex].checked = false;
+        } else {
+            const allInGroupChecked = groups[groupIndex].every(i => itemCheckboxes[i].checked);
+            if (allInGroupChecked) {
+                selectAllPartialCheckboxes[groupIndex].checked = true;
+            }
+            updateSelectAll(roleIndex);
+        }
+    });
+});

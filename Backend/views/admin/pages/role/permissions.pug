@@ -31,7 +31,7 @@ block main
                                                     th(style="text-align: center;")
                                                         strong= role.title
 
-                                                tr(class="role-ids")
+                                                tr(class="role-ids" style="display: none;")
                                                     th 
                                                     each role in roles 
                                                         td(class="text-center")                                                              
@@ -45,22 +45,27 @@ block main
                                                     strong(class="text-primary") Chọn tất cả
                                                     for role, index in roles
                                                         td(class="text-center")
-                                                            input(type="checkbox" name="select-all")
+                                                            input(type="checkbox" name="select-all" checked=permissionsData[index].permissions.length === totalPermissionsCount)
 
+                                            // Các resource và action
                                             // Các resource và action
                                             each resource in resources
                                                 tr
                                                     td 
                                                         strong(class="text-primary") #{resource.name}
-                                                        for role, index in roles
+                                                        each role, roleIndex in roles
+                                                            - const resourcePermissions = resource.data_name.filter(perm => permissionsData[roleIndex].permissions.includes(perm))
+                                                            - const isResourceFullyChecked = resourcePermissions.length === resource.data_name.length
                                                             td(class="text-center" )
-                                                                input(type="checkbox" name=`select-all-partial`)
+                                                                input(type="checkbox" name="select-all-partial" checked=isResourceFullyChecked)
+                                                
                                                 each action, i in resource.actions
                                                     tr(data-name=resource.data_name[i])
                                                         td(style="padding-left: 30px;")= action
-                                                        for role, index in roles
+                                                        each role, roleIndex in roles
+                                                            - const hasPermission = permissionsData[roleIndex].permissions.includes(resource.data_name[i])
                                                             td(class="text-center" )
-                                                                input(type="checkbox" name="checkbox-item")
+                                                                input(type="checkbox" name="checkbox-item" checked=hasPermission)
 
 
                             .row.mt-4
