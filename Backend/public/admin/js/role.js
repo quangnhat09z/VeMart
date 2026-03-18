@@ -9,7 +9,6 @@ if (tablePermissions) {
 
         // Lấy tất cả các hàng có data-name
         const actionRows = tablePermissions.querySelectorAll(`[data-name]`);
-        // console.log('Action rows:', actionRows);
 
         // Lấy tất cả role IDs
         const roleIDs = document.querySelectorAll(".role-ids input");
@@ -21,7 +20,6 @@ if (tablePermissions) {
                 const checkbox = row.querySelectorAll('input[type="checkbox"]')[roleIndex];
                 if (checkbox && checkbox.checked) {
                     const resourceAction = row.getAttribute('data-name');
-                    // console.log(`Checked permission for role ${roleId}:`, resourceAction);
                     rolePermissions.push(resourceAction);
                 }
             });
@@ -32,7 +30,13 @@ if (tablePermissions) {
         });
 
         console.log('Collected permissions to submit:', permissions);
-    });
+
+        const permissionsInput = document.getElementById("permissionsInput");
+        permissionsInput.value = JSON.stringify(permissions);
+
+        document.querySelector("[name='submitPermissionForm']").submit();
+    }); 
+
 }
 
 // Checkbox multi
@@ -125,13 +129,22 @@ if (selectAllCheckbox && selectAllPartialCheckboxes && itemCheckboxes) {
                 const groupIndex = elementToGroup[index];
                 selectAllPartialCheckboxes[groupIndex].checked = false;    
             } else {
-                const checkAll = groups[elementToGroup[index]].every(i => itemCheckboxes[i].checked);
-                if (checkAll) {
+                const checkPartAll = groups[elementToGroup[index]].every(i => itemCheckboxes[i].checked);
+                if (checkPartAll) {
                     selectAllPartialCheckboxes[elementToGroup[index]].checked = true;
+                }
+                const roleIndex = index % countRoles;
+                var allCheckPartial = true;
+                for (let i = roleIndex; i < countTypes; i += countRoles) {
+                    if (!selectAllPartialCheckboxes[i].checked) {
+                        allCheckPartial = false;
+                        break;
+                    }
+                }
+                if (allCheckPartial) {
+                    selectAllCheckbox[roleIndex].checked = true;
                 }
             }
         });
     });
-
-
 }

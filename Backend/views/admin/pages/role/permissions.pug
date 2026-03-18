@@ -72,4 +72,12 @@ block main
                                         i.fas.fa-times
                                         |  Cancel
 
+    form#hiddenForm(
+        method="POST" 
+        action=`${prefixAdmin}/roles/permissions?_method=PATCH` 
+        name="submitPermissionForm"
+    )
+        div(class="mb-3")
+            input(name="permissions" id="permissionsInput" type="hidden")
+    
     script(src="/admin/js/role.js") 

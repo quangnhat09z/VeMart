@@ -134,3 +134,30 @@ module.exports.permissions = async (req, res) => {
         resources: resources
     });
 }
+
+// [PATCH] /admin/permissions
+module.exports.updatePermissions = async (req, res) => {
+    // console.log("Request body for updating permissions:", req.body);
+    try {
+        const permissionsData = req.body.permissions;
+        if (!permissionsData) {
+            req.flash('error', 'No permissions data provided.');
+            return res.redirect(systemConfig.prefixAdmin + '/roles/permissions');
+        }
+        else {
+            const permissionsArray = JSON.parse(permissionsData);
+            // console.log("Parsed permissions array:", permissionsArray);
+            for (const item of permissionsArray) {
+                const roleId = item.roleId;
+                const permissions = item.permissions;
+                // console.log(`Updating role ${roleId} with permissions:`, permissions);
+                await Role.findByIdAndUpdate(roleId, { permissions: permissions });
+            }
+        }
+    } catch (error) {
+        console.error("Error updating permissions:", error);
+        res.status(500).send("Internal Server Error");
+    }
+    req.flash('success', 'Permissions updated successfully.');
+    res.redirect(systemConfig.prefixAdmin + '/roles/permissions');
+}
