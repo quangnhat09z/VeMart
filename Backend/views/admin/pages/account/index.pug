@@ -78,8 +78,8 @@ block main
                                                         data-id=account._id
                                                     ) 
                                                         i.fas.fa-edit
-                                                    a(              
-                                                        class="btn btn-danger" 
+                                                    a(
+                                                        class="btn btn-danger"
                                                         data-id=account._id 
                                                         id=`button-delete`
                                                         style ="margin-left: 5px;"
@@ -100,4 +100,14 @@ block main
         data-path=`${prefixAdmin}/accounts/change-status`
         )
 
+
+    form(
+        action=""
+        id="deleteItemForm"
+        method="POST" 
+        data-path=`${prefixAdmin}/accounts/delete/`
+    )
+
+
+    script(src="/admin/js/script.js")
     script(src="/admin/js/account.js")

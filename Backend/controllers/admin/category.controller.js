@@ -105,7 +105,7 @@ module.exports.deleteItem = async (req, res) => {
         },
         { timestamps: false }  // Ngăn cập nhật updatedAt
     );
-    req.flash('success', 'Item deleted successfully.');
+    req.flash('success', 'Category deleted successfully.');
     res.redirect(req.get('Referrer') || '/');
 }
 

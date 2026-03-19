@@ -110,3 +110,33 @@ module.exports.changeStatus = async (req, res) => {
     req.flash('success', 'Status updated successfully.');
     res.redirect(req.get('Referrer') || '/');
 }
+
+// [DELETE] /admin/accounts/:id
+module.exports.deleteItem = async (req, res) => {
+    const id = req.params.id;
+    await Account.updateOne(
+        { _id: id },
+        {
+            deleted: true,
+            deletedAt: new Date()
+        },
+        { timestamps: false }  // Ngăn cập nhật updatedAt
+    );
+    req.flash('success', 'Account deleted successfully.');
+    res.redirect(req.get('Referrer') || '/');
+}
+
+// [GET] /admin/accounts/:id
+module.exports.detail = async (req, res) => {
+    const accountId = req.params.id;
+    const account = await Account.findById(accountId).populate('role_id');
+    if (!account) {
+        req.flash('error', 'Account not found');
+        return res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+    }
+    console.log(account);
+    res.render('admin/pages/account/viewDetail', {
+        title: 'Account Details',
+        account: account
+    });
+}
