@@ -48,10 +48,21 @@ module.exports.validateCreateAccount = async (req, res, next) => {
 
 module.exports.validateUpdateAccount = async (req, res, next) => {
     const accountData = req.body;
-    // console.log(accountData);
+    const accountId = req.params.id; 
+    
     if (!accountData.email || !accountData.email.trim()) {
         dealImage(req.file);
         return showAlert(req, res, 'Email is required.');
+    }
+
+    // Check email tồn tại nhưng loại trừ account hiện tại
+    const existingAccount = await Account.findOne({ 
+        email: accountData.email,
+        _id: { $ne: accountId }  // Không so sánh với account hiện tại
+    });
+    if (existingAccount) {
+        dealImage(req.file);
+        return showAlert(req, res, 'Email already exists.');
     }
 
     if (!accountData.password || !accountData.password.trim()) {

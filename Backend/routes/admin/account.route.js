@@ -21,5 +21,6 @@ router.patch('/edit/:id',
     validate.validateUpdateAccount,
     controller.update
 );
+router.patch('/change-status/:status/:id', controller.changeStatus);
 // router.delete('/:id', controller.delete);
 module.exports = router;

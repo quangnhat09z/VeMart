@@ -45,12 +45,24 @@ block main
                                                 //- td= account.fullName
                                                 //- td= account.phone || '-'
                                                 td
-                                                     span.badge.bg-info= roleMap[account.role_id] || 'N/A'                                                 
-                                                td
+                                                    span.badge.bg-info= roleMap[account.role_id] || 'N/A'                                                 
+                                                td 
                                                     if account.status === 'active'
-                                                        span.badge.bg-success Active
-                                                    else
-                                                        span.badge.bg-danger Inactive
+                                                        a(
+                                                            href=`javascript:`
+                                                            data-status=account.status
+                                                            data-id=account._id
+                                                            button-change-status
+                                                            class="badge badge-success"
+                                                        ) #{account.status}
+                                                    else if account.status === 'inactive'
+                                                        a(
+                                                            href=`javascript:`
+                                                            data-status=account.status
+                                                            data-id=account._id
+                                                            button-change-status
+                                                            class="badge badge-danger"
+                                                        ) #{account.status}
                                                 td= new Date(account.createdAt).toLocaleDateString('vi-VN')
                                                 td
                                                     a(
@@ -79,3 +91,13 @@ block main
                     .alert.alert-info
                         i.fas.fa-info-circle
                         |  No accounts found
+
+
+    form(
+        action=""
+        id="changeStatusForm"
+        method="POST" 
+        data-path=`${prefixAdmin}/accounts/change-status`
+        )
+
+    script(src="/admin/js/account.js")
