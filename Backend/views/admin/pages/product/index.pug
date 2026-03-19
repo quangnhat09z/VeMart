@@ -85,18 +85,21 @@ block main
                         a(
                             href=`${prefixAdmin}/products/${item._id}` 
                             class="btn btn-info"
-                        ) View
+                        ) 
+                            i.fas.fa-eye
                         a(
                             href = `${prefixAdmin}/products/edit/${item._id}`
-                            class="btn btn-primary"
+                            class="btn btn-warning"
                             id=`button-edit`
                             data-id=item.id
-                            ) Update
+                            ) 
+                             i.fas.fa-edit
                         a(              
                             class="btn btn-danger" 
                             data-id=item.id 
                             id=`button-delete`
-                        ) Delete
+                        ) 
+                            i.fas.fa-trash
 
     +pagination(pagination)
 

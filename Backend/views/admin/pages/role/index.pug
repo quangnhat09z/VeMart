@@ -58,15 +58,17 @@ block main
                             //- ) View
                             a(
                                 href=`${prefixAdmin}/roles/edit/${item._id}`
-                                class="btn btn-sm btn-primary"
+                                class="btn btn-sm btn-warning"
                                 id=`button-edit`
                                 data-id=item._id
-                            ) Edit
+                            ) 
+                                i.fas.fa-edit
                             a(  
                                 class="btn btn-sm btn-danger" 
                                 data-id=item._id 
                                 id=`button-delete`
-                            ) Delete
+                            ) 
+                                i.fas.fa-trash
             else
                 tr
                     td(colspan="7" class="text-center text-muted") No roles found

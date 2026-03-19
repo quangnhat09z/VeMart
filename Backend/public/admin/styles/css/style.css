@@ -379,3 +379,7 @@ td {
     margin-left: 25px;
     display: block;
 }
+
+.btn i {
+    margin-right: 0px;
+}

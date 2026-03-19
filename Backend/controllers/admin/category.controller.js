@@ -178,7 +178,7 @@ exports.create = async (req, res) => {
 module.exports.store = async (req, res) => {
     try {
         const categoryData = req.body;
-        console.log(categoryData);
+        // console.log(categoryData);
 
         // Xử lý file imgUrl
         if (req.files && req.files.imgUrl && req.files.imgUrl[0]) {
