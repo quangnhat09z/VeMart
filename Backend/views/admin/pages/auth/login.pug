@@ -1,0 +1,54 @@
+extends ../../layout/auth.pug
+include ../../mixins/alert.pug
+
+block main
+
+    +alert(messages)
+    
+    .login-body
+        .login-container
+            .login-wrapper
+                // Logo Area
+                .login-header
+                    .logo-circle
+                        i.fas.fa-lock
+                    h1.logo-text VeMart Admin
+                    p.tagline Application Management Online
+
+                // Login Form
+                form.login-form(method='POST' action=`${prefixAdmin}/auth/login`)
+                    .form-group
+                        label.form-label Email
+                        .input-wrapper
+                            i.fas.fa-envelope
+                            input.form-input(
+                                type='email' 
+                                name='email' 
+                                placeholder='Enter your email'
+                                required
+                            )
+
+                    .form-group
+                        label.form-label Password
+                        .input-wrapper
+                            i.fas.fa-lock
+                            input.form-input(
+                                type='password' 
+                                name='password' 
+                                placeholder='Enter your password'
+                                required
+                            )
+
+                    .form-options
+                        .remember-me
+                            input#remember(type='checkbox' name='remember')
+                            label(for='remember') Remember me
+                        a.forgot-link(href='#') Forgot Password?
+
+                    button.login-btn(type='submit')
+                        span Login
+                        i.fas.fa-arrow-right
+
+                // Footer
+                .login-footer
+                    p &copy; 2026 VeMart. All rights reserved.
