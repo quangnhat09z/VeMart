@@ -16,8 +16,9 @@ function checkExistASIN(asin) {
     return existingProduct;
 }
 
-function showArlert() {
-    req.flasg('error', module)
+function showAlert(req, res, message) {
+    req.flash('error', message);
+    return res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products/create`);
 }
 
 module.exports.validateCreateProduct = (req, res, next) => {
@@ -25,20 +26,17 @@ module.exports.validateCreateProduct = (req, res, next) => {
     // console.log(productData);
     if (checkExistASIN(productData.asin)) {
         dealImage(req.file);
-        req.flash('error', 'ASIN already exists.');
-        return res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products/create`);
+        showAlert(req, res, 'ASIN already exists.');
     }
 
     if (!productData.title || !productData.title.trim()) {
         dealImage(req.file);
-        req.flash('error', 'Product title is required.');
-        return res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products/create`);
-    } 
+        showAlert(req, res, 'Product title is required.');
+    }
 
     if (!productData.price || isNaN(productData.price)) {
         dealImage(req.file);
-        req.flash('error', 'Product price must be a number.');
-        return res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products/create`);
+        showAlert(req, res, 'Product price must be a number.');
     }
 
     next();

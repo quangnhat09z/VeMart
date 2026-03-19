@@ -54,12 +54,12 @@ block main
                                                 td= new Date(account.createdAt).toLocaleDateString('vi-VN')
                                                 td
                                                     a(
-                                                        href=`${prefixAdmin}/categories/${account._id}` 
+                                                        href=`${prefixAdmin}/accounts/${account._id}` 
                                                         class="btn btn-info"
                                                     ) 
                                                         i.fas.fa-eye
                                                     a(
-                                                        href=`${prefixAdmin}/categories/edit/${account._id}`
+                                                        href=`${prefixAdmin}/accounts/edit/${account._id}`
                                                         class="btn btn-warning"
                                                         id=`button-edit`
                                                         style ="margin-left: 5px;"

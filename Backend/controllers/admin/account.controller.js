@@ -60,3 +60,43 @@ module.exports.store = async (req, res) => {
     }
     // res.send('Account creation logic goes here');
 }
+
+// [GET] /admin/accounts/edit/:id
+module.exports.edit = async (req, res) => {
+    const accountId = req.params.id;    
+    const account = await Account.findById(accountId);
+    const roles = await Role.find({ deleted: false });  
+    if (!account) {
+        req.flash('error', 'Account not found');
+        return res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+    }
+    res.render('admin/pages/account/edit', {
+        title: 'Edit Account Info',
+        account: account,
+        roles: roles
+    });
+}
+
+
+// [PATCH] /admin/accounts/edit/:id
+module.exports.update = async (req, res) => {
+    const accountId = req.params.id;    
+    try {
+        const accountData = req.body;
+        console.log(accountData);
+        if (req.file) {
+            uploadedFilename = req.file.filename;
+            accountData.avatar = `/uploads/${req.file.filename}`;
+        }
+        
+        await Account.findByIdAndUpdate(accountId, accountData);
+
+        req.flash('success', 'Account updated successfully');
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+    } catch (error) {
+        console.error('Error updating account:', error);
+        req.flash('error', 'An error occurred while updating the account.');
+        res.redirect(`${systemConfig.prefixAdmin}/accounts/edit/${accountId}`);
+    }
+    // res.send('Account update logic goes here');
+}
