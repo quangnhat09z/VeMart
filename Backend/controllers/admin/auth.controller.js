@@ -2,7 +2,22 @@ const Account = require('../../models/account.model.js')
 const systemConfig = require('../../config/system.js');
 
 // [GET] /admin/auth/login
-module.exports.index = (req, res) => {
+module.exports.index = async (req, res) => {  
+    if (req.cookies.token) {
+        try {
+            const account = await Account.findOne({ 
+                token: req.cookies.token,
+                deleted: false 
+            });
+            
+            if (account && account.status === 'active') {
+                return res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+            }
+        } catch (error) {
+            console.error('Token verification error:', error);
+        }
+    }
+    
     res.render('admin/pages/auth/login', {
         title: 'Admin Login'
     });
