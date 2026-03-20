@@ -37,6 +37,13 @@ const categorySchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
+        createBy:{
+            account_id:String,
+            createdAt: {
+                type: Date,
+                default: Date.now
+            }
+        },
         deleted: {
             type: Boolean,
             default: false,

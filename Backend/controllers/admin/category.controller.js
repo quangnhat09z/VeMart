@@ -196,6 +196,11 @@ module.exports.store = async (req, res) => {
 
         categoryData.displayOrder = await Category.countDocuments() + 1;
 
+        categoryData.createBy = {
+            account_id: res.locals.user ? res.locals.user._id : null,
+            createdAt: new Date()
+        };
+        
         const category = new Category(categoryData);
 
         await category.save();

@@ -1,5 +1,6 @@
 const Product = require('../../models/product.model.js')
 const Category = require('../../models/category.model.js')
+const Account = require('../../models/account.model.js');
 
 const filterStatusHelperFn = require('../../helpers/filterStatus');
 const searchHelper = require('../../helpers/search');
@@ -7,6 +8,7 @@ const paginationHelper = require('../../helpers/pagination');
 const systemConfig = require('../../config/system.js');
 const sort = require('../../helpers/sort.js');
 const { buildCategoryHierarchy } = require('../../helpers/categoryTree.js');
+const accountModel = require('../../models/account.model.js');
 
 const fs = require('fs').promises;
 
@@ -32,11 +34,23 @@ module.exports.index = async (req, res) => {
     // sắp xếp
     sortOption = sort.sort(req, res);
 
+
+
     // lọc sản phẩm + phân trang
     const products = await Product.find(filter)
         .sort(sortOption)
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip);
+
+    for (const product of products) {
+        const account = await Account.findById(product.createdBy.account_id);
+        if (account) {
+            product.accountName = account.fullName;
+        } else {
+            product.accountName = 'Unknown';
+        }
+    }
+
 
     res.render("admin/pages/product/index", {
         pageTitle: "Quản lý sản phẩm",
@@ -149,6 +163,11 @@ module.exports.store = async (req, res) => {
             productData.imgUrl = '';
         }
 
+        productData.createdBy = {
+            account_id: res.locals.user._id,
+            createdAt: new Date()
+        }
+
         const product = new Product(productData);
         await product.save();
 
@@ -206,7 +225,7 @@ module.exports.edit = async (req, res) => {
         // console.log('Product category_id:', categories);
 
         // Tìm tên danh mục từ ID
-        const categoryData = categories.find(cat => cat._id.toString() === product.category_id.toString());        const categoryDisplayTitle = categoryData ? categoryData.displayTitle : 'N/A';
+        const categoryData = categories.find(cat => cat._id.toString() === product.category_id.toString()); const categoryDisplayTitle = categoryData ? categoryData.displayTitle : 'N/A';
 
         res.render("admin/pages/product/edit", {
             pageTitle: "Edit Product",

@@ -49,6 +49,7 @@ block main
                     th(scope="col") Title
                     th(scope="col") Price
                     th(scope="col") Status
+                    th(scope="col") Created By
                     th(scope="col") Action
             tbody
                 for item, index in products
@@ -67,7 +68,7 @@ block main
                             )
                         td.item-title #{item.title}
                         td.item-price #{item.price}$
-                    
+                        td.item-created-by #{item.accountName}
                         td 
                             if (role.permissions.includes("product-change-status"))
                                 if item.status === 'active'

@@ -11,8 +11,8 @@ function dealImage(imagePath) {
     }
 }
 
-function checkExistASIN(asin) {
-    const existingProduct = Product.findOne({ asin: asin });
+async function checkExistASIN(asin) {
+    const existingProduct = await Product.findOne({ asin: asin });
     return existingProduct;
 }
 
@@ -21,22 +21,22 @@ function showAlert(req, res, message) {
     return res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products/create`);
 }
 
-module.exports.validateCreateProduct = (req, res, next) => {
+module.exports.validateCreateProduct = async (req, res, next) => {
     const productData = req.body;
     // console.log(productData);
-    if (checkExistASIN(productData.asin)) {
+    if (await checkExistASIN(productData.asin)) {
         dealImage(req.file);
-        showAlert(req, res, 'ASIN already exists.');
+        return showAlert(req, res, 'ASIN already exists.');
     }
 
     if (!productData.title || !productData.title.trim()) {
         dealImage(req.file);
-        showAlert(req, res, 'Product title is required.');
+        return showAlert(req, res, 'Product title is required.');
     }
 
     if (!productData.price || isNaN(productData.price)) {
         dealImage(req.file);
-        showAlert(req, res, 'Product price must be a number.');
+        return showAlert(req, res, 'Product price must be a number.');
     }
 
     next();
