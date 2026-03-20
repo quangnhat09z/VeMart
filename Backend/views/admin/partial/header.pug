@@ -3,5 +3,10 @@ header.header
     .container-fluid
         .row.align-items-center
             .col-3.logo
-                a(href="/admin/dashboard") VeMart Admin
-            
+                a(href=`${prefixAdmin}/dashboard`) VeMart Admin
+            .col-9.auth 
+                a(
+                    href=`${prefixAdmin}/auth/logout`
+                    class="btn btn-danger"
+                ) Logout
+

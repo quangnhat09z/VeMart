@@ -14,7 +14,7 @@ module.exports.login = async (req, res) => {
         const { email, password } = req.body;
 
         // Kiểm tra email tồn tại
-        const account = await Account.findOne({ 
+        const account = await Account.findOne({
             email: email,
             deleted: false
         });
@@ -37,14 +37,23 @@ module.exports.login = async (req, res) => {
         // req.session.role = account.role_id;
 
         req.flash('success', 'Login successful');
-        console.log('Login successful for email:', email);
-        
-        // Redirect đến dashboard, không phải trang login
-        res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+        res.cookie('token', account.token);
 
+        // res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+        res.render('admin/pages/auth/login', {
+            title: 'Admin Login',
+            // showAlert: true 
+        });
     } catch (error) {
         console.error('Login error:', error);
         req.flash('error', 'An error occurred during login');
         res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
     }
+}
+
+// [GET] /admin/auth/logout
+module.exports.logout = (req, res) => {
+    res.clearCookie('token');
+    req.flash('success', 'Logout successful');
+    res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
 }

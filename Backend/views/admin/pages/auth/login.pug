@@ -2,7 +2,6 @@ extends ../../layout/auth.pug
 include ../../mixins/alert.pug
 
 block main
-
     +alert(messages)
     
     .login-body
@@ -25,7 +24,6 @@ block main
                                 type='email' 
                                 name='email' 
                                 placeholder='Enter your email'
-                                required
                             )
 
                     .form-group
@@ -36,7 +34,6 @@ block main
                                 type='password' 
                                 name='password' 
                                 placeholder='Enter your password'
-                                required
                             )
 
                     .form-options
