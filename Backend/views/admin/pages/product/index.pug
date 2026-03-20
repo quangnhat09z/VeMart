@@ -7,115 +7,130 @@ include ../../mixins/alert.pug
 include ../../mixins/sortFormProduct.pug
 
 block main
-    +alert(messages)
+    if (!role.permissions.includes("product-view"))
+      div.alert.alert-danger(role="alert")
+        | Bạn không có quyền truy cập vào trang này.
 
-    h1 Management Products Page
+    else
+        +alert(messages)
 
-    div(class="filter mb-3")
-        div.filter-title
-            h5 Product Filter Status
-        div.filter-content
+        h1 Management Products Page
+
+        div(class="filter mb-3")
+            div.filter-title
+                h5 Product Filter Status
+            div.filter-content
+                .row 
+                    +filter-status-buttons(filterStatus)
+                    +search-form(searchValue)
+
+        div(class="sort mb-3")
+            +sortFormProduct(sortValue)
+                
+        table(
+            class="table"
+            checkbox-multi
+        )
             .row 
-                +filter-status-buttons(filterStatus)
-                +search-form(searchValue)
-
-    div(class="sort mb-3")
-        +sortFormProduct(sortValue)
-            
-    table(
-        class="table"
-        checkbox-multi
-    )
-        .row 
-            .col-md-4
-                +form-change-multiple-status(`${prefixAdmin}/products/change-multiple-status?_method=PATCH` )
-            .col-md-8
-                a(
-                    href=`${prefixAdmin}/products/create`
-                    class="btn btn-outline-success"
-                ) + Create
-        thead.table-header
-            tr
-                th 
-                    input(type="checkbox" name="selectAll" id="selectAll")
-                th(scope="col") #
-                th(scope="col") Illustration
-                th(scope="col") Title
-                th(scope="col") Price
-                th(scope="col") Status
-                th(scope="col") Action
-        tbody
-            for item, index in products
+                .col-md-4
+                    +form-change-multiple-status(`${prefixAdmin}/products/change-multiple-status?_method=PATCH` )
+                .col-md-8
+                    if (role.permissions.includes("product-create"))
+                        a(
+                            href=`${prefixAdmin}/products/create`
+                            class="btn btn-outline-success"
+                        ) + Create
+            thead.table-header
                 tr
-                    td
-                        input(type="checkbox" class="checkbox-item" name="selectedItems" value=item._id)
+                    th 
+                        input(type="checkbox" name="selectAll" id="selectAll")
+                    th(scope="col") #
+                    th(scope="col") Illustration
+                    th(scope="col") Title
+                    th(scope="col") Price
+                    th(scope="col") Status
+                    th(scope="col") Action
+            tbody
+                for item, index in products
+                    tr
+                        td
+                            input(type="checkbox" class="checkbox-item" name="selectedItems" value=item._id)
 
-                    th(scope="row" style="align-content: center;") #{pagination.limitItems * (pagination.currentPage - 1) + index + 1}
-                    td.item-img
-                        img(
-                            src=item.imgUrl
-                            alt=item.title 
-                            class="img-fluid"
-                            width= '120px'  
-                            height= "120px"
-                        )
-                    td.item-title #{item.title}
-                    td.item-price #{item.price}$
+                        th(scope="row" style="align-content: center;") #{pagination.limitItems * (pagination.currentPage - 1) + index + 1}
+                        td.item-img
+                            img(
+                                src=item.imgUrl
+                                alt=item.title 
+                                class="img-fluid"
+                                width= '120px'  
+                                height= "120px"
+                            )
+                        td.item-title #{item.title}
+                        td.item-price #{item.price}$
+                    
+                        td 
+                            if (role.permissions.includes("product-change-status"))
+                                if item.status === 'active'
+                                    a(
+                                        href=`javascript:`
+                                        data-status=item.status
+                                        data-id=item.id
+                                        button-change-status
+                                        class="badge badge-success"
+                                    ) #{item.status} 
 
-                    td 
-                        if item.status === 'active'
+                                else if item.status === 'inactive'
+                                    a(
+                                        href=`javascript:`
+                                        data-status=item.status
+                                        data-id=item.id
+                                        button-change-status
+                                        class="badge badge-danger"
+                                    )  #{item.status}
+                            else 
+                                if item.status === 'active'
+                                    span.badge.badge-success #{item.status} 
+
+                                else if item.status === 'inactive'
+                                    span.badge.badge-danger #{item.status}
+
+                        td.item-action
                             a(
-                                href=`javascript:`
-                                data-status=item.status
-                                data-id=item.id
-                                button-change-status
-                                class="badge badge-success"
-                            ) #{item.status} 
-
-                        else if item.status === 'inactive'
-                            a(
-                                href=`javascript:`
-                                data-status=item.status
-                                data-id=item.id
-                                button-change-status
-                                class="badge badge-danger"
-                            )  #{item.status}
-
-                    td.item-action
-                        a(
-                            href=`${prefixAdmin}/products/${item._id}` 
-                            class="btn btn-info"
-                        ) 
-                            i.fas.fa-eye
-                        a(
-                            href = `${prefixAdmin}/products/edit/${item._id}`
-                            class="btn btn-warning"
-                            id=`button-edit`
-                            data-id=item.id
+                                href=`${prefixAdmin}/products/${item._id}` 
+                                class="btn btn-info"
                             ) 
-                             i.fas.fa-edit
-                        a(              
-                            class="btn btn-danger" 
-                            data-id=item.id 
-                            id=`button-delete`
-                        ) 
-                            i.fas.fa-trash
+                                i.fas.fa-eye
+                            if (role.permissions.includes("product-update"))
+                                a(
+                                    href = `${prefixAdmin}/products/edit/${item._id}`
+                                    class="btn btn-warning"
+                                    id=`button-edit`
+                                    data-id=item.id
+                                    ) 
+                                    i.fas.fa-edit
+                            if (role.permissions.includes("product-delete"))
+                                a(              
+                                    class="btn btn-danger" 
+                                    data-id=item.id 
+                                    id=`button-delete`
+                                ) 
+                                    i.fas.fa-trash
 
-    +pagination(pagination)
+        +pagination(pagination)
 
-    form(
-        action=""
-        id = "changeStatusForm"
-        method="POST" 
-        data-path = `${prefixAdmin}/products/change-status`
-    )
+        form(
+            action=""
+            id = "changeStatusForm"
+            method="POST" 
+            data-path = `${prefixAdmin}/products/change-status`
+        )
 
-    form(
-        action=""
-        id = "deleteItemForm"
-        method="POST" 
-        data-path = `${prefixAdmin}/products/delete/`
-    )
+        form(
+            action=""
+            id = "deleteItemForm"
+            method="POST" 
+            data-path = `${prefixAdmin}/products/delete/`
+        )
 
 
-    script(src="/admin/js/product.js") 
+        script(src="/admin/js/product.js") 

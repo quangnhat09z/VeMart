@@ -2,197 +2,202 @@ extends ../../layout/default
 include ../../mixins/alert.pug
 
 block main
-    +alert(messages)
+    if (!role.permissions.includes("product-create"))
+      div.alert.alert-danger(role="alert")
+        | Bạn không có quyền truy cập vào trang này.
 
-    .container-fluid
-        .row.mb-4
-            .col-12
-                h1.mb-3 Create New Product
-                a.btn.btn-secondary(href="/admin/products") 
-                    i.fas.fa-arrow-left
-                    |  Back
+    else
+        +alert(messages)
 
-        .row
-            .col-md-8.offset-md-2
-                .card
-                    .card-body
-                        form#createProductForm(
-                            method="POST" 
-                            action="/admin/products/create"
-                            enctype="multipart/form-data")
+        .container-fluid
+            .row.mb-4
+                .col-12
+                    h1.mb-3 Create New Product
+                    a.btn.btn-secondary(href="/admin/products") 
+                        i.fas.fa-arrow-left
+                        |  Back
 
-                            .mb-3
-                                label.form-label(for="asin") ASIN <span class="text-danger">*</span>
-                                input.form-control#asin(
-                                    type="text"
-                                    name="asin"
-                                    required
-                                    placeholder="VD: B0D5X8K9Z2"
-                                )
-                                .form-text ASIN is the unique identifier for products.
-
-                            .mb-3
-                                label.form-label(for="title") Title <span class="text-danger">*</span>
-                                input.form-control#title(          
-                                    type="text"
-                                    name="title"
-                                    placeholder="Type product title here"
-                                )
-
-                            .mb-3
-                                label.form-label(for="parentCategory") Category: 
-                                select.form-control#category_id(          
-                                    name="category_id"
-                                    placeholder="Select category"
-                                )
-                                    option(value="" selected disabled) -- Select a parent category --
-                                    each category in categories
-                                        option(value=category._id)= category.displayTitle
-
-                                        
-                            .row
-                                label.form-label(for="description") Description
-                                .mb-3
-                                    textarea.form-control.tinymce(
-                                        id="desc"
-                                        name="description"
-                                        rows="5"
-                                        placeholder="Type product description here"
-                                    ) 
-
-                            .row
-                                .col-md-6
-                                    .mb-3
-                                        label.form-label(for="price") Price ($) <span class="text-danger">*</span>
-                                        input.form-control#price(    
-                                            type="number"
-                                            name="price"                    
-                                            step="0.01"
-                                            placeholder="0"
-                                        )
-
-                                .col-md-6
-                                    .mb-3
-                                        label.form-label(for="listPrice") List Price ($) 
-                                        input.form-control#listPrice(
-                                            type="number"
-                                            name="listPrice"
-                                            step="0.01"
-                                            placeholder="0"
-                                        )
+            .row
+                .col-md-8.offset-md-2
+                    .card
+                        .card-body
+                            form#createProductForm(
+                                method="POST" 
+                                action="/admin/products/create"
+                                enctype="multipart/form-data")
 
                                 .mb-3
-                                    div(upload-image)
-                                        label.form-label(for="imgUrl") Image <span class="text-danger">*</span>
-                                        .d-flex.gap-2.align-items-center
-                                            input.form-control#imgUrl(
-                                                type="file"
-                                                class="form-control-file"
-                                                accept="image/*"
-                                                name="imgUrl"
-                                                upload-image-input
-                                                style="display: none;"
-                                            )
-                                            label.btn.btn-outline-secondary.mb-0(for="imgUrl" style="cursor: pointer;")
-                                                i.fas.fa-upload
-                                                |  Choose File
-                                            span.badge.bg-secondary(upload-image-label) No file chosen
+                                    label.form-label(for="asin") ASIN <span class="text-danger">*</span>
+                                    input.form-control#asin(
+                                        type="text"
+                                        name="asin"
+                                        required
+                                        placeholder="VD: B0D5X8K9Z2"
+                                    )
+                                    .form-text ASIN is the unique identifier for products.
 
-                                        img(
-                                            src="", 
-                                            alt="Preview Image", 
-                                            class="img-thumbnail mt-2 d-none", 
-                                            upload-image-preview
-                                        )
-                                        button.btn-close(
-                                            type='button' 
-                                            aria-label='Close' 
-                                            upload-image-clear 
-                                            style="display:none")
-
-                            .mb-3
-                                label.form-label(for="productURL") Product URL
-                                input.form-control#productURL(
-                                    type="url"
-                                    name="productURL"
-                                    placeholder="https://example.com/product"
-                                )
-
-                            .row
-                                //- .col-md-6
-                                    //- .mb-3
-                                    //-     label.form-label(for="category_id") Category
-                                    //-     input.form-control#category_id(
-                                    //-         type="number"
-                                    //-         name="category_id"
-                                    //-         placeholder="ID category"
-                                        )
-
-                                .col-md-6
-                                    .mb-3
-                                        label.form-label(for="discountPercentage") Discount (%)
-                                        input.form-control#discountPercentage(
-                                            type="number"
-                                            name="discountPercentage"
-                                            step="0.01"
-                                            min="0"
-                                            max="100"
-                                            placeholder="0"
-                                        )
-
-                            .row
-                                .col-md-4
-                                    .mb-3
-                                        label.form-label(for="stars") Rating <span class="text-muted">(stars)</span>
-                                        input.form-control#stars(
-                                            type="number"
-                                            name="stars"
-                                            step="0.1"
-                                            min="0"
-                                            max="5"
-                                            placeholder="0"
-                                        )
-
-                                .col-md-4
-                                    .mb-3
-                                        label.form-label(for="reviews") Number of Reviews
-                                        input.form-control#reviews(
-                                            type="number"
-                                            name="reviews"
-                                            min="0"
-                                            placeholder="0"
-                                        )
-
-                                .col-md-4
-                                    .mb-3
-                                        label.form-label(for="boughtInLastMonth") Purchased in the Last Month
-                                        input.form-control#boughtInLastMonth(
-                                            type="number"
-                                            name="boughtInLastMonth"
-                                            min="0"
-                                            placeholder="0"
-                                        )
-
-                            .mb-3
-                                .form-check
-                                    label.form-check-label(for="isBestSeller")
-                                        | Is Best Seller
-                                    input.form-check-input#isBestSeller(
-                                        type="checkbox"
-                                        name="isBestSeller"
-                                        value="true"
+                                .mb-3
+                                    label.form-label(for="title") Title <span class="text-danger">*</span>
+                                    input.form-control#title(          
+                                        type="text"
+                                        name="title"
+                                        placeholder="Type product title here"
                                     )
 
-                            .mb-3
-                                label.form-label(for="status") Status
-                                select.form-select#status(name="status")
-                                    option(value="active") Active
-                                    option(value="inactive") Inactive
+                                .mb-3
+                                    label.form-label(for="parentCategory") Category: 
+                                    select.form-control#category_id(          
+                                        name="category_id"
+                                        placeholder="Select category"
+                                    )
+                                        option(value="" selected disabled) -- Select a parent category --
+                                        each category in categories
+                                            option(value=category._id)= category.displayTitle
 
-                            .mb-3
-                                button.btn.btn-primary(type="submit")
-                                    i.fas.fa-save
-                                    |  Create Product
-                                a.btn.btn-secondary.ms-2(href="/admin/products")
-                                    i.fas.fa-times
-                                    |  Cancel
+                                            
+                                .row
+                                    label.form-label(for="description") Description
+                                    .mb-3
+                                        textarea.form-control.tinymce(
+                                            id="desc"
+                                            name="description"
+                                            rows="5"
+                                            placeholder="Type product description here"
+                                        ) 
+
+                                .row
+                                    .col-md-6
+                                        .mb-3
+                                            label.form-label(for="price") Price ($) <span class="text-danger">*</span>
+                                            input.form-control#price(    
+                                                type="number"
+                                                name="price"                    
+                                                step="0.01"
+                                                placeholder="0"
+                                            )
+
+                                    .col-md-6
+                                        .mb-3
+                                            label.form-label(for="listPrice") List Price ($) 
+                                            input.form-control#listPrice(
+                                                type="number"
+                                                name="listPrice"
+                                                step="0.01"
+                                                placeholder="0"
+                                            )
+
+                                    .mb-3
+                                        div(upload-image)
+                                            label.form-label(for="imgUrl") Image <span class="text-danger">*</span>
+                                            .d-flex.gap-2.align-items-center
+                                                input.form-control#imgUrl(
+                                                    type="file"
+                                                    class="form-control-file"
+                                                    accept="image/*"
+                                                    name="imgUrl"
+                                                    upload-image-input
+                                                    style="display: none;"
+                                                )
+                                                label.btn.btn-outline-secondary.mb-0(for="imgUrl" style="cursor: pointer;")
+                                                    i.fas.fa-upload
+                                                    |  Choose File
+                                                span.badge.bg-secondary(upload-image-label) No file chosen
+
+                                            img(
+                                                src="", 
+                                                alt="Preview Image", 
+                                                class="img-thumbnail mt-2 d-none", 
+                                                upload-image-preview
+                                            )
+                                            button.btn-close(
+                                                type='button' 
+                                                aria-label='Close' 
+                                                upload-image-clear 
+                                                style="display:none")
+
+                                .mb-3
+                                    label.form-label(for="productURL") Product URL
+                                    input.form-control#productURL(
+                                        type="url"
+                                        name="productURL"
+                                        placeholder="https://example.com/product"
+                                    )
+
+                                .row
+                                    //- .col-md-6
+                                        //- .mb-3
+                                        //-     label.form-label(for="category_id") Category
+                                        //-     input.form-control#category_id(
+                                        //-         type="number"
+                                        //-         name="category_id"
+                                        //-         placeholder="ID category"
+                                            )
+
+                                    .col-md-6
+                                        .mb-3
+                                            label.form-label(for="discountPercentage") Discount (%)
+                                            input.form-control#discountPercentage(
+                                                type="number"
+                                                name="discountPercentage"
+                                                step="0.01"
+                                                min="0"
+                                                max="100"
+                                                placeholder="0"
+                                            )
+
+                                .row
+                                    .col-md-4
+                                        .mb-3
+                                            label.form-label(for="stars") Rating <span class="text-muted">(stars)</span>
+                                            input.form-control#stars(
+                                                type="number"
+                                                name="stars"
+                                                step="0.1"
+                                                min="0"
+                                                max="5"
+                                                placeholder="0"
+                                            )
+
+                                    .col-md-4
+                                        .mb-3
+                                            label.form-label(for="reviews") Number of Reviews
+                                            input.form-control#reviews(
+                                                type="number"
+                                                name="reviews"
+                                                min="0"
+                                                placeholder="0"
+                                            )
+
+                                    .col-md-4
+                                        .mb-3
+                                            label.form-label(for="boughtInLastMonth") Purchased in the Last Month
+                                            input.form-control#boughtInLastMonth(
+                                                type="number"
+                                                name="boughtInLastMonth"
+                                                min="0"
+                                                placeholder="0"
+                                            )
+
+                                .mb-3
+                                    .form-check
+                                        label.form-check-label(for="isBestSeller")
+                                            | Is Best Seller
+                                        input.form-check-input#isBestSeller(
+                                            type="checkbox"
+                                            name="isBestSeller"
+                                            value="true"
+                                        )
+
+                                .mb-3
+                                    label.form-label(for="status") Status
+                                    select.form-select#status(name="status")
+                                        option(value="active") Active
+                                        option(value="inactive") Inactive
+
+                                .mb-3
+                                    button.btn.btn-primary(type="submit")
+                                        i.fas.fa-save
+                                        |  Create Product
+                                    a.btn.btn-secondary.ms-2(href="/admin/products")
+                                        i.fas.fa-times
+                                        |  Cancel

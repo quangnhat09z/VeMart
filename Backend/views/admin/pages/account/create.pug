@@ -2,110 +2,115 @@ extends ../../layout/default.pug
 include ../../mixins/alert.pug
 
 block main
-    +alert(messages)
+    if (!role.permissions.includes("account-create"))
+      div.alert.alert-danger(role="alert")
+        | Bạn không có quyền truy cập vào trang này.
 
-    .container-fluid
-        .row.mb-4
-            .col-12
-                h1.mb-3 Create New Account
-                a.btn.btn-secondary(href=`${prefixAdmin}/accounts`)
-                    i.fas.fa-arrow-left
-                    |  Back
+    else
+        +alert(messages)
 
-        .row
-            .col-lg-8.offset-lg-2
-                .card
-                    .card-body
-                        form(method="POST" action=`${prefixAdmin}/accounts/create` enctype="multipart/form-data")
+        .container-fluid
+            .row.mb-4
+                .col-12
+                    h1.mb-3 Create New Account
+                    a.btn.btn-secondary(href=`${prefixAdmin}/accounts`)
+                        i.fas.fa-arrow-left
+                        |  Back
 
-                            // Email
-                            .mb-3
-                                label.form-label(for="email")
-                                    strong Email
-                                    span.text-danger *
-                                input.form-control(
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    placeholder="Enter email"
-                                )
+            .row
+                .col-lg-8.offset-lg-2
+                    .card
+                        .card-body
+                            form(method="POST" action=`${prefixAdmin}/accounts/create` enctype="multipart/form-data")
 
-                            // Password
-                            .mb-3
-                                label.form-label(for="password")
-                                    strong Password
-                                    span.text-danger *
-                                input.form-control(
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    placeholder="Enter password"
-                                )
+                                // Email
+                                .mb-3
+                                    label.form-label(for="email")
+                                        strong Email
+                                        span.text-danger *
+                                    input.form-control(
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        placeholder="Enter email"
+                                    )
 
-                            // Full Name
-                            .mb-3
-                                label.form-label(for="fullName")
-                                    strong Full Name
-                                    span.text-danger *
-                                input.form-control(
-                                    type="text"
-                                    id="fullName"
-                                    name="fullName"
-                                    placeholder="Enter full name"
-                                )
+                                // Password
+                                .mb-3
+                                    label.form-label(for="password")
+                                        strong Password
+                                        span.text-danger *
+                                    input.form-control(
+                                        type="password"
+                                        id="password"
+                                        name="password"
+                                        placeholder="Enter password"
+                                    )
 
-                            // Phone
-                            .mb-3
-                                label.form-label(for="phone")
-                                    strong Phone
-                                input.form-control(
-                                    type="tel"
-                                    id="phone"
-                                    name="phone"
-                                    placeholder="Enter phone number"
-                                )
+                                // Full Name
+                                .mb-3
+                                    label.form-label(for="fullName")
+                                        strong Full Name
+                                        span.text-danger *
+                                    input.form-control(
+                                        type="text"
+                                        id="fullName"
+                                        name="fullName"
+                                        placeholder="Enter full name"
+                                    )
 
-                            // Avatar
-                            .mb-3
-                                div(upload-image)
-                                    label.form-label(for="imgUrl") Avatar 
-                                    .d-flex.gap-2.align-items-center
-                                        input.form-control#imgUrl(
-                                            type="file"
-                                            class="form-control-file"
-                                            accept="image/*"
-                                            name="avatar"
-                                            upload-image-input
-                                            style="display: none;"
-                                        )
-                                        label.btn.btn-outline-secondary.mb-0(for="imgUrl" style="cursor: pointer;")
-                                            i.fas.fa-upload
-                                            |  Choose File
-                                        span.badge.bg-secondary(upload-image-label) No file chosen
-                            // Role
-                            .mb-3
-                                label.form-label(for="role_id")
-                                    strong Role
-                                select.form-select(id="role_id" name="role_id")
-                                    option(value="") -- Select Role --
-                                    each role in roles
-                                        option(value=role._id)= role.title
+                                // Phone
+                                .mb-3
+                                    label.form-label(for="phone")
+                                        strong Phone
+                                    input.form-control(
+                                        type="tel"
+                                        id="phone"
+                                        name="phone"
+                                        placeholder="Enter phone number"
+                                    )
 
-                            // Status
-                            .mb-3
-                                label.form-label(for="status")
-                                    strong Status
-                                select.form-select(id="status" name="status" required)
-                                    option(value="active") Active
-                                    option(value="inactive") Inactive
+                                // Avatar
+                                .mb-3
+                                    div(upload-image)
+                                        label.form-label(for="imgUrl") Avatar 
+                                        .d-flex.gap-2.align-items-center
+                                            input.form-control#imgUrl(
+                                                type="file"
+                                                class="form-control-file"
+                                                accept="image/*"
+                                                name="avatar"
+                                                upload-image-input
+                                                style="display: none;"
+                                            )
+                                            label.btn.btn-outline-secondary.mb-0(for="imgUrl" style="cursor: pointer;")
+                                                i.fas.fa-upload
+                                                |  Choose File
+                                            span.badge.bg-secondary(upload-image-label) No file chosen
+                                // Role
+                                .mb-3
+                                    label.form-label(for="role_id")
+                                        strong Role
+                                    select.form-select(id="role_id" name="role_id")
+                                        option(value="") -- Select Role --
+                                        each role in roles
+                                            option(value=role._id)= role.title
 
-                            // Buttons
-                            .row.mt-4
-                                .col-12
-                                    button.btn.btn-primary(type="submit")
-                                        i.fas.fa-save
-                                        |  Create Account
-                                    a.btn.btn-secondary.ms-2(href=`${prefixAdmin}/accounts`)
-                                        i.fas.fa-times
-                                        |  Cancel
+                                // Status
+                                .mb-3
+                                    label.form-label(for="status")
+                                        strong Status
+                                    select.form-select(id="status" name="status" required)
+                                        option(value="active") Active
+                                        option(value="inactive") Inactive
+
+                                // Buttons
+                                .row.mt-4
+                                    .col-12
+                                        button.btn.btn-primary(type="submit")
+                                            i.fas.fa-save
+                                            |  Create Account
+                                        a.btn.btn-secondary.ms-2(href=`${prefixAdmin}/accounts`)
+                                            i.fas.fa-times
+                                            |  Cancel
 

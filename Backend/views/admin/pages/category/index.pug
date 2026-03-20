@@ -7,120 +7,136 @@ include ../../mixins/formChangeMultiStatus.pug
 include ../../mixins/sortFormCategory.pug
 
 block main
-    +alert(messages)
+    if (!role.permissions.includes("category-view"))
+      div.alert.alert-danger(role="alert")
+        | Bạn không có quyền truy cập vào trang này.
 
-    h1 Category Management Page
+    else
+        +alert(messages)
 
-    div(class="filter mb-3")
-        div.filter-title
-            h5 Category Filter Status
-        div.filter-content
+        h1 Category Management Page
+
+        div(class="filter mb-3")
+            div.filter-title
+                h5 Category Filter Status
+            div.filter-content
+                .row 
+                    +filter-status-buttons(filterStatus)
+                    +search-form(searchValue)
+
+        div(class="sort mb-3")
+            +sortFormCategory(sortValue)
+
+        table(
+            class="table"
+            checkbox-multi
+        )
             .row 
-                +filter-status-buttons(filterStatus)
-                +search-form(searchValue)
-
-    div(class="sort mb-3")
-        +sortFormCategory(sortValue)
-
-    table(
-        class="table"
-        checkbox-multi
-    )
-        .row 
-            .col-md-4
-                +form-change-multiple-status(`${prefixAdmin}/categories/change-multiple-status?_method=PATCH`)
-            .col-md-8
-                a(
-                    href=`${prefixAdmin}/categories/create`
-                    class="btn btn-outline-success"
-                ) + Create
-        thead.table-header
-            tr
-                th 
-                    input(type="checkbox" name="selectAll" id="selectAll")
-                th(scope="col") #
-                th(scope="col") Title
-                th(scope="col") Image URL
-                th(scope="col") Icon URL
-                th(scope="col") Status
-                th(scope="col") Display Order
-                th(scope="col") Created Date
-                th(scope="col") Action
-        tbody
-            for item, index in categories
+                .col-md-4
+                    +form-change-multiple-status(`${prefixAdmin}/categories/change-multiple-status?_method=PATCH`)
+                .col-md-8
+                    if (role.permissions.includes("category-create"))
+                        a(
+                            href=`${prefixAdmin}/categories/create`
+                            class="btn btn-outline-success"
+                        ) + Create
+            thead.table-header
                 tr
-                    td
-                        input(type="checkbox" class="checkbox-item" name="selectedItems" value=item._id)
+                    th 
+                        input(type="checkbox" name="selectAll" id="selectAll")
+                    th(scope="col") #
+                    th(scope="col") Title
+                    th(scope="col") Image URL
+                    th(scope="col") Icon URL
+                    th(scope="col") Status
+                    th(scope="col") Display Order
+                    th(scope="col") Created Date
+                    th(scope="col") Action
+            tbody
+                for item, index in categories
+                    tr
+                        td
+                            input(type="checkbox" class="checkbox-item" name="selectedItems" value=item._id)
 
-                    th(scope="row" style="align-content: center;") #{pagination.limitItems * (pagination.currentPage - 1) + index + 1}
-                    td.item-title(style="width: 200px;") #{item.title}
-                    td.item-imgUrl 
-                        if item.imgUrl
-                            img(src=item.imgUrl alt=item.title width="150")
-                        else
-                            span No image
-                    td.item-iconUrl 
-                        if item.iconUrl
-                            img(src=item.iconUrl alt=item.title width="50")
-                        else
-                            span No icon
+                        th(scope="row" style="align-content: center;") #{pagination.limitItems * (pagination.currentPage - 1) + index + 1}
+                        td.item-title(style="width: 200px;") #{item.title}
+                        td.item-imgUrl 
+                            if item.imgUrl
+                                img(src=item.imgUrl alt=item.title width="150")
+                            else
+                                span No image
+                        td.item-iconUrl 
+                            if item.iconUrl
+                                img(src=item.iconUrl alt=item.title width="50")
+                            else
+                                span No icon
 
-                    td 
-                        if item.status === 'active'
+                        td 
+                            if (role.permissions.includes("category-change-status"))
+                                if item.status === 'active'
+                                    a(
+                                        href=`javascript:`
+                                        data-status=item.status
+                                        data-id=item._id
+                                        button-change-status
+                                        class="badge badge-success"
+                                    ) #{item.status}
+                                else if item.status === 'inactive'
+                                    a(
+                                        href=`javascript:`
+                                        data-status=item.status
+                                        data-id=item._id
+                                        button-change-status
+                                        class="badge badge-danger"
+                                    ) #{item.status}
+
+                            else 
+                                if item.status === 'active'
+                                    span.badge.badge-success #{item.status}
+                                else if item.status === 'inactive'
+                                    span.badge.badge-danger #{item.status}
+                            
+
+                        td.item-order #{item.displayOrder}
+                        td.item-date #{new Date(item.createdAt).toLocaleDateString('vi-VN')}
+
+                        td.item-action
                             a(
-                                href=`javascript:`
-                                data-status=item.status
-                                data-id=item._id
-                                button-change-status
-                                class="badge badge-success"
-                            ) #{item.status}
-                        else if item.status === 'inactive'
-                            a(
-                                href=`javascript:`
-                                data-status=item.status
-                                data-id=item._id
-                                button-change-status
-                                class="badge badge-danger"
-                            ) #{item.status}
+                                href=`${prefixAdmin}/categories/${item._id}` 
+                                class="btn btn-info"
+                            ) 
+                                i.fas.fa-eye
+                            if (role.permissions.includes("category-update"))
+                                a(
+                                    href=`${prefixAdmin}/categories/edit/${item._id}`
+                                    class="btn btn-warning"
+                                    id=`button-edit`
+                                    data-id=item._id
+                                ) 
+                                    i.fas.fa-edit
+                            if (role.permissions.includes("category-delete"))
+                                a(              
+                                    class="btn btn-danger" 
+                                    data-id=item._id 
+                                    id=`button-delete`
+                                ) 
+                                    i.fas.fa-trash
 
-                    td.item-order #{item.displayOrder}
-                    td.item-date #{new Date(item.createdAt).toLocaleDateString('vi-VN')}
+        +pagination(pagination)
 
-                    td.item-action
-                        a(
-                            href=`${prefixAdmin}/categories/${item._id}` 
-                            class="btn btn-info"
-                        ) 
-                            i.fas.fa-eye
-                        a(
-                            href=`${prefixAdmin}/categories/edit/${item._id}`
-                            class="btn btn-warning"
-                            id=`button-edit`
-                            data-id=item._id
-                        ) 
-                            i.fas.fa-edit
-                        a(              
-                            class="btn btn-danger" 
-                            data-id=item._id 
-                            id=`button-delete`
-                        ) 
-                            i.fas.fa-trash
+        form(
+            action=""
+            id="changeStatusForm"
+            method="POST" 
+            data-path=`${prefixAdmin}/categories/change-status`
+        )
 
-    +pagination(pagination)
+        form(
+            action=""
+            id="deleteItemForm"
+            method="POST" 
+            data-path=`${prefixAdmin}/categories/delete/`
+        )
 
-    form(
-        action=""
-        id="changeStatusForm"
-        method="POST" 
-        data-path=`${prefixAdmin}/categories/change-status`
-    )
-
-    form(
-        action=""
-        id="deleteItemForm"
-        method="POST" 
-        data-path=`${prefixAdmin}/categories/delete/`
-    )
-
-    script(src="/admin/js/script.js")
-    script(src="/admin/js/category.js")
+        script(src="/admin/js/script.js")
+        script(src="/admin/js/category.js")

@@ -5,31 +5,36 @@
                 a(href = prefixAdmin + "/dashboard") 
                     i.fas.fa-tachometer-alt
                     |  Dashboard
-            li
-                a(href = prefixAdmin + "/products") 
-                    i.fas.fa-boxes
-                    |  Products
-            li
-                a(href = prefixAdmin + "/orders") 
-                    i.fas.fa-shopping-cart
-                    |  Orders
-            li
-                a(href = prefixAdmin + "/accounts") 
-                    i.fas.fa-users
-                    |  Accounts
-            li
-                a(href = prefixAdmin + "/categories") 
-                    i.fas.fa-tags
-                    |  Categories
-            li
-                div(class="dropdown")
-                    button(class="dropdown-btn") 
-                        i.fas.fa-key
-                        |  Authorization
-                    div(class="dropdown-content")
-                        a(href = prefixAdmin + "/roles") 
-                            |  Roles
-                        a(href = prefixAdmin + "/roles/permissions") 
-                            |  Permissions
+            if (role.permissions.includes("product-view"))
+                li
+                    a(href = prefixAdmin + "/products") 
+                        i.fas.fa-boxes
+                        |  Products
+            if (role.permissions.includes("order-view"))
+                li
+                    a(href = prefixAdmin + "/orders") 
+                        i.fas.fa-shopping-cart
+                        |  Orders
+            if (role.permissions.includes("account-view"))
+                li
+                    a(href = prefixAdmin + "/accounts") 
+                        i.fas.fa-users
+                        |  Accounts
+            if (role.permissions.includes("category-view"))
+                li
+                    a(href = prefixAdmin + "/categories") 
+                        i.fas.fa-tags
+                        |  Categories
+            if (role.permissions.includes("role-view"))
+                li
+                    div(class="dropdown")
+                        button(class="dropdown-btn") 
+                            i.fas.fa-key
+                            |  Authorization
+                        div(class="dropdown-content")
+                            a(href = prefixAdmin + "/roles") 
+                                |  Roles
+                            a(href = prefixAdmin + "/roles/permissions") 
+                                |  Permissions
 
 script(src="/admin/js/sider.js") 

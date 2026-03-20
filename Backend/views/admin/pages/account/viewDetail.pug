@@ -2,120 +2,125 @@ extends ../../layout/default.pug
 include ../../mixins/alert.pug
 
 block main
-    +alert(messages)
+    if (!role.permissions.includes("account-view"))
+      div.alert.alert-danger(role="alert")
+        | Bạn không có quyền truy cập vào trang này.
 
-    .container-fluid
-        .row.mb-4
-            .col-12
-                h1.mb-3 Account Details
+    else
+        +alert(messages)
 
-        .row
-            .col-lg-8
-                .card
-                    .card-body
-                        .row.mb-4
-                            .col-md-4.text-center
-                                if account.avatar
-                                    img(src=account.avatar alt=account.fullName style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;")
-                                else
-                                    i.fas.fa-user-circle(style="font-size: 200px; color: #ccc;")
+        .container-fluid
+            .row.mb-4
+                .col-12
+                    h1.mb-3 Account Details
 
-                            .col-md-8
-                                .row.mb-3
-                                    .col-12
-                                        h4= account.fullName || 'N/A'
-                                        small.text-muted Account ID: #{account._id}
+            .row
+                .col-lg-8
+                    .card
+                        .card-body
+                            .row.mb-4
+                                .col-md-4.text-center
+                                    if account.avatar
+                                        img(src=account.avatar alt=account.fullName style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;")
+                                    else
+                                        i.fas.fa-user-circle(style="font-size: 200px; color: #ccc;")
 
-                                .row.mb-3
-                                    .col-12
-                                        label.fw-bold Email:
-                                        p.mb-0= account.email
+                                .col-md-8
+                                    .row.mb-3
+                                        .col-12
+                                            h4= account.fullName || 'N/A'
+                                            small.text-muted Account ID: #{account._id}
 
-                                .row.mb-3
-                                    .col-md-6
-                                        label.fw-bold Telephone:
-                                        p.mb-0= account.phone || 'N/A'
+                                    .row.mb-3
+                                        .col-12
+                                            label.fw-bold Email:
+                                            p.mb-0= account.email
 
-                                    .col-md-6
-                                        label.fw-bold Status:
-                                        p.mb-0
-                                            if account.status === 'active'
-                                                span.badge.bg-success Active
-                                            else
-                                                span.badge.bg-danger Inactive
+                                    .row.mb-3
+                                        .col-md-6
+                                            label.fw-bold Telephone:
+                                            p.mb-0= account.phone || 'N/A'
 
-                        hr
+                                        .col-md-6
+                                            label.fw-bold Status:
+                                            p.mb-0
+                                                if account.status === 'active'
+                                                    span.badge.bg-success Active
+                                                else
+                                                    span.badge.bg-danger Inactive
 
-                        .row.mb-3
-                            .col-md-6
-                                label.fw-bold Role:
-                                p.mb-0
-                                    span.badge.bg-primary= account.role_id.title || 'N/A'
+                            hr
 
-                            .col-md-6
-                                label.fw-bold Role Description:
-                                p.mb-0
-                                    small= account.role_id.description ? account.role_id.description.replace(/<[^>]*>/g, '') : 'No description' 
-
-                        if account.role_id.permissions && account.role_id.permissions.length > 0
                             .row.mb-3
-                                .col-12
-                                    label.fw-bold Permissions:
+                                .col-md-6
+                                    label.fw-bold Role:
                                     p.mb-0
-                                        each permission in account.role_id.permissions
-                                            span.badge.bg-info.me-2= permission
+                                        span.badge.bg-primary= account.role_id.title || 'N/A'
 
-                        hr
+                                .col-md-6
+                                    label.fw-bold Role Description:
+                                    p.mb-0
+                                        small= account.role_id.description ? account.role_id.description.replace(/<[^>]*>/g, '') : 'No description' 
 
-                        .row.mb-3
-                            .col-md-6
-                                label.fw-bold Created At:
-                                p.mb-0= new Date(account.createdAt).toLocaleDateString('vi-VN')
+                            if account.role_id.permissions && account.role_id.permissions.length > 0
+                                .row.mb-3
+                                    .col-12
+                                        label.fw-bold Permissions:
+                                        p.mb-0
+                                            each permission in account.role_id.permissions
+                                                span.badge.bg-info.me-2= permission
 
-                            .col-md-6
-                                label.fw-bold Last Updated:
-                                p.mb-0= new Date(account.updatedAt).toLocaleDateString('vi-VN')
+                            hr
 
-                        hr
+                            .row.mb-3
+                                .col-md-6
+                                    label.fw-bold Created At:
+                                    p.mb-0= new Date(account.createdAt).toLocaleDateString('vi-VN')
 
-                        .d-flex.gap-2
-                            a.btn.btn-warning(href=`${prefixAdmin}/accounts/edit/${account._id}`)
-                                i.fas.fa-edit
-                                |  Edit
-                            a.btn.btn-secondary(href=`${prefixAdmin}/accounts`)
-                                i.fas.fa-arrow-left
-                                |  Back
+                                .col-md-6
+                                    label.fw-bold Last Updated:
+                                    p.mb-0= new Date(account.updatedAt).toLocaleDateString('vi-VN')
 
-            //- .col-lg-4
-            //-     .card
-            //-         .card-header.bg-light
-            //-             h6.mb-0 Additional Information
-            //-         .card-body
-            //-             .mb-3
-            //-                 label.fw-bold.d-block Account Status:
-            //-                 if account.deleted
-            //-                     span.badge.bg-danger Deleted
-            //-                 else
-            //-                     span.badge.bg-success Active
+                            hr
 
-            //-             .mb-3
-            //-                 label.fw-bold.d-block Created:
-            //-                 small.text-muted
-            //-                     | #{new Date(account.createdAt).toLocaleDateString('vi-VN')}
-            //-                     br
-            //-                     | #{new Date(account.createdAt).toLocaleTimeString('vi-VN')}
+                            .d-flex.gap-2
+                                a.btn.btn-warning(href=`${prefixAdmin}/accounts/edit/${account._id}`)
+                                    i.fas.fa-edit
+                                    |  Edit
+                                a.btn.btn-secondary(href=`${prefixAdmin}/accounts`)
+                                    i.fas.fa-arrow-left
+                                    |  Back
 
-            //-             .mb-3
-            //-                 label.fw-bold.d-block Last Updated:
-            //-                 small.text-muted
-            //-                     | #{new Date(account.updatedAt).toLocaleDateString('vi-VN')}
-            //-                     br
-            //-                     | #{new Date(account.updatedAt).toLocaleTimeString('vi-VN')}
+                //- .col-lg-4
+                //-     .card
+                //-         .card-header.bg-light
+                //-             h6.mb-0 Additional Information
+                //-         .card-body
+                //-             .mb-3
+                //-                 label.fw-bold.d-block Account Status:
+                //-                 if account.deleted
+                //-                     span.badge.bg-danger Deleted
+                //-                 else
+                //-                     span.badge.bg-success Active
 
-            //-             if account.deletedAt
-            //-                 .mb-3
-            //-                     label.fw-bold.d-block Deleted At:
-            //-                     small.text-muted
-            //-                         | #{new Date(account.deletedAt).toLocaleDateString('vi-VN')}
-            //-                         br
-            //-                         | #{new Date(account.deletedAt).toLocaleTimeString('vi-VN')}
+                //-             .mb-3
+                //-                 label.fw-bold.d-block Created:
+                //-                 small.text-muted
+                //-                     | #{new Date(account.createdAt).toLocaleDateString('vi-VN')}
+                //-                     br
+                //-                     | #{new Date(account.createdAt).toLocaleTimeString('vi-VN')}
+
+                //-             .mb-3
+                //-                 label.fw-bold.d-block Last Updated:
+                //-                 small.text-muted
+                //-                     | #{new Date(account.updatedAt).toLocaleDateString('vi-VN')}
+                //-                     br
+                //-                     | #{new Date(account.updatedAt).toLocaleTimeString('vi-VN')}
+
+                //-             if account.deletedAt
+                //-                 .mb-3
+                //-                     label.fw-bold.d-block Deleted At:
+                //-                     small.text-muted
+                //-                         | #{new Date(account.deletedAt).toLocaleDateString('vi-VN')}
+                //-                         br
+                //-                         | #{new Date(account.deletedAt).toLocaleTimeString('vi-VN')}

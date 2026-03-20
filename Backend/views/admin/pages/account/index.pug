@@ -2,112 +2,117 @@ extends ../../layout/default.pug
 include ../../mixins/alert.pug
 
 block main
-    +alert(messages)
+    if (!role.permissions.includes("account-view"))
+      div.alert.alert-danger(role="alert")
+        | Bạn không có quyền truy cập vào trang này.
 
-    .container-fluid
-        .row.mb-4
-            .col-12
-                h1.mb-3 Account Management
-                a.btn.btn-primary(href=`${prefixAdmin}/accounts/create`)
-                    i.fas.fa-plus
-                    |  Create New Account
+    else
+        +alert(messages)
 
-        if (accounts && accounts.length > 0)
-            .row
+        .container-fluid
+            .row.mb-4
                 .col-12
-                    .card
-                        .card-body
-                            .table-responsive
-                                table.table.table-bordered.table-hover
-                                    thead.table-light
-                                        tr
-                                            th(style="width: 50px;") #
-                                            th(style="width: 150px;") Avatar
-                                            th(style="width: 100px;") Email
-                                            //- th Full Name
-                                            //- th Phone
-                                            th Role
-                                            th Status
-                                            th Created At
-                                            th(style="width:230px; ") Actions
+                    h1.mb-3 Account Management
+                    a.btn.btn-primary(href=`${prefixAdmin}/accounts/create`)
+                        i.fas.fa-plus
+                        |  Create New Account
 
-                                    tbody
-                                        each account, index in accounts
+            if (accounts && accounts.length > 0)
+                .row
+                    .col-12
+                        .card
+                            .card-body
+                                .table-responsive
+                                    table.table.table-bordered.table-hover
+                                        thead.table-light
                                             tr
-                                                td= index + 1
-                                                td(class="text-center")
-                                                    if account.avatar
-                                                        img(src=account.avatar alt=account.fullName style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover;")
-                                                    else
-                                                        i.fas.fa-user-circle(style="font-size: 70px; color: #ccc;")
-                                                td
-                                                    strong= account.email
-                                                //- td= account.fullName
-                                                //- td= account.phone || '-'
-                                                td
-                                                    span.badge.bg-info= roleMap[account.role_id] || 'N/A'                                                 
-                                                td 
-                                                    if account.status === 'active'
+                                                th(style="width: 50px;") #
+                                                th(style="width: 150px;") Avatar
+                                                th(style="width: 100px;") Email
+                                                //- th Full Name
+                                                //- th Phone
+                                                th Role
+                                                th Status
+                                                th Created At
+                                                th(style="width:230px; ") Actions
+
+                                        tbody
+                                            each account, index in accounts
+                                                tr
+                                                    td= index + 1
+                                                    td(class="text-center")
+                                                        if account.avatar
+                                                            img(src=account.avatar alt=account.fullName style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover;")
+                                                        else
+                                                            i.fas.fa-user-circle(style="font-size: 70px; color: #ccc;")
+                                                    td
+                                                        strong= account.email
+                                                    //- td= account.fullName
+                                                    //- td= account.phone || '-'
+                                                    td
+                                                        span.badge.bg-info= roleMap[account.role_id] || 'N/A'                                                 
+                                                    td 
+                                                        if account.status === 'active'
+                                                            a(
+                                                                href=`javascript:`
+                                                                data-status=account.status
+                                                                data-id=account._id
+                                                                button-change-status
+                                                                class="badge badge-success"
+                                                            ) #{account.status}
+                                                        else if account.status === 'inactive'
+                                                            a(
+                                                                href=`javascript:`
+                                                                data-status=account.status
+                                                                data-id=account._id
+                                                                button-change-status
+                                                                class="badge badge-danger"
+                                                            ) #{account.status}
+                                                    td= new Date(account.createdAt).toLocaleDateString('vi-VN')
+                                                    td
                                                         a(
-                                                            href=`javascript:`
-                                                            data-status=account.status
-                                                            data-id=account._id
-                                                            button-change-status
-                                                            class="badge badge-success"
-                                                        ) #{account.status}
-                                                    else if account.status === 'inactive'
+                                                            href=`${prefixAdmin}/accounts/${account._id}` 
+                                                            class="btn btn-info"
+                                                        ) 
+                                                            i.fas.fa-eye
                                                         a(
-                                                            href=`javascript:`
-                                                            data-status=account.status
+                                                            href=`${prefixAdmin}/accounts/edit/${account._id}`
+                                                            class="btn btn-warning"
+                                                            id=`button-edit`
+                                                            style ="margin-left: 5px;"
                                                             data-id=account._id
-                                                            button-change-status
-                                                            class="badge badge-danger"
-                                                        ) #{account.status}
-                                                td= new Date(account.createdAt).toLocaleDateString('vi-VN')
-                                                td
-                                                    a(
-                                                        href=`${prefixAdmin}/accounts/${account._id}` 
-                                                        class="btn btn-info"
-                                                    ) 
-                                                        i.fas.fa-eye
-                                                    a(
-                                                        href=`${prefixAdmin}/accounts/edit/${account._id}`
-                                                        class="btn btn-warning"
-                                                        id=`button-edit`
-                                                        style ="margin-left: 5px;"
-                                                        data-id=account._id
-                                                    ) 
-                                                        i.fas.fa-edit
-                                                    a(
-                                                        class="btn btn-danger"
-                                                        data-id=account._id 
-                                                        id=`button-delete`
-                                                        style ="margin-left: 5px;"
-                                                    ) 
-                                                        i.fas.fa-trash
-        else
-            .row
-                .col-12
-                    .alert.alert-info
-                        i.fas.fa-info-circle
-                        |  No accounts found
+                                                        ) 
+                                                            i.fas.fa-edit
+                                                        a(
+                                                            class="btn btn-danger"
+                                                            data-id=account._id 
+                                                            id=`button-delete`
+                                                            style ="margin-left: 5px;"
+                                                        ) 
+                                                            i.fas.fa-trash
+            else
+                .row
+                    .col-12
+                        .alert.alert-info
+                            i.fas.fa-info-circle
+                            |  No accounts found
 
 
-    form(
-        action=""
-        id="changeStatusForm"
-        method="POST" 
-        data-path=`${prefixAdmin}/accounts/change-status`
+        form(
+            action=""
+            id="changeStatusForm"
+            method="POST" 
+            data-path=`${prefixAdmin}/accounts/change-status`
+            )
+
+
+        form(
+            action=""
+            id="deleteItemForm"
+            method="POST" 
+            data-path=`${prefixAdmin}/accounts/delete/`
         )
 
 
-    form(
-        action=""
-        id="deleteItemForm"
-        method="POST" 
-        data-path=`${prefixAdmin}/accounts/delete/`
-    )
-
-
-    script(src="/admin/js/script.js")
-    script(src="/admin/js/account.js")
+        script(src="/admin/js/script.js")
+        script(src="/admin/js/account.js")

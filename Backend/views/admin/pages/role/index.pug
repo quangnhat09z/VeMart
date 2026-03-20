@@ -7,80 +7,85 @@ include ../../mixins/formChangeMultiStatus.pug
 include ../../mixins/sortFormCategory.pug
 
 block main
-    +alert(messages)
+    if (!role.permissions.includes("role-view"))
+      div.alert.alert-danger(role="alert")
+        | Bạn không có quyền truy cập vào trang này.
 
-    h1 Role Management Page
+    else
+        +alert(messages)
 
-    .row.mb-3
-        .col-md-8
-            a(
-                href=`${prefixAdmin}/roles/create`
-                class="btn btn-outline-success"
-            ) + Create
+        h1 Role Management Page
 
-    table(class="table" checkbox-multi)
-        thead.table-header
-            tr
-                th 
-                    input(type="checkbox" name="selectAll" id="selectAll")
-                th(scope="col") #
-                th(scope="col") Title
-                th(scope="col") Description
-                th(scope="col") Permissions
-                th(scope="col") Created Date
-                th(scope="col") Action
-        tbody
-            if roles.length > 0
-                for item, index in roles
-                    tr
-                        td
-                            input(type="checkbox" class="checkbox-item" name="selectedItems" value=item._id)
+        .row.mb-3
+            .col-md-8
+                a(
+                    href=`${prefixAdmin}/roles/create`
+                    class="btn btn-outline-success"
+                ) + Create
 
-                        th(scope="row" style="align-content: center;") #{index + 1}
-                        td.item-title(style="width: 200px;") #{item.title}
-                        td.item-description(style="width: 300px;") 
-                            if item.description
-                                | !{item.description.substring(0, 100)}
-                            else
-                                span.text-muted No description
-                        td.item-permissions
-                            if item.permissions && item.permissions.length > 0
-                                span.badge.bg-info #{item.permissions.length} permissions
-                            else
-                                span.badge.bg-secondary No permissions
-
-                        td.item-date #{new Date(item.createdAt).toLocaleDateString('vi-VN')}
-
-                        td.item-action
-                            //- a(
-                            //-     href=`${prefixAdmin}/roles/${item._id}` 
-                            //-     class="btn btn-sm btn-info"
-                            //- ) View
-                            a(
-                                href=`${prefixAdmin}/roles/edit/${item._id}`
-                                class="btn btn-sm btn-warning"
-                                id=`button-edit`
-                                data-id=item._id
-                            ) 
-                                i.fas.fa-edit
-                            a(  
-                                class="btn btn-sm btn-danger" 
-                                data-id=item._id 
-                                id=`button-delete`
-                            ) 
-                                i.fas.fa-trash
-            else
+        table(class="table" checkbox-multi)
+            thead.table-header
                 tr
-                    td(colspan="7" class="text-center text-muted") No roles found
+                    th 
+                        input(type="checkbox" name="selectAll" id="selectAll")
+                    th(scope="col") #
+                    th(scope="col") Title
+                    th(scope="col") Description
+                    th(scope="col") Permissions
+                    th(scope="col") Created Date
+                    th(scope="col") Action
+            tbody
+                if roles.length > 0
+                    for item, index in roles
+                        tr
+                            td
+                                input(type="checkbox" class="checkbox-item" name="selectedItems" value=item._id)
 
-    +pagination(pagination)
+                            th(scope="row" style="align-content: center;") #{index + 1}
+                            td.item-title(style="width: 200px;") #{item.title}
+                            td.item-description(style="width: 300px;") 
+                                if item.description
+                                    | !{item.description.substring(0, 100)}
+                                else
+                                    span.text-muted No description
+                            td.item-permissions
+                                if item.permissions && item.permissions.length > 0
+                                    span.badge.bg-info #{item.permissions.length} permissions
+                                else
+                                    span.badge.bg-secondary No permissions
 
-    form(
-        action=""
-        id = "deleteItemForm"
-        method="POST" 
-        data-path = `${prefixAdmin}/roles/delete/`
-    )
+                            td.item-date #{new Date(item.createdAt).toLocaleDateString('vi-VN')}
 
-    script(src="/admin/js/script.js")
-    script(src="/admin/js/role.js")
+                            td.item-action
+                                //- a(
+                                //-     href=`${prefixAdmin}/roles/${item._id}` 
+                                //-     class="btn btn-sm btn-info"
+                                //- ) View
+                                a(
+                                    href=`${prefixAdmin}/roles/edit/${item._id}`
+                                    class="btn btn-sm btn-warning"
+                                    id=`button-edit`
+                                    data-id=item._id
+                                ) 
+                                    i.fas.fa-edit
+                                a(  
+                                    class="btn btn-sm btn-danger" 
+                                    data-id=item._id 
+                                    id=`button-delete`
+                                ) 
+                                    i.fas.fa-trash
+                else
+                    tr
+                        td(colspan="7" class="text-center text-muted") No roles found
+
+        +pagination(pagination)
+
+        form(
+            action=""
+            id = "deleteItemForm"
+            method="POST" 
+            data-path = `${prefixAdmin}/roles/delete/`
+        )
+
+        script(src="/admin/js/script.js")
+        script(src="/admin/js/role.js")

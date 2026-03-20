@@ -132,10 +132,21 @@ module.exports.permissions = async (req, res) => {
             data_name: ['category-view', 'category-create', 'category-change-status', 'category-update', 'category-delete']
         },
         {
+            name: 'Tài khoản',
+            actions: ['Xem', 'Thêm mới', 'Cập nhật', 'Xóa', 'Phân quyền'],
+            data_name: ['account-view', 'account-create', 'account-update', 'account-delete', 'account-assign-permissions']
+        },
+         {
+            name: 'Đơn hàng',
+            actions: ['Xem', 'Thêm mới', 'Cập nhật', 'Xóa', 'Phân quyền'],
+            data_name: ['order-view', 'order-create', 'order-update', 'order-delete', 'order-assign-permissions']
+        },
+        {
             name: 'Nhóm quyền',
             actions: ['Xem', 'Thêm mới', 'Cập nhật', 'Xóa', 'Phân quyền'],
             data_name: ['role-view', 'role-create', 'role-update', 'role-delete', 'role-assign-permissions']
         }
+        
     ];
 
     let totalPermissions = 0;
