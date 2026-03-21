@@ -55,8 +55,6 @@ module.exports.validateUpdateProduct = async (req, res, next) => {
         dealImage(req.file);
         return showAlert(req, res, 'ASIN is required.');
     }
-
-    const mongoose = require('mongoose'); 
     
     const existingProduct = await Product.findOne({
         asin: productData.asin,

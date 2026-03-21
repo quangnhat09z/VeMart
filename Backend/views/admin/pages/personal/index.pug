@@ -1,0 +1,86 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main
+
+    +alert(messages)
+
+    .container-fluid
+        .row.mb-4
+            .col-12
+                h1.mb-3 Personal Information
+
+        .row(style="justify-content: center;")
+            .col-lg-8
+                .card
+                    .card-body
+                        .row.mb-4
+                            .col-md-4.text-center
+                                if user.avatar
+                                    img(src=user.avatar alt=user.fullName style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;")
+                                else
+                                    i.fas.fa-user-circle(style="font-size: 200px; color: #ccc;")
+
+                            .col-md-8
+                                .row.mb-3
+                                    .col-12
+                                        h4= user.fullName || 'N/A'
+                                        small.text-muted User ID: #{user._id}
+
+                                .row.mb-3
+                                    .col-12
+                                        label.fw-bold Email:
+                                        p.mb-0= user.email
+
+                                .row.mb-3
+                                    .col-md-4
+                                        label.fw-bold Telephone:
+                                        p.mb-0= user.phone || 'N/A'
+
+                                    .col-md-4
+                                        label.fw-bold Status:
+                                        p.mb-0
+                                            if user.status === 'active'
+                                                span.badge.bg-success Active
+                                            else
+                                                span.badge.bg-danger Inactive
+                        
+                                    .col-md-4
+                                        label.fw-bold Role:
+                                        p.mb-0
+                                            span.badge.bg-primary= role.title || 'N/A'
+
+                        //-     .col-md-6
+                        //-         label.fw-bold Role Description:
+                        //-         p.mb-0
+                        //-             small= user.role_id.description ? user.role_id.description.replace(/<[^>]*>/g, '') : 'No description' 
+
+                        //- if role.permissions && role.permissions.length > 0
+                        //-     .row.mb-3
+                        //-         .col-12
+                        //-             label.fw-bold Permissions:
+                        //-             p.mb-0
+                        //-                 each permission in role.permissions
+                        //-                     span.badge.bg-info.me-2= permission
+
+                        hr
+
+                        .row.mb-3
+                            .col-md-6
+                                label.fw-bold Created At:
+                                p.mb-0= new Date(user.createdAt).toLocaleDateString('vi-VN')
+
+                            .col-md-6
+                                label.fw-bold Last Updated:
+                                p.mb-0= new Date(user.updatedAt).toLocaleDateString('vi-VN')
+
+                        hr
+
+                        .d-flex.gap-2
+                            a.btn.btn-warning(href=`${prefixAdmin}/personal/edit`)
+                                i.fas.fa-edit
+                                |  Edit
+                            a.btn.btn-secondary(href=`${prefixAdmin}/dashboard`)
+                                i.fas.fa-arrow-left
+                                |  Back
+
