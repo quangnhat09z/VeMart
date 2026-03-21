@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const authMenuBtn = document.querySelector('.auth-menu__btn');
+    const userMenuBtn = document.querySelector('.user-menu__btn');
     
-    if (authMenuBtn) {
-        authMenuBtn.addEventListener('click', function(e) {
+    if (userMenuBtn) {
+        userMenuBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             const isExpanded = this.getAttribute('aria-expanded') === 'true';
             this.setAttribute('aria-expanded', !isExpanded);
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Đóng khi click ra ngoài
         document.addEventListener('click', function() {
-            authMenuBtn.setAttribute('aria-expanded', 'false');
+            userMenuBtn.setAttribute('aria-expanded', 'false');
         });
     }
 });

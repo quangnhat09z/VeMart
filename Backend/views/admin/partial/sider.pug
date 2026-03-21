@@ -1,3 +1,4 @@
+link(rel="stylesheet" href="/admin/styles/css/sider.css")
 .sider 
     .sider-menu
         ul
@@ -27,14 +28,16 @@
                         |  Categories
             if (role.permissions.includes("role-view"))
                 li
-                    div(class="dropdown")
-                        button(class="dropdown-btn") 
-                            i.fas.fa-key
-                            |  Authorization
-                        div(class="dropdown-content")
-                            a(href = prefixAdmin + "/roles") 
-                                |  Roles
-                            a(href = prefixAdmin + "/roles/permissions") 
-                                |  Permissions
+                    .auth-menu
+                        button.auth-menu__btn(type="button" aria-haspopup="true" aria-expanded="false" aria-label="Authorization Menu")
+                            i.fas.fa-keys
+                            span Authorization
+                        .auth-menu__dropdown
+                            a.auth-menu__item(href=`${prefixAdmin}/roles`)
+                                i.fas.fa-shield-alt
+                                span Roles
+                            a.auth-menu__item(href=`${prefixAdmin}/roles/permissions`)
+                                i.fas.fa-lock
+                                span Permissions
 
-script(src="/admin/js/sider.js") 
+script(src="/admin/js/sider.js")

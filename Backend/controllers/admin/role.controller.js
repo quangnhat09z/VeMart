@@ -79,7 +79,7 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /admin/roles/edit/:id
 module.exports.update = async (req, res) => {
-    console.log("Request body for update:", req.body);
+    // console.log("Request body for update:", req.body);
     const roleId = req.params.id;
     try {
         const { title, description } = req.body;
@@ -91,9 +91,11 @@ module.exports.update = async (req, res) => {
         updatedRole.title = title;
         updatedRole.description = description;
         const accountId = res.locals.user ? res.locals.user._id : null;
+        
         updatedRole.updatedBy = updatedRole.updatedBy || [];
         updatedRole.updatedBy.push({ account_id: accountId, updatedAt: new Date() });
         await updatedRole.save();
+
         req.flash('success', 'Role updated successfully.');
         res.redirect(systemConfig.prefixAdmin + '/roles');
     } catch (error) {

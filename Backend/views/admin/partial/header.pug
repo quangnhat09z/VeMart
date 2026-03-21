@@ -1,12 +1,20 @@
-
+link(rel="stylesheet" href="/admin/styles/css/header.css")
 header.header
     .container-fluid
         .row.align-items-center
             .col-3.logo
-                a(href=`${prefixAdmin}/dashboard`) VeMart Admin
-            .col-9.auth 
-                a(
-                    href=`${prefixAdmin}/auth/logout`
-                    class="btn btn-danger"
-                ) Logout
+                a(href=`${prefixAdmin}/dashboard`) VeMart 
+            .col-9.auth
+                .user-menu
+                    button.user-menu__btn(type="button" aria-haspopup="true" aria-expanded="false")
+                        i.fas.fa-user
+                    .user-menu__dropdown
+                        a.user-menu__item(href=`${prefixAdmin}/profile`)
+                            i.fas.fa-user-circle
+                            span Personal Information
+                        a.user-menu__item(href=`${prefixAdmin}/auth/logout`)
+                            i.fas.fa-sign-out-alt
+                            span Logout
 
+
+script(src="/admin/js/header.js") 

@@ -271,7 +271,7 @@ module.exports.update = async (req, res) => {
         await Product.updateOne(
             { _id: id },
             {
-                ...req.body,
+                $set: { ...req.body },
                 $push: { updatedBy: updateUserInfo }
             }
         );

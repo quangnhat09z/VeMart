@@ -143,7 +143,7 @@ module.exports.detail = async (req, res) => {
         req.flash('error', 'Account not found');
         return res.redirect(`${systemConfig.prefixAdmin}/accounts`);
     }
-    console.log(account);
+    // console.log(account);
     res.render('admin/pages/account/viewDetail', {
         title: 'Account Details',
         account: account
