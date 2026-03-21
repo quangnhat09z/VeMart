@@ -88,9 +88,10 @@ module.exports.changeMultipleStatus = async (req, res) => {
 
     }
     else {
+        const accountId = res.locals.user._id;
         await Product.updateMany(
             { _id: { $in: idsArray } },
-            { deleted: true, deletedAt: new Date() });
+            { deleted: true, deletedBy: { account_id: accountId, deletedAt: new Date() } });
         req.flash('success', 'Items deleted successfully.');
     }
 
@@ -102,11 +103,12 @@ module.exports.changeMultipleStatus = async (req, res) => {
 module.exports.deleteItem = async (req, res) => {
     const id = req.params.id;
     // console.log('Deleting product with ID:', id);
+    const accountId = res.locals.user._id;
     await Product.updateOne(
         { _id: id },
         {
             deleted: true,
-            deletedAt: new Date()
+            deletedBy: { account_id: accountId, deletedAt: new Date() }
         },
         { timestamps: false }  // Ngăn cập nhật updatedAt
     );
@@ -244,7 +246,6 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /admin/products/edit/:id
 module.exports.update = async (req, res) => {
-    // console.log('Update request body:', req.body);
     const id = req.params.id;
 
     if (req.file) {
@@ -252,11 +253,28 @@ module.exports.update = async (req, res) => {
         req.body.imgUrl = `/uploads/${uploadedFilename}`;
     }
     try {
-        await Product.findOne({
+        const updateUserInfo = {
+            account_id: res.locals.user._id,
+            updatedAt: new Date()
+        };
+        console.log(updateUserInfo);
+
+        const product = await Product.findOne({
             _id: id,
             deleted: false
-        },
-        ).updateOne(req.body);
+        });
+        if (!product) {
+            req.flash('error', 'Product not found');
+            return res.redirect(req.get('Referrer') || `${systemConfig.prefixAdmin}/products`);
+        }
+
+        await Product.updateOne(
+            { _id: id },
+            {
+                ...req.body,
+                $push: { updatedBy: updateUserInfo }
+            }
+        );
 
         req.flash('success', 'Product updated successfully');
         res.redirect(`${systemConfig.prefixAdmin}/products`);

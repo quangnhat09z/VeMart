@@ -18,15 +18,25 @@ const productSchema = new mongoose.Schema(
         boughtInLastMonth: { type: Number, default: 0 },
         discountPercentage: { type: Number, default: 0 },
         slug: { type: String, slug: "title", unique: true },
-        createdBy:{
-            account_id:String,
+        createdBy: {
+            account_id: String,
             createdAt: {
                 type: Date,
                 default: Date.now
             }
         },
         deleted: { type: Boolean, default: false },
-        deletedAt: Date,
+        deletedBy: {
+            account_id: String,
+            deletedAt: Date
+        },
+        // deleteAt: Date,
+        updatedBy: [
+            {
+                account_id: String,
+                updatedAt: Date
+            }
+        ],
         status: {
             type: String,
             enum: ['active', 'inactive'],

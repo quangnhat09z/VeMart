@@ -48,6 +48,10 @@ module.exports.store = async (req, res) => {
             accoutData.avatar = '';
         }
 
+        accoutData.createdBy = {
+            account_id: res.locals.user ? res.locals.user._id : null,
+            createdAt: new Date()
+        };
         const newAccount = new Account(accoutData);
         await newAccount.save();
 
@@ -88,8 +92,12 @@ module.exports.update = async (req, res) => {
             uploadedFilename = req.file.filename;
             accountData.avatar = `/uploads/${req.file.filename}`;
         }
-        
-        await Account.findByIdAndUpdate(accountId, accountData);
+
+        const accountIdForLog = res.locals.user ? res.locals.user._id : null;
+        await Account.findByIdAndUpdate(accountId, {
+            $set: accountData,
+            $push: { updatedBy: { account_id: accountIdForLog, updatedAt: new Date() } }
+        }, { timestamps: false });
 
         req.flash('success', 'Account updated successfully');
         res.redirect(`${systemConfig.prefixAdmin}/accounts`);
@@ -114,11 +122,12 @@ module.exports.changeStatus = async (req, res) => {
 // [DELETE] /admin/accounts/:id
 module.exports.deleteItem = async (req, res) => {
     const id = req.params.id;
+    const accountIdForLog = res.locals.user ? res.locals.user._id : null;
     await Account.updateOne(
         { _id: id },
         {
             deleted: true,
-            deletedAt: new Date()
+            deletedBy: { account_id: accountIdForLog, deletedAt: new Date() }
         },
         { timestamps: false }  // Ngăn cập nhật updatedAt
     );
