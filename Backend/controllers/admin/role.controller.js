@@ -44,6 +44,10 @@ module.exports.store = async (req, res) => {
         const newRole = new Role({
             title,
             description,
+            createdBy: {
+                account_id: res.locals.user ? res.locals.user._id : null,
+                createdAt: new Date()
+            }
         });
         await newRole.save();
         req.flash('success', 'Role created successfully.');
@@ -86,6 +90,9 @@ module.exports.update = async (req, res) => {
         }
         updatedRole.title = title;
         updatedRole.description = description;
+        const accountId = res.locals.user ? res.locals.user._id : null;
+        updatedRole.updatedBy = updatedRole.updatedBy || [];
+        updatedRole.updatedBy.push({ account_id: accountId, updatedAt: new Date() });
         await updatedRole.save();
         req.flash('success', 'Role updated successfully.');
         res.redirect(systemConfig.prefixAdmin + '/roles');
@@ -98,12 +105,12 @@ module.exports.update = async (req, res) => {
 // [DELETE] /admin/roles/delete/:id
 module.exports.delete = async (req, res) => {
     const id = req.params.id;
-    // console.log('Deleting product with ID:', id);
+    const accountId = res.locals.user ? res.locals.user._id : null;
     await Role.updateOne(
         { _id: id },
         {
             deleted: true,
-            deletedAt: new Date()
+            deletedBy: { account_id: accountId, deletedAt: new Date() }
         },
         { timestamps: false }  // Ngăn cập nhật updatedAt
     );
