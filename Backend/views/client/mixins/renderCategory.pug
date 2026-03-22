@@ -1,0 +1,13 @@
+mixin renderCategory(category)
+    .section1__category-item
+        a.section1__scroll-bar-item(
+            href=`/categories/${category.slug}`
+        ) 
+            span #{category.title}
+            if category.children && category.children.length > 0
+                i.fa-solid.fa-chevron-down
+
+        if category.children && category.children.length > 0
+            .section1__scroll-bar-submenu
+                each child in category.children
+                    +renderCategory(child)

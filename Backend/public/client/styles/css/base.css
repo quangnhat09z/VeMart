@@ -18,7 +18,7 @@ html, body {
 
 .button-primary, .button-subcribe, .item__content--button, .section6 .button, .section9 .button, .swiper-button-next,
 .swiper-button-prev, .slider__nextpage-button, .slider__button {
-  background-color: #5FA800;
+  background-color: #0f3460;
   border: none;
   border-radius: 3px;
   color: white;
@@ -26,9 +26,9 @@ html, body {
 }
 .button-primary:hover, .button-subcribe:hover, .item__content--button:hover, .section6 .button:hover, .section9 .button:hover, .swiper-button-next:hover,
 .swiper-button-prev:hover, .slider__nextpage-button:hover, .slider__button:hover {
-  border: 2px solid #5FA800;
+  border: 2px solid #0f3460;
   background-color: white;
-  color: #5FA800;
+  color: #0f3460;
 }
 
 .slider__button {
@@ -64,8 +64,8 @@ html, body {
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
   background-color: white;
-  color: #5FA800;
-  border: 2px solid #5FA800;
+  color: #0f3460;
+  border: 2px solid #0f3460;
 }
 
 .section6 .button, .section9 .button {

@@ -1,4 +1,5 @@
 extend ../../layout/default.pug
+include ../../mixins/renderCategory.pug
 
 block main
   section.section1
@@ -7,13 +8,11 @@ block main
         .section1__cateList
           .section1__scroll-bar-header
             i.fa-solid.fa-bars
-            span Browse category
+            span Category list
           #scroll-bar.section1__scroll-bar
             each category in categoryHierarchy
               if (category.level === 0)
-                a.section1__scroll-bar-item(
-                  href=`/categories/${category.slug}`
-                ) #{category.title}
+                +renderCategory(category)
            
         .section1__slider
           .section1__slider-nextpage
