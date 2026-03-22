@@ -14,4 +14,9 @@ router.patch('/edit',
     validate.validateUpdatePersonalInfo,
     controller.update
 );
+router.get('/change-password', controller.changePassword);
+router.patch('/change-password',
+    validate.validateUpdatePassword,
+    controller.updatePassword
+);
 module.exports = router;
