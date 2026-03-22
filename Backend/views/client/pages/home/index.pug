@@ -1,4 +1,55 @@
 extend ../../layout/default.pug
 
 block main
-  h1 Trang chủ
+  section.section1
+    .container
+      .section1__wrapper
+        .section1__cateList
+          .section1__scroll-bar-header
+            i.fa-solid.fa-bars
+            span Browse category
+          #scroll-bar.section1__scroll-bar
+            each category in categoryHierarchy
+              if (category.level === 0)
+                a.section1__scroll-bar-item(
+                  href=`/categories/${category.slug}`
+                ) #{category.title}
+           
+        .section1__slider
+          .section1__slider-nextpage
+            button.slider__nextpage-button.slider__nextpage-button--left(onclick='nextSlide(-1)')
+              i.fa-solid.fa-less-than
+            button.slider__nextpage-button.slider__nextpage-button--right(onclick='nextSlide(1)')
+              i.fa-solid.fa-greater-than
+          .slider.slider--1
+            img.slider__image(src='/client/images/section1_image1.webp' alt='image')
+            .slider__content.slider__content--1
+              span.slider__content-smalltitle Summer vege sale
+              h2.slider__content-bigtitle
+                | Vegetable 
+                br
+                |  farmfood
+              button.slider__button Shop now
+
+          .slider.slider--2
+            img.slider__image(src='/client/images/section1_image2.webp' alt='image')
+            .slider__content.slider__content--2
+              span.slider__content-smalltitle Mix masala
+              h2.slider__content-bigtitle
+                | Spectialties 
+                br
+                |  recipetion
+              button.slider__button Shop now
+          .slider.slider--3
+            img.slider__image(src='/client/images/section1_image3.webp' alt='image')
+            .slider__content.slider__content--3
+              span.slider__content-smalltitle Top selling collection
+              h2.slider__content-bigtitle
+                | Healthier 
+                br
+                |  testy way
+              button.slider__button Shop now
+
+          
+
+  script(src="/client/js/home.js") 
