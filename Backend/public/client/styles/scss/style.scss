@@ -219,12 +219,8 @@
         position: relative;
         height: 100%;
 
-        &__image-box {
-            width: 100%;
-            height: 100%;
-            background-color: white;
-        }
         &__image {
+            display: block;
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -560,8 +556,12 @@
 
             &:hover,
             &:focus {
-                border: 2px solid black;
-                color: black;
+                border: 2px solid $color-primary;
+                color: $color-primary;
+            }
+            &.active {
+                border: 2px solid $color-primary;
+                color: $color-primary;
             }
         }
     }
@@ -663,9 +663,11 @@
                         font-size: 15px;
                         border-radius: 5px;
                         margin-right: 5px;
+                        transition: all 0.3s;
 
                         &:hover {
-                            background-color: green;
+                            background-color: rgb(48, 48, 158);
+                            // color: $color-primary;
                         }
                     }
                 }

@@ -132,3 +132,5 @@ function timer() {
 
 setInterval(timer, 1000);
 
+
+// Our products section
