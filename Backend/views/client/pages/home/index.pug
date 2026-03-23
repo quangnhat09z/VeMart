@@ -13,7 +13,7 @@ block main
             each category in categoryHierarchy
               if (category.level === 0)
                 +renderCategory(category)
-           
+
         .section1__slider
           .section1__slider-nextpage
             button.slider__nextpage-button.slider__nextpage-button--left(onclick='nextSlide(-1)')
@@ -21,7 +21,8 @@ block main
             button.slider__nextpage-button.slider__nextpage-button--right(onclick='nextSlide(1)')
               i.fa-solid.fa-greater-than
           .slider.slider--1
-            img.slider__image(src='/client/images/section1_image1.webp' alt='image')
+            .slider__image-box
+              img.slider__image(src='/client/images/section1_image5.webp' alt='image')
             .slider__content.slider__content--1
               span.slider__content-smalltitle Summer vege sale
               h2.slider__content-bigtitle
@@ -31,7 +32,8 @@ block main
               button.slider__button Shop now
 
           .slider.slider--2
-            img.slider__image(src='/client/images/section1_image2.webp' alt='image')
+            .slider__image-box
+              img.slider__image(src='/client/images/section1_image2.webp' alt='image')
             .slider__content.slider__content--2
               span.slider__content-smalltitle Mix masala
               h2.slider__content-bigtitle
@@ -40,7 +42,8 @@ block main
                 |  recipetion
               button.slider__button Shop now
           .slider.slider--3
-            img.slider__image(src='/client/images/section1_image3.webp' alt='image')
+            .slider__image-box
+              img.slider__image(src='/client/images/section1_image3.webp' alt='image')
             .slider__content.slider__content--3
               span.slider__content-smalltitle Top selling collection
               h2.slider__content-bigtitle
@@ -49,6 +52,52 @@ block main
                 |  testy way
               button.slider__button Shop now
 
-          
+  section.section7
+    .container
+      h3.section7__title Our products
+      .section7__typeButton
+        button.button Special Product
+        button.button Bestseller
+        button.button Featured Product
+      .swiper-container
+        .section7__wrapper.swiper-products
+          .big-card-wrap.swiper-wrapper
+            -const numberPerColumn = 3; // Số sản phẩm mỗi cột
+            -for (let i = 0; i < Math.ceil(bestSellerProducts.length / numberPerColumn); i++)
+              .item-column.swiper-slide
+                -for (let j = 0; j < numberPerColumn; j++)
+                  -const index = i * numberPerColumn + j
+                  -if (index < bestSellerProducts.length)
+                    .item
+                      if (bestSellerProducts[index].discountPercentage > 0)
+                        .item__discount #{bestSellerProducts[index].discountPercentage}%
+                      .item__image-box
+                        img.item__image(src=bestSellerProducts[index].imgUrl alt='image')
+                      .item__content
+                        h6.item__content--name  
+                          | #{bestSellerProducts[index].title}
+                        .item__content--rate
+                          i.fa-regular.fa-star
+                          i.fa-regular.fa-star
+                          i.fa-regular.fa-star
+                          i.fa-regular.fa-star
+                          i.fa-regular.fa-star
+                          span.item__content--reviews No reviews
+                        .item__content--price
+                          span.current-price
+                            | $#{bestSellerProducts[index].price}
+                          if (bestSellerProducts[index].listPrice > 0)
+                            span.root-price
+                              | $#{bestSellerProducts[index].listPrice}
+                        .item__content--demand
+                          button.item__content--button.like_button
+                            i.fa-regular.fa-heart
+                          button.item__content--button.cart_button
+                            i.fa-solid.fa-cart-plus
+                          button.item__content--button.watch_button
+                            i.fa-regular.fa-eye
+        .swiper-button-prev
+        .swiper-button-next
+
 
   script(src="/client/js/home.js") 

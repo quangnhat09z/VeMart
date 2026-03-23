@@ -219,8 +219,12 @@
         position: relative;
         height: 100%;
 
+        &__image-box {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+        }
         &__image {
-            display: block;
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -587,7 +591,7 @@
                 padding: 0;
                 margin-bottom: 20px;
                 margin-right: 20px;
-                // background-color: antiquewhite;
+                background-color: hsla(60, 8%, 95%, 0.745);
                 height: 170px;
                 width: 100%;
 
@@ -604,19 +608,31 @@
                     width: 45px;
                     text-align: center;
                 }
-
+                &__image-box {
+                    width: calc(100% / 3 + 30px);
+                    height: 100%;
+                    background-color: white;
+                }
                 &__image {
                     // display: none;
-                    width: calc(100% / 3);
+                    width: calc(100%);
                     height: 100%;
-                    object-fit: cover;
+                    object-fit: scale-down;
+
+                    &:hover {
+                        cursor: pointer;
+                    }
                 }
 
                 &__content {
                     margin-left: 15px;
                     text-align: left;
                     align-content: center;
+                    width: calc(100% * 2/3);
 
+                    &--name {
+                        max-width: 100%;
+                    }
                     &--rate {
                         & i {
                             color: #FFC800;
@@ -901,10 +917,11 @@
         &--name {
             width: 300px;
             line-height: 1.4;
-            height: calc(1.4em * 2);
+            height: calc(1.4em * 3);
+            padding-right: 5px;
 
             display: -webkit-box;
-            -webkit-line-clamp: 2; // số dòng muốn hiển thị
+            -webkit-line-clamp: 3; // số dòng muốn hiển thị
             -webkit-box-orient: vertical;
             overflow: hidden;
             font-size: 14px;
