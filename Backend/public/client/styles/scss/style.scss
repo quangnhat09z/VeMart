@@ -543,11 +543,12 @@
 
     .product-group {
         display: none;
-        
+        position: relative;
+        overflow: visible;
     }
 
     .product-group.active {
-        display: flex;
+        display: block;
     }
 
     &__typeButton {
@@ -577,14 +578,14 @@
     }
 
     &__wrapper {
-        
-
         & .big-card-wrap {
-            background-color: aquamarine;
+            // background-color: aquamarine;
             overflow: hidden;
             // display: flex;
             // position: relative;
+        }
 
+        & .big-card-wrap {
             & .item-column {
                 display: flex;
                 flex-direction: column;
@@ -592,9 +593,6 @@
                 width: calc((100% - 40px)/3);
                 margin-right: 20px;
 
-                &:last-child {
-                    background-color: bisque;
-                }
             }
 
             & .item {
@@ -603,7 +601,7 @@
                 padding: 0;
                 margin-bottom: 20px;
                 margin-right: 20px;
-                background-color: hsla(60, 8%, 95%, 0.745);
+                background-color: hsla(0, 0%, 100%, 0.808);
                 height: 170px;
                 width: 100%;
 
@@ -934,11 +932,11 @@
         &--name {
             width: 300px;
             line-height: 1.4;
-            height: calc(1.4em * 3);
+            height: calc(1.4em * 2);
             padding-right: 5px;
 
             display: -webkit-box;
-            -webkit-line-clamp: 3; // số dòng muốn hiển thị
+            -webkit-line-clamp: 2; // số dòng muốn hiển thị
             -webkit-box-orient: vertical;
             overflow: hidden;
             font-size: 14px;

@@ -55,19 +55,26 @@ const swiperCategory = new Swiper('.swiper-category', {
     spaceBetween: 23,
 });
 
-const swiperProduct = new Swiper('.swiper-products', {
-    direction: 'horizontal',
-    loop: false,
-    navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-    },
-    slidesPerView: 3,
-    // slidesPerGroup: 3,
-    spaceBetween: 20,
-    watchOverflow: true,
-    observer: true,
-    observeParents: true,
+const productSwiperElements = document.querySelectorAll('.swiper-products');
+const productSwipers = {};
+
+productSwiperElements.forEach((el) => {
+    const type = el.getAttribute('data-type');
+    const groupEl = el.closest('.product-group');
+    productSwipers[type] = new Swiper(el, {
+        direction: 'horizontal',
+        loop: true,
+        navigation: {
+            nextEl: groupEl.querySelector('.swiper-button-next'),
+            prevEl: groupEl.querySelector('.swiper-button-prev'),
+        },
+        slidesPerView: 3,
+        // slidesPerGroup: 3,
+        spaceBetween: 20,
+        watchOverflow: true,
+        observer: true,
+        observeParents: true,
+    });
 });
 
 
@@ -156,7 +163,9 @@ typeButtons.forEach(button => {
             }
         });
 
-        swiperProduct.slideTo(0, 0);
-        swiperProduct.update();
+        if (productSwipers[type]) {
+            productSwipers[type].slideTo(0, 0);
+            productSwipers[type].update();
+        }
     });
 });

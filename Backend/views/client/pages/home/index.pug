@@ -64,52 +64,50 @@ block main
 
       .swiper-container
         .section7__wrapper
-          .big-card-wrap.swiper.swiper-products
-            -const numberPerColumn = 3;
-            -Object.keys(productData).forEach(categoryType => {
-              -const products = productData[categoryType]
-              -const isActive = categoryType === 'bestSellerProducts' ? 'active' : ''
-              
+          -const numberPerColumn = 3;
+          -Object.keys(productData).forEach(categoryType => {
+            -const products = productData[categoryType]
+            -const isActive = categoryType === 'bestSellerProducts' ? 'active' : ''
+            .product-group(data-type=categoryType class=isActive)
               .swiper-button-prev
               .swiper-button-next
-              .product-group.swiper-wrapper(data-type=categoryType class=isActive)
-                -const totalColumns = Math.ceil(products.length / numberPerColumn)
-                -for (let col = 0; col < totalColumns; col++)
-                  -const startIndex = col * numberPerColumn
-                  -const endIndex = Math.min(startIndex + numberPerColumn, products.length)
-                  -const columnItems = products.slice(startIndex, endIndex)
-                  
-                  
-                  .item-column.swiper-slide
-                    -columnItems.forEach(product => {
-                      .item
-                        if (product.discountPercentage > 0)
-                          .item__discount #{product.discountPercentage}%
-                        .item__image-box
-                          img.item__image(src=product.imgUrl alt='image')
-                        .item__content
-                          h6.item__content--name 
-                            | #{product.title}
-                          .item__content--rate
-                            i.fa-regular.fa-star
-                            i.fa-regular.fa-star
-                            i.fa-regular.fa-star
-                            i.fa-regular.fa-star
-                            i.fa-regular.fa-star
-                            span.item__content--reviews No reviews
-                          .item__content--price
-                            span.current-price $#{product.price}
-                            if (product.listPrice > 0)
-                              span.root-price $#{product.listPrice}
-                          .item__content--demand
-                            button.item__content--button.like_button
-                              i.fa-regular.fa-heart
-                            button.item__content--button.cart_button
-                              i.fa-solid.fa-cart-plus
-                            button.item__content--button.watch_button
-                              i.fa-regular.fa-eye
-                    -})
-            -})
+              .big-card-wrap.swiper.swiper-products(data-type=categoryType)
+                .swiper-wrapper
+                  -const totalColumns = Math.ceil(products.length / numberPerColumn)
+                  -for (let col = 0; col < totalColumns; col++)
+                    -const startIndex = col * numberPerColumn
+                    -const endIndex = Math.min(startIndex + numberPerColumn, products.length)
+                    -const columnItems = products.slice(startIndex, endIndex)
+                    .item-column.swiper-slide
+                      -columnItems.forEach(product => {
+                        .item
+                          if (product.discountPercentage > 0)
+                            .item__discount #{product.discountPercentage}%
+                          .item__image-box
+                            img.item__image(src=product.imgUrl alt='image')
+                          .item__content
+                            h6.item__content--name 
+                              | #{product.title}
+                            .item__content--rate
+                              i.fa-regular.fa-star
+                              i.fa-regular.fa-star
+                              i.fa-regular.fa-star
+                              i.fa-regular.fa-star
+                              i.fa-regular.fa-star
+                              span.item__content--reviews No reviews
+                            .item__content--price
+                              span.current-price $#{product.price}
+                              if (product.listPrice > 0)
+                                span.root-price $#{product.listPrice}
+                            .item__content--demand
+                              button.item__content--button.like_button
+                                i.fa-regular.fa-heart
+                              button.item__content--button.cart_button
+                                i.fa-solid.fa-cart-plus
+                              button.item__content--button.watch_button
+                                i.fa-regular.fa-eye
+                      -})
+          -})
 
   script(src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js") 
   script(src="/client/js/home.js") 
