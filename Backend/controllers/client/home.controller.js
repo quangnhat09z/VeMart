@@ -16,18 +16,18 @@ module.exports.index = async (req, res) => {
         isBestSeller: true
     };
     const bestSellerProducts = await Product.find(filterBestSellerProduct)
-        .limit(5);
+        .limit(13);
 
     const newProducts = await Product.find({ deleted: false })
-        .sort({ createdAt: -1, _id: -1 })
-        .limit(7);
+        .sort({ createdAt: -1})
+        .limit(12);
 
     const trendingProducts = await Product.find({
         deleted: false,
         boughtInLastMonth: { $gt: 0 }
     })
         .sort({ boughtInLastMonth: -1 })
-        .limit(7);
+        .limit(12);
 
     const productData = {
       bestSellerProducts: bestSellerProducts,

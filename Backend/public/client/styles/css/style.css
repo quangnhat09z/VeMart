@@ -401,10 +401,16 @@
   padding: 80px 0;
   text-align: center;
 }
+.section7 .product-group {
+  display: none;
+}
+.section7 .product-group.active {
+  display: flex;
+}
 .section7__typeButton {
   margin-bottom: 20px;
 }
-.section7__typeButton .button {
+.section7__typeButton .button-type {
   text-transform: uppercase;
   background-color: white;
   color: #6F6F6F;
@@ -414,28 +420,26 @@
   margin: 5px;
   transition: all 0.3s;
 }
-.section7__typeButton .button:hover, .section7__typeButton .button:focus {
+.section7__typeButton .button-type:hover, .section7__typeButton .button-type:focus {
   border: 2px solid #0f3460;
   color: #0f3460;
 }
-.section7__typeButton .button.active {
+.section7__typeButton .button-type.active {
   border: 2px solid #0f3460;
   color: #0f3460;
-}
-.section7__wrapper {
-  overflow: hidden;
 }
 .section7__wrapper .big-card-wrap {
-  display: flex;
+  background-color: aquamarine;
+  overflow: hidden;
 }
 .section7__wrapper .big-card-wrap .item-column {
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
   width: calc((100% - 40px) / 3);
+  margin-right: 20px;
 }
 .section7__wrapper .big-card-wrap .item-column:last-child {
-  margin-right: 0;
+  background-color: bisque;
 }
 .section7__wrapper .big-card-wrap .item {
   position: relative;
@@ -659,7 +663,6 @@
   display: flex;
   padding: 0;
   margin-bottom: 20px;
-  margin-right: 10px;
   background-color: hsla(60, 4%, 90%, 0.745);
   height: 180px;
   width: calc((100% - 40px) / 3);

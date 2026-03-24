@@ -169,8 +169,8 @@
             transition: all 0.2s;
 
             border-bottom: 1px solid $color-primary;
-            
-            
+
+
 
             &:hover {
                 color: $color-primary;
@@ -541,10 +541,19 @@
     padding: 80px 0;
     text-align: center;
 
+    .product-group {
+        display: none;
+        
+    }
+
+    .product-group.active {
+        display: flex;
+    }
+
     &__typeButton {
         margin-bottom: 20px;
 
-        & .button {
+        & .button-type {
             text-transform: uppercase;
             background-color: white;
             color: $color-light-text;
@@ -559,6 +568,7 @@
                 border: 2px solid $color-primary;
                 color: $color-primary;
             }
+
             &.active {
                 border: 2px solid $color-primary;
                 color: $color-primary;
@@ -567,21 +577,23 @@
     }
 
     &__wrapper {
-        overflow: hidden;
+        
 
         & .big-card-wrap {
-            // background-color: aquamarine;
-            display: flex;
+            background-color: aquamarine;
+            overflow: hidden;
+            // display: flex;
             // position: relative;
 
             & .item-column {
                 display: flex;
                 flex-direction: column;
+                // width: auto;
+                width: calc((100% - 40px)/3);
                 margin-right: 20px;
-                width: calc((100% - 40px) / 3);
 
                 &:last-child {
-                    margin-right: 0;
+                    background-color: bisque;
                 }
             }
 
@@ -608,11 +620,13 @@
                     width: 45px;
                     text-align: center;
                 }
+
                 &__image-box {
                     width: calc(100% / 3 + 30px);
                     height: 100%;
                     background-color: white;
                 }
+
                 &__image {
                     // display: none;
                     width: calc(100%);
@@ -633,6 +647,7 @@
                     &--name {
                         max-width: 100%;
                     }
+
                     &--rate {
                         & i {
                             color: #FFC800;
@@ -874,7 +889,7 @@
     // flex-direction: column;
     padding: 0;
     margin-bottom: 20px;
-    margin-right: 10px;
+    // margin-right: 10px;
     background-color: hsla(60, 4%, 90%, 0.745);
     height: 180px;
     width: calc((100% - 40px) / 3);

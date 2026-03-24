@@ -31,7 +31,7 @@ block main
                 |  farmfood
               button.slider__button Shop now
 
-          .slider.slider--2
+          .slider.slider--2 
 
             img.slider__image(src='/client/images/section1_image2.webp' alt='image')
             .slider__content.slider__content--2
@@ -55,53 +55,61 @@ block main
   section.section7
     .container
       h3.section7__title Our products
-  
+
       -const currentType = 'newProducts'; 
       .section7__typeButton.btn-group
-        button.button(data-type='bestSellerProducts' class=currentType === 'bestSellerProducts' ? 'active' : '') Best Product
-        button.button(data-type='newProducts' class=currentType === 'newProducts' ? 'active' : '') New Product
-        button.button(data-type='trendingProducts' class=currentType === 'trendingProducts' ? 'active' : '') Trending Product
+        button.button-type.active(data-type='bestSellerProducts') Best Product
+        button.button-type(data-type='newProducts') New Product
+        button.button-type(data-type='trendingProducts') Trending Product
 
       .swiper-container
-        .section7__wrapper.swiper-products
-          .big-card-wrap.swiper-wrapper
-            
-            -const numberPerColumn = 3; // Số sản phẩm mỗi cột
-            -for (let i = 0; i < Math.ceil(productData[currentType].length / numberPerColumn); i++)
-              .item-column.swiper-slide
-                -for (let j = 0; j < numberPerColumn; j++)
-                  -const index = i * numberPerColumn + j
-                  -if (index < productData[currentType].length)
-                    .item
-                      if (productData[currentType]  [index].discountPercentage > 0)
-                        .item__discount #{productData[currentType][index].discountPercentage}%
-                      .item__image-box
-                        img.item__image(src=productData[currentType][index].imgUrl alt='image')
-                      .item__content
-                        h6.item__content--name  
-                          | #{productData[currentType][index].title}
-                        .item__content--rate
-                          i.fa-regular.fa-star
-                          i.fa-regular.fa-star
-                          i.fa-regular.fa-star
-                          i.fa-regular.fa-star
-                          i.fa-regular.fa-star
-                          span.item__content--reviews No reviews
-                        .item__content--price
-                          span.current-price
-                            | $#{productData[currentType][index].price}
-                          if (productData[currentType][index].listPrice > 0)
-                            span.root-price
-                              | $#{productData[currentType][index].listPrice}
-                        .item__content--demand
-                          button.item__content--button.like_button
-                            i.fa-regular.fa-heart
-                          button.item__content--button.cart_button
-                            i.fa-solid.fa-cart-plus
-                          button.item__content--button.watch_button
-                            i.fa-regular.fa-eye
-        .swiper-button-prev
-        .swiper-button-next
+        .section7__wrapper
+          .big-card-wrap.swiper.swiper-products
+            -const numberPerColumn = 3;
+            -Object.keys(productData).forEach(categoryType => {
+              -const products = productData[categoryType]
+              -const isActive = categoryType === 'bestSellerProducts' ? 'active' : ''
+              
+              .swiper-button-prev
+              .swiper-button-next
+              .product-group.swiper-wrapper(data-type=categoryType class=isActive)
+                -const totalColumns = Math.ceil(products.length / numberPerColumn)
+                -for (let col = 0; col < totalColumns; col++)
+                  -const startIndex = col * numberPerColumn
+                  -const endIndex = Math.min(startIndex + numberPerColumn, products.length)
+                  -const columnItems = products.slice(startIndex, endIndex)
+                  
+                  
+                  .item-column.swiper-slide
+                    -columnItems.forEach(product => {
+                      .item
+                        if (product.discountPercentage > 0)
+                          .item__discount #{product.discountPercentage}%
+                        .item__image-box
+                          img.item__image(src=product.imgUrl alt='image')
+                        .item__content
+                          h6.item__content--name 
+                            | #{product.title}
+                          .item__content--rate
+                            i.fa-regular.fa-star
+                            i.fa-regular.fa-star
+                            i.fa-regular.fa-star
+                            i.fa-regular.fa-star
+                            i.fa-regular.fa-star
+                            span.item__content--reviews No reviews
+                          .item__content--price
+                            span.current-price $#{product.price}
+                            if (product.listPrice > 0)
+                              span.root-price $#{product.listPrice}
+                          .item__content--demand
+                            button.item__content--button.like_button
+                              i.fa-regular.fa-heart
+                            button.item__content--button.cart_button
+                              i.fa-solid.fa-cart-plus
+                            button.item__content--button.watch_button
+                              i.fa-regular.fa-eye
+                    -})
+            -})
 
-
+  script(src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js") 
   script(src="/client/js/home.js") 

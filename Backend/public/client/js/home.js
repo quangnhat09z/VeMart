@@ -57,14 +57,17 @@ const swiperCategory = new Swiper('.swiper-category', {
 
 const swiperProduct = new Swiper('.swiper-products', {
     direction: 'horizontal',
-    loop: true,
+    loop: false,
     navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
     },
-
     slidesPerView: 3,
+    // slidesPerGroup: 3,
     spaceBetween: 20,
+    watchOverflow: true,
+    observer: true,
+    observeParents: true,
 });
 
 
@@ -108,29 +111,52 @@ const swiperNews = new Swiper('.swiper-new', {
 
 
 
-const Days = document.querySelector("#days");
-const Hours = document.querySelector("#hours");
-const Minutes = document.querySelector("#minutes");
-const Seconds = document.querySelector("#seconds");
+// const Days = document.querySelector("#days");
+// const Hours = document.querySelector("#hours");
+// const Minutes = document.querySelector("#minutes");
+// const Seconds = document.querySelector("#seconds");
 
-function timer() {
-    let targetDate = new Date("June 1, 2026 00:00:00");
-    let currentDate = new Date();
-    distance = targetDate - currentDate
+// function timer() {
+//     let targetDate = new Date("June 1, 2026 00:00:00");
+//     let currentDate = new Date();
+//     distance = targetDate - currentDate
 
-    let days = Math.floor(distance / 1000 / 60 / 60 / 24);
-    let hours = Math.floor(distance / 1000 / 60 / 60) % 24;
-    let minutes = Math.floor(distance / 1000 / 60) % 60;
-    let seconds = Math.floor(distance / 1000) % 60;
+//     let days = Math.floor(distance / 1000 / 60 / 60 / 24);
+//     let hours = Math.floor(distance / 1000 / 60 / 60) % 24;
+//     let minutes = Math.floor(distance / 1000 / 60) % 60;
+//     let seconds = Math.floor(distance / 1000) % 60;
 
-    // console.log("Days:" + days + ", Hours: " + hours + ", Minutes: " + minutes + ", Second" + seconds);
-    Days.innerHTML = days;
-    Hours.innerHTML = hours;
-    Minutes.innerHTML = minutes;
-    Seconds.innerHTML = seconds;
-}
+//     // console.log("Days:" + days + ", Hours: " + hours + ", Minutes: " + minutes + ", Second" + seconds);
+//     Days.innerHTML = days;
+//     Hours.innerHTML = hours;
+//     Minutes.innerHTML = minutes;
+//     Seconds.innerHTML = seconds;
+// }
 
-setInterval(timer, 1000);
+// setInterval(timer, 1000);
 
 
 // Our products section
+const typeButtons = document.querySelectorAll(".button-type");
+const productGroups = document.querySelectorAll(".product-group");
+
+typeButtons.forEach(button => {
+    button.addEventListener("click", function () {
+        const type = this.getAttribute("data-type");
+        
+        // Update button active
+        typeButtons.forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+        
+        // Update product display
+        productGroups.forEach(group => {
+            group.classList.remove("active");
+            if (group.getAttribute("data-type") === type) {
+                group.classList.add("active");
+            }
+        });
+
+        swiperProduct.slideTo(0, 0);
+        swiperProduct.update();
+    });
+});
