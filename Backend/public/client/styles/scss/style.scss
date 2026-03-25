@@ -679,8 +679,9 @@
                         transition: all 0.3s;
 
                         &:hover {
-                            background-color: rgb(48, 48, 158);
-                            // color: $color-primary;
+                            background-color: $color-secondary;
+                            color: $color-primary;
+                            border: 1px solid $color-primary;
                         }
                     }
                 }

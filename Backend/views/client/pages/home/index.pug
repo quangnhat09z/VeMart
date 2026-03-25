@@ -82,7 +82,7 @@ block main
                       -columnItems.forEach(product => {
                         .item
                           if (product.discountPercentage > 0)
-                            .item__discount #{product.discountPercentage}%
+                            .item__discount #{product.discountPercentage * 100}%
                           .item__image-box
                             img.item__image(src=product.imgUrl alt='image')
                           .item__content
@@ -94,7 +94,10 @@ block main
                               i.fa-regular.fa-star
                               i.fa-regular.fa-star
                               i.fa-regular.fa-star
-                              span.item__content--reviews No reviews
+                              if (product.reviews === 0 || !product.reviews)
+                                span.item__content--reviews No reviews
+                              else 
+                                span.item__content--reviews #{product.reviews} reviews
                             .item__content--price
                               span.current-price $#{product.price}
                               if (product.listPrice > 0)

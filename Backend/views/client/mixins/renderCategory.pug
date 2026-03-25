@@ -1,7 +1,7 @@
 mixin renderCategory(category)
     .section1__category-item
         a.section1__scroll-bar-item(
-            href=`/categories/${category.slug}`
+            href=`/category/${category.slug}`
         ) 
             span #{category.title}
             if category.children && category.children.length > 0

@@ -30,7 +30,7 @@ html, body {
 
     &:hover {
         border: 2px solid $color-primary;
-        background-color: white;
+        background-color: $color-secondary;
         color: $color-primary;
     }
 }
