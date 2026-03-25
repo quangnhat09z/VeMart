@@ -1,12 +1,18 @@
 extend ../../layout/default.pug
 
 block main 
-    .container
-        a.coll-block(href='/category/suitcasess')
-            .collection-img
-                img(src='http://localhost:3000/uploads/1773421519032-3x7ardem8.webp' alt='suitcases')
+    section.section-category-list
+        .container
+            .section-category-list__wrapper
+                each category in categories
+                    a.section-category-list__item(href=`/category/${category.slug}`)
+                        .section-category-list__item-image
+                            img(src=category.imgUrl, alt=category.title)
+                            
+                        .section-category-list__item-content
+                            .section-category-list__item-title
+                                h6= category.title
+                            .section-category-list__item-button
+                                button Shop now
+
                 
-            .collection-content
-                .content
-                h6 Suitcase
-                span.shop-btn Shop now
