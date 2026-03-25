@@ -4,110 +4,109 @@ block main
     .container.mt-4
         .row.mb-4
             .col-12
-                h1.mb-3.view-detail-header Product Detail
+                h1.mb-3.product-detail__header Product Detail
                 a.btn.btn-secondary(href=`/product`) 
                     i.fas.fa-arrow-left
                     |  Back
 
-        .row.mt-4
-            // Hình ảnh sản phẩm
-            .col-md-5
-                .product-image
-                    img(
-                        src=product.imgUrl 
-                        alt=product.title 
-                        class="img-fluid"
-                    )
+        .row.mt-4.justify-content-center
+            .col-md-10
+                .row
+                    // Hình ảnh sản phẩm
+                    .col-md-5
+                        .product-detail__image-wrapper
+                            img.product-detail__image(
+                                src=product.imgUrl 
+                                alt=product.title 
+                            )
 
-            // Thông tin sản phẩm
-            .col-md-7
-                .product-info
-                    h3 #{product.title}
+                    // Thông tin sản phẩm
+                    .col-md-7
+                        .product-detail__info
+                            h3.product-detail__title #{product.title}
 
-                    // Đánh giá
-                    .mb-3
-                        span.badge.bg-warning 4.5 ⭐ 
-                            if(product.reviewCount)
-                                | (#{product.reviewCount} reviews)
-                            else
-                                | (No reviews yet)
+                            // Đánh giá
+                            .product-detail__rating.mb-3
+                                span.badge.bg-warning 4.5 ⭐ 
+                                    if(product.reviewCount)
+                                        | (#{product.reviewCount} reviews)
+                                    else
+                                        | (No reviews yet)
 
-                    // Giá
-                    .mb-3
-                        h3.text-danger
-                            strong #{product.price}$
-                            span.text-muted.text-decoration-line-through 
-                                if(product.listPrice)
-                                    | #{product.listPrice}$
+                            // Giá
+                            .product-detail__price.mb-3
+                                h3.product-detail__price-current
+                                    strong #{product.price}$
+                                span.product-detail__price-original
+                                    if(product.listPrice)
+                                        | #{product.listPrice}$
 
+                            // Trạng thái
+                            .product-detail__status.mb-3
+                                .product-detail__status-label Availability:
+                                if product.status === 'active'
+                                    span.badge.bg-success 5 In Stock
+                                else
+                                    span.badge.bg-danger Out of Stock
 
+                            // Mô tả
+                            .product-detail__description.mb-3
+                                h5.product-detail__description-title Description:
+                                p.product-detail__description-text !{product.description}
+                                    
+                            // Thông tin chi tiết
+                            .product-detail__information.mb-3
+                                h5.product-detail__information-title Information:
+                                ul.product-detail__information-list
+                                    li.product-detail__information-item
+                                        strong Category: 
+                                        span #{category ? category.title : 'N/A'}
 
-                    // Trạng thái
-                    .mb-3
-                        if product.status === 'active'
-                            span.badge.bg-success In Stock
-                        else
-                            span.badge.bg-danger Out of Stock
+                                    li.product-detail__information-item
+                                        strong ASIN: 
+                                        span #{product.asin}
 
-                    // Mô tả
-                    .mb-3
-                        h5 Description:
-                        p #{product.description} 
-                        || Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        | Nobis porro necessitatibus provident, animi veniam a asperiores amet voluptates inventore numquam,
-                        | minus ea deserunt molestias? Officia rem nobis iusto assumenda commodi?
+                            // Lựa chọn sản phẩm
+                            .product-detail__quantity.mb-3                      
+                                label.product-detail__quantity-label(for="quantity") Quantity:
+                                input#quantity.product-detail__quantity-input(
+                                    type="number" 
+                                    min="1" 
+                                    max="100" 
+                                    value=product.stock || 1)
 
-                    // Thông tin chi tiết
-                    .mb-3
-                        h5  Information:
-                        ul.list-unstyled
-                            li
-                                strong Category: 
-                                span #{product.category_id || 'N/A'}
+                            // Nút hành động
+                            .product-detail__actions.mb-3
+                                button.btn.product-detail__actions-btn-cart
+                                    i.fas.fa-shopping-cart
+                                    | &nbsp;Add to Cart
+                                button.btn.product-detail__actions-btn-buy
+                                    i.fas.fa-dollar-sign
+                                    | &nbsp;Buy it now
+                                button.btn.product-detail__actions-btn-wishlist
+                                    i.fas.fa-heart
+                                    | &nbsp;Add to Wishlist
 
-                            li
-                                strong ASIN: 
-                                span #{product.asin}
-                                
-
-                    // Lựa chọn sản phẩm
-                    .mb-3
-                        label(for="quantity") Stock Quantity:
-                        input#quantity.form-control.w-25(
-                            type="number" 
-                            min="1" 
-                            max="100" 
-                            value=product.stock || 1)
-
-                    // Nút hành động
-                    .mb-3
-                        button.btn.btn-success.btn-lg.me-2
-                            i.fas.fa-shopping-cart
-                            | &nbsp;Add to Cart
-                        button.btn.btn-outline-secondary.btn-lg
-                            i.fas.fa-heart
-                            | &nbsp;Add to Wishlist
-
-                    // Chia sẻ
-                    .mb-3
-                        strong Share: 
-                        a.me-2(href="#") 
-                            i.fab.fa-facebook
-                        a.me-2(href="#")
-                            i.fab.fa-twitter
-                        a(href="#")
-                            i.fab.fa-pinterest
+                            // Chia sẻ
+                            .product-detail__share.mb-3
+                                strong.product-detail__share-label Share: 
+                                a.product-detail__share-link.me-2(href="#") 
+                                    i.fa-brands.fa-facebook
+                                a.product-detail__share-link.me-2(href="#")
+                                    i.fab.fa-twitter
+                                a.product-detail__share-link(href="#")
+                                    i.fab.fa-pinterest
 
         // Sản phẩm liên quan
         .row.mt-5
             .col-12
-                h3 Relate Products
+                h3.product-detail__related-title Relate Products
                 .row
                     - for (let i = 0; i < 4; i++)
                         .col-md-3.mb-3
-                            .card
-                                img.card-img-top(src=`/images/product-${i}.jpg` alt="...")
-                                .card-body
-                                    h5.card-title Product ${i+1}
-                                    p.card-text $99.99
-                                    a.btn.btn-sm.btn-primary(href="#") View Details
+                            .product-detail__related-card
+                                img.product-detail__related-image(src=`/images/product-${i}.jpg` alt="...")
+                                .product-detail__related-body
+                                    h5.product-detail__related-name Product ${i+1}
+                                    p.product-detail__related-price $99.99
+                                    a.btn.btn-sm.btn-primary.product-detail__related-link(href="#") View Details

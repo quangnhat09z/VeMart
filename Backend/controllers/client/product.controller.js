@@ -1,6 +1,7 @@
-// [GET]   /products
 const Product = require('../../models/product.model.js')
+const Category = require('../../models/category.model.js')
 
+// [GET]   /products
 module.exports.index = async (req, res) => {
     const products = await Product.find({
         deleted: false,
@@ -19,8 +20,15 @@ module.exports.detail = async (req, res) => {
         slug: slug,
         deleted: false
     });
+    console.log(product);
+    const category = await Category.findOne({
+        _id: product.category_id,
+        deleted: false
+    })
+    console.log(category);
     res.render(`client/pages/product/viewDetail`, {
-        pageTitle: "Chi tiết sản phẩm",
-        product: product
+        pageTitle: "Product Detail",
+        product: product,
+        category: category
     })
 }
