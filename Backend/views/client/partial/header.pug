@@ -1,19 +1,31 @@
 section.header
     .container
         .header__wrapper
-            img.header__logo(
-               src="/client/images/logo3rd.png" alt="image" 
-            )
+            a.header__logo(href="/")
+                img(src="/client/images/logo3rd.png" alt="image")
 
             nav.header__nav
                 a.header__nav-item(href="/") HOME
-                a.header__nav-item(href="/shop") SHOP
+                a.header__nav-item(href="/product") PRODUCT
                 a.header__nav-item(href="/category") CATEGORIES
                 a.header__nav-item(href="/blogs") BLOGS
                 a.header__nav-item(href="/pages") PAGES
 
             .header__info
-                i.header__info-icon.header__info-icon--search.fa-solid.fa-magnifying-glass
-                i.header__info-icon.header__info-icon--favourite.fa-regular.fa-heart
-                i.header__info-icon.header__info-icon--cart.fa-solid.fa-cart-shopping
-                i.header__info-icon.header__info-icon--profile.fa-solid.fa-user
+                button.header__info-icon--close.btn-close(
+                    type='button' 
+                    aria-label='Close' 
+                )
+                form.header__info-search(action="/product" method="GET")
+                    input(type="text" name="keyword" placeholder="Search for products")
+                button.header__info-icon.header__info-icon--search
+                    i.fa-solid.fa-magnifying-glass
+                
+                button.header__info-icon.header__info-icon--favourite
+                    i.fa-regular.fa-heart
+                button.header__info-icon.header__info-icon--cart
+                    i.fa-solid.fa-cart-shopping
+                button.header__info-icon.header__info-icon--profile 
+                    i.fa-solid.fa-user
+
+script(src="/client/js/header.js")

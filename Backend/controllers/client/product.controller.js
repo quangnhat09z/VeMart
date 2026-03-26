@@ -1,14 +1,23 @@
 const Product = require('../../models/product.model.js')
 const Category = require('../../models/category.model.js')
+const searchHelper = require('../../helpers/search');
 
-// [GET]   /products
+// [GET]   /product
 module.exports.index = async (req, res) => {
-    const products = await Product.find({
+
+    const filter = {
         deleted: false,
-    }).sort({ price: "asc" });
-    // console.log(products);
+    }
+    
+
+    const objectSearch = searchHelper(req.query);
+    if (objectSearch.regex) {
+        filter.title = objectSearch.regex;
+    }
+
+    const products = await Product.find(filter);
     res.render("client/pages/product/index", {
-        pageTitle: "Danh sách sản phẩm",
+        pageTitle: "List of Products",
         products: products
     })
 }
