@@ -114,6 +114,7 @@
             transition: all 0.2s;
             background-color: transparent;
             border: none;
+            color:black;
 
             &:hover {
                 color: $color-primary;
@@ -130,8 +131,7 @@
                 margin: 0;
                 font-size: 20px;
                 color: black;
-                transition: all 0.3s;
-                
+                transition: all 0.3s;   
             }
 
             &--close.active {

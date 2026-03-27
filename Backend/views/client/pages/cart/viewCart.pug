@@ -1,0 +1,40 @@
+extends ../../layout/default.pug
+
+block main
+    if (cart)
+        .section-cart
+            .container
+                h2 Your Cart
+                table.cart-table
+                    thead
+                        tr
+                            th Product
+                            th Quantity
+                            th Total
+                    tbody
+                        each item in cart.products
+                            tr
+                                td
+                                    .product-row
+                                        .product-image
+                                            img(src=item.productId.imgUrl alt=item.productId.title)
+                                        .product-info
+                                            h5.product-title #{item.productId.title}
+                                            p.product-price $#{item.productId.price}
+                                td
+                                    input.quantity-input(
+                                        type="number" 
+                                        min="1" 
+                                        max="100" 
+                                        value=item.quantity
+                                        name=`quantity-${item.productId._id}`
+                                    )
+                                td $#{(item.productId.price * item.quantity)}
+                .cart-total
+                    h3 Total: $#{cart.totalPrice}
+                
+    else
+        .section-empty-cart
+            .container
+                h2 Your cart is empty.
+                a(href='/') Continue shopping

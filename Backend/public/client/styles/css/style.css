@@ -89,6 +89,7 @@
   transition: all 0.2s;
   background-color: transparent;
   border: none;
+  color: black;
 }
 .header__info-icon:hover {
   color: #436b8e;

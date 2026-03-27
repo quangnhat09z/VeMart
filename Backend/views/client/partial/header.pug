@@ -12,6 +12,7 @@ section.header
                 a.header__nav-item(href="/pages") PAGES
 
             .header__info
+                //- Search
                 button.header__info-icon--close.btn-close(
                     type='button' 
                     aria-label='Close' 
@@ -23,9 +24,12 @@ section.header
                 
                 button.header__info-icon.header__info-icon--favourite
                     i.fa-regular.fa-heart
-                button.header__info-icon.header__info-icon--cart
+
+                //- Cart
+                a.header__info-icon.header__info-icon--cart(href="/cart")
                     i.fa-solid.fa-cart-shopping
                 button.header__info-icon.header__info-icon--profile 
                     i.fa-solid.fa-user
+
 
 script(src="/client/js/header.js")
