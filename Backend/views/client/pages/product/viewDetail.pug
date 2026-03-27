@@ -1,6 +1,8 @@
 extends ../../layout/default.pug
+include ../../mixins/alert.pug
 
 block main 
+    +alert(messages)
     .container.mt-4
         .row.mb-4
             .col-12
@@ -67,17 +69,19 @@ block main
                                         span #{product.asin}
 
                             // Lựa chọn sản phẩm
-                            .product-detail__quantity.mb-3                      
-                                label.product-detail__quantity-label(for="quantity") Quantity:
-                                input#quantity.product-detail__quantity-input(
-                                    type="number" 
-                                    min="1" 
-                                    max="100" 
-                                    value=product.stock || 1)
+                            .product-detail__quantity.mb-3      
+                                form(method="POST" action=`/cart/add/${product.id}` id="add-to-cart-form")                
+                                    label.product-detail__quantity-label(for="quantity") Quantity:
+                                    input#quantity.product-detail__quantity-input(
+                                        type="number" 
+                                        min="1" 
+                                        max="100" 
+                                        name="quantity"
+                                        value=1)
 
                             // Nút hành động
                             .product-detail__actions.mb-3
-                                button.btn.product-detail__actions-btn-cart
+                                button.btn.product-detail__actions-btn-cart(type="submit")
                                     i.fas.fa-shopping-cart
                                     | &nbsp;Add to Cart
                                 button.btn.product-detail__actions-btn-buy
@@ -110,3 +114,5 @@ block main
                                     h5.product-detail__related-name Product ${i+1}
                                     p.product-detail__related-price $99.99
                                     a.btn.btn-sm.btn-primary.product-detail__related-link(href="#") View Details
+
+    script(src="/client/js/product.js")

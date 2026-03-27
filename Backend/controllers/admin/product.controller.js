@@ -8,7 +8,6 @@ const paginationHelper = require('../../helpers/pagination');
 const systemConfig = require('../../config/system.js');
 const sort = require('../../helpers/sort.js');
 const { buildCategoryHierarchy } = require('../../helpers/categoryTree.js');
-const accountModel = require('../../models/account.model.js');
 
 const fs = require('fs').promises;
 

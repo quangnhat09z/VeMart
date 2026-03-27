@@ -29,12 +29,12 @@ module.exports.detail = async (req, res) => {
         slug: slug,
         deleted: false
     });
-    console.log(product);
+    // console.log(product);
     const category = await Category.findOne({
         _id: product.category_id,
         deleted: false
     })
-    console.log(category);
+    // console.log(category);
     res.render(`client/pages/product/viewDetail`, {
         pageTitle: "Product Detail",
         product: product,

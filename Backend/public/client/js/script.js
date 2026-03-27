@@ -1,3 +1,17 @@
+// Alert auto hide
+const alerts = document.querySelectorAll('.alert');
+if (alerts.length > 0) {
+    setTimeout(() => {
+        alerts.forEach(alert => {
+            alert.classList.add('fade-out');
+
+            alert.addEventListener('animationend', () => {
+                alert.remove();
+            }, { once: true });
+        });
+    }, 3000);
+}
+
 const viewDetailLinks = document.querySelectorAll('.view-detail');
 if (viewDetailLinks) {
     viewDetailLinks.forEach(link => {

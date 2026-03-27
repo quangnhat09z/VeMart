@@ -1,6 +1,31 @@
 @import "variable";
 @import "mixin";
 
+.alert {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    width: 20%;
+    position: fixed;
+    /* top: 20px; */
+    right: 50px;
+    z-index: 1001;
+}
+
+.fade-out {
+    animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
 
 .product-detail {
     &__header {
