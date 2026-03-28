@@ -5,10 +5,12 @@ const Product = require('../../models/product.model.js');
 module.exports.viewCart = async (req, res) => {
     const cartId = req.cookies.cartId;
     const cart = await Cart.findById(cartId).populate('products.productId');
-    for (let item of cart.products) {
-        console.log(item.productId.title);
-    }
-    res.render('client/pages/cart/viewCart', { 
+
+    cart.totalPrice = cart.products.reduce((total, item) => {
+        return total + item.productId.price * item.quantity;
+    }, 0);
+
+    res.render('client/pages/cart/viewCart', {
         cart: cart,
     });
 }
@@ -35,8 +37,8 @@ module.exports.addToCart = async (req, res) => {
         await cart.save();
     }
 
-    const slug = await Product.findOne({ _id: productId }).select('slug');
+    // const slug = await Product.findOne({ _id: productId }).select('slug');
 
     req.flash('success', 'Product added to cart successfully!');
-    res.redirect(`/product/detail/${slug.slug}`);
+    res.redirect(req.header('Referer') || '/');
 }

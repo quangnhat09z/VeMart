@@ -69,9 +69,10 @@
     img {
         width: 80px;
         height: 80px;
-        object-fit: cover;
+        object-fit: contain;
         border-radius: 6px;
         border: 1px solid #e0e0e0;
+        cursor: pointer;
     }
 }
 
@@ -91,6 +92,10 @@
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        cursor: pointer;
+    }
+    .product-title:hover {
+        color: $color-primary;
     }
 
     .product-price {

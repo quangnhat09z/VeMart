@@ -1,7 +1,9 @@
 extend ../../layout/default.pug
 include ../../mixins/renderCategory.pug
+include ../../mixins/alert.pug
 
 block main
+  +alert(messages)
   section.section1
     .container
       .section1__wrapper
@@ -105,12 +107,16 @@ block main
                             .item__content--demand
                               button.item__content--button.like_button
                                 i.fa-regular.fa-heart
-                              button.item__content--button.cart_button
+                              button.item__content--button.cart_button(class="add-to-cart" data-product-id=product._id)
                                 i.fa-solid.fa-cart-plus
                               button.item__content--button.watch_button
                                 i.fa-regular.fa-eye
                       -})
           -})
+
+  form#add-to-cart-form(method="POST" action="/cart/add" style="display:none;")
+    input(type="hidden" name="productId" id="hidden-product-id")
+    input(type="hidden" name="quantity" id="hidden-quantity" value="1")
 
   script(src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js") 
   script(src="/client/js/home.js") 

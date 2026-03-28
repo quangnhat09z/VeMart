@@ -12,6 +12,7 @@ if (alerts.length > 0) {
     }, 3000);
 }
 
+// View product detail from cartPage, productPage
 const viewDetailLinks = document.querySelectorAll('.view-detail');
 if (viewDetailLinks) {
     viewDetailLinks.forEach(link => {
