@@ -7,7 +7,7 @@ section.header
             nav.header__nav
                 a.header__nav-item(href="/") HOME
                 a.header__nav-item(href="/product") PRODUCT
-                a.header__nav-item(href="/category") CATEGORIES
+                a.header__nav-item(href="/category") CATEGORY 
                 a.header__nav-item(href="/blogs") BLOGS
                 a.header__nav-item(href="/pages") PAGES
 
@@ -26,8 +26,9 @@ section.header
                     i.fa-regular.fa-heart
 
                 //- Cart
-                a.header__info-icon.header__info-icon--cart(href="/cart")
+                a.header__info-icon.header__info-icon--cart(href="/cart") 
                     i.fa-solid.fa-cart-shopping
+                    div.cart-quantity #{cartQuantity || 0}
                 button.header__info-icon.header__info-icon--profile 
                     i.fa-solid.fa-user
 

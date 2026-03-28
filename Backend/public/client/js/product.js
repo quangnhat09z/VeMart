@@ -33,7 +33,15 @@ if (quantityInputs && updateQuantityForm) {
         input.addEventListener('change', function() {
             const productId = this.getAttribute('data-product-id');
             const quantity = this.value;
-            const action = updateQuantityForm.getAttribute('action') + `/${productId}/${quantity}?_method=PATCH`;
+            let action = updateQuantityForm.getAttribute('action');
+            // Validate client-side trước
+            if (!quantity || !/^\d+$/.test(quantity)) {
+                action = action + `/${productId}/+?_method=PATCH`;
+            }else {
+                action = action + `/${productId}/${quantity}?_method=PATCH`;
+            }
+            
+            
             updateQuantityForm.setAttribute('action', action);
             updateQuantityForm.submit();
         });

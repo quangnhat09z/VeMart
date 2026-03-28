@@ -6,6 +6,13 @@ module.exports.cartId = async (req, res, next) => {
         const newCart = new Cart();
         await newCart.save();
         res.cookie('cartId', newCart._id.toString(), { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 }); // Cookie expires in 7 days
+    } else {
+        const cart = await Cart.findById(req.cookies.cartId);
+        let totalQuantity = 0;
+        cart.products.forEach(item => {
+            totalQuantity += item.quantity;
+        });
+        res.locals.cartQuantity = totalQuantity;
     }
     next();
 }
