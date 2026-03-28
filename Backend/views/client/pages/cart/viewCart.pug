@@ -34,7 +34,7 @@ block main
                                     )
                                 td $#{(item.productId.price * item.quantity)}
                                 td
-                                    a.btn.btn-danger(href=`/cart/remove/${item.productId._id}`) 
+                                    button.btn.btn-danger(type="button" data-product-id=item.productId._id)
                                         i.fa-solid.fa-trash-can
 
                 .cart-total
@@ -45,3 +45,8 @@ block main
             .container
                 h2 Your cart is empty.
                 a(href='/') Continue shopping
+    
+    form(id="remove-from-cart-form" method="POST" action="/cart/delete" style="display:none;")
+        input(type="hidden" name="productId" id="remove-product-id")
+    
+    script(src="/client/js/product.js")

@@ -9,3 +9,18 @@ if (addToCartButton && addtoCartForm) {
         addtoCartForm.submit();
     });
 }
+
+// Remove from cart in Cart page
+const removeFromCartButtons = document.querySelectorAll('.btn-danger');
+const removeFromCartForm = document.getElementById('remove-from-cart-form');
+if (removeFromCartButtons && removeFromCartForm) {
+    removeFromCartButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
+            document.getElementById('remove-product-id').value = productId;
+            const action = removeFromCartForm.getAttribute('action') + `/${productId}?_method=DELETE`;
+            removeFromCartForm.setAttribute('action', action);
+            removeFromCartForm.submit();
+        });
+    });
+}

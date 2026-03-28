@@ -42,3 +42,16 @@ module.exports.addToCart = async (req, res) => {
     req.flash('success', 'Product added to cart successfully!');
     res.redirect(req.header('Referer') || '/');
 }
+
+// [DELETE] /cart/delete/:productId
+module.exports.removeFromCart = async (req, res) => {
+    const productId = req.params.productId;
+    const cartId = req.cookies.cartId;
+    
+    await Cart.updateOne(
+        { _id: cartId },
+        { $pull: { products: { productId } } }
+    );
+    req.flash('success', 'Product removed from cart successfully!');
+    res.redirect(req.header('Referer') || '/');
+}
