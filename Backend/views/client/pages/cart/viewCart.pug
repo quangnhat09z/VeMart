@@ -2,49 +2,63 @@ extends ../../layout/default.pug
 include ../../mixins/alert.pug
 
 block main
+    link(rel="stylesheet" href="/client/styles/css/cart.css")
     +alert(messages)
     if (cart)
         .section-cart
             .container
                 h2 Your Cart
-                table.cart-table
-                    thead
-                        tr                        
-                            th #
-                            th Product
-                            th Quantity
-                            th Total
-                            th Action
-                    tbody
-                        each item, index in cart.products
-                            tr
-                                td #{index + 1} 
-                                td
-                                    .product-row   
-                                        .product-image(class="view-detail" data-product-slug=item.productId.slug)
-                                            img(src=item.productId.imgUrl alt=item.productId.title)
-                                        .product-info(class="view-detail" data-product-slug=item.productId.slug)
-                                            h5.product-title #{item.productId.title}
-                                            p.product-price $#{item.productId.price}
-                                td
-                                    form.quantity-form(
-                                        method="POST" action=`/cart/update` 
-                                        id="update-quantity-form"
-                                        )
-                                        input.quantity-input(
-                                            type="number" 
-                                            name="quantity" 
-                                            value=item.quantity 
-                                            data-product-id=item.productId._id
-                                        )
+                .row
+                    .col-md-9
+                        table.cart-table
+                            thead
+                                tr                        
+                                    th #
+                                    th Product
+                                    th Quantity
+                                    th Total
+                                    th Action
+                            tbody
+                                each item, index in cart.products
+                                    tr
+                                        td #{index + 1} 
+                                        td
+                                            .product-row   
+                                                .product-image(class="view-detail" data-product-slug=item.productId.slug)
+                                                    img(src=item.productId.imgUrl alt=item.productId.title)
+                                                .product-info(class="view-detail" data-product-slug=item.productId.slug)
+                                                    h5.product-title #{item.productId.title}
+                                                    p.product-price $#{item.productId.price}
+                                        td
+                                            form.quantity-form(
+                                                method="POST" action=`/cart/update` 
+                                                id="update-quantity-form"
+                                                )
+                                                input.quantity-input(
+                                                    type="number" 
+                                                    name="quantity" 
+                                                    value=item.quantity 
+                                                    data-product-id=item.productId._id
+                                                )
 
-                                td $#{(item.productId.price * item.quantity)}
-                                td
-                                    button.delete-button(type="button" data-product-id=item.productId._id)
-                                        i.fa-solid.fa-trash-can
+                                        td $#{(item.productId.price * item.quantity)}
+                                        td
+                                            button.delete-button(type="button" data-product-id=item.productId._id)
+                                                i.fa-solid.fa-trash-can
 
-                .cart-total
-                    h3 Total: $#{cart.totalPrice}
+
+                    .col-md-3
+                        .cart-sider 
+                            .cart-blocks
+                                .cart-totals
+                                    .totals-row
+                                        span.total-title Subtotal:
+                                        span.cart-total $#{cart.totalPrice}
+                                    small.tax-note.caption-large.rte
+                                    | Taxes and shipping calculated at checkout
+                                .cart-actions
+                                    a.btn.btn-primary(href='/checkout') Checkout
+                                    a.btn.btn-secondary(href='/') Return to Shop
 
     else
         .section-empty-cart

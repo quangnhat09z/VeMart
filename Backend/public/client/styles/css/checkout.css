@@ -1,0 +1,148 @@
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.checkout-section {
+  background-color: white;
+  padding: 20px 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+}
+.checkout-section .section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #232323;
+  margin-bottom: 16px;
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.checkout-section .section-title i {
+  color: #436b8e;
+  font-size: 18px;
+}
+.checkout-section .form-group {
+  margin-bottom: 16px;
+}
+.checkout-section .form-group:last-child {
+  margin-bottom: 0;
+}
+.checkout-section .form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #232323;
+  margin-bottom: 8px;
+}
+.checkout-section .form-group .form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+.checkout-section .form-group .form-control:focus {
+  outline: none;
+  border-color: #436b8e;
+  box-shadow: 0 0 0 3px rgba(67, 107, 142, 0.1);
+}
+
+.shipping-options,
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.shipping-options .shipping-option input[type=radio],
+.shipping-options .payment-option input[type=radio],
+.payment-options .shipping-option input[type=radio],
+.payment-options .payment-option input[type=radio] {
+  display: none;
+}
+.shipping-options .shipping-option label,
+.shipping-options .payment-option label,
+.payment-options .shipping-option label,
+.payment-options .payment-option label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.shipping-options .shipping-option label .option-label,
+.shipping-options .payment-option label .option-label,
+.payment-options .shipping-option label .option-label,
+.payment-options .payment-option label .option-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.shipping-options .shipping-option label .option-label .method-name,
+.shipping-options .payment-option label .option-label .method-name,
+.payment-options .shipping-option label .option-label .method-name,
+.payment-options .payment-option label .option-label .method-name {
+  font-weight: 600;
+  color: #232323;
+  font-size: 14px;
+}
+.shipping-options .shipping-option label .option-label .method-price,
+.shipping-options .payment-option label .option-label .method-price,
+.payment-options .shipping-option label .option-label .method-price,
+.payment-options .payment-option label .option-label .method-price {
+  font-weight: 600;
+  color: #436b8e;
+  font-size: 14px;
+}
+.shipping-options .shipping-option label .option-label i,
+.shipping-options .payment-option label .option-label i,
+.payment-options .shipping-option label .option-label i,
+.payment-options .payment-option label .option-label i {
+  font-size: 18px;
+  color: #436b8e;
+}
+.shipping-options .shipping-option label .method-desc,
+.shipping-options .payment-option label .method-desc,
+.payment-options .shipping-option label .method-desc,
+.payment-options .payment-option label .method-desc {
+  font-size: 12px;
+  color: #999;
+  margin: 0;
+}
+.shipping-options .shipping-option input[type=radio]:checked + label,
+.shipping-options .payment-option input[type=radio]:checked + label,
+.payment-options .shipping-option input[type=radio]:checked + label,
+.payment-options .payment-option input[type=radio]:checked + label {
+  border-color: #436b8e;
+  background-color: rgba(67, 107, 142, 0.05);
+}
+
+.btn-complete-order {
+  background-color: #436b8e;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  width: 50%;
+}
+.btn-complete-order:hover {
+  background-color: rgb(50.6507177033, 80.8899521531, 107.3492822967);
+}
+.btn-complete-order:active {
+  transform: scale(0.98);
+}
+
+/*# sourceMappingURL=checkout.css.map */

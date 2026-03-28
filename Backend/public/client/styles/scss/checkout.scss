@@ -1,0 +1,146 @@
+@import "variable";
+
+// Checkout form
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+}
+
+.checkout-section {
+    background-color: white;
+    padding: 20px 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+
+    .section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: $color-text;
+        margin-bottom: 16px;
+        margin-top: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        i {
+            color: $color-primary;
+            font-size: 18px;
+        }
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: $color-text;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                outline: none;
+                border-color: $color-primary;
+                box-shadow: 0 0 0 3px rgba(67, 107, 142, 0.1);
+            }
+        }
+    }
+}
+
+.shipping-options,
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .shipping-option,
+    .payment-option {
+        input[type="radio"] {
+            display: none;
+        }
+
+        label {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 12px 14px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            .option-label {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+
+                .method-name {
+                    font-weight: 600;
+                    color: $color-text;
+                    font-size: 14px;
+                }
+
+                .method-price {
+                    font-weight: 600;
+                    color: $color-primary;
+                    font-size: 14px;
+                }
+
+                i {
+                    font-size: 18px;
+                    color: $color-primary;
+                }
+            }
+
+            .method-desc {
+                font-size: 12px;
+                color: #999;
+                margin: 0;
+            }
+        }
+
+        input[type="radio"]:checked + label {
+            border-color: $color-primary;
+            background-color: rgba(67, 107, 142, 0.05);
+        }
+    }
+}
+
+.btn-complete-order {
+    background-color: $color-primary;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    width: 50%;
+
+    &:hover {
+        background-color: darken($color-primary, 10%);
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
