@@ -24,3 +24,18 @@ if (removeFromCartButtons && removeFromCartForm) {
         });
     });
 }
+
+// Update quantity in Cart page
+const quantityInputs = document.querySelectorAll('.quantity-input');
+const updateQuantityForm = document.getElementById('update-quantity-form');
+if (quantityInputs && updateQuantityForm) {
+    quantityInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            const productId = this.getAttribute('data-product-id');
+            const quantity = this.value;
+            const action = updateQuantityForm.getAttribute('action') + `/${productId}/${quantity}?_method=PATCH`;
+            updateQuantityForm.setAttribute('action', action);
+            updateQuantityForm.submit();
+        });
+    });
+}

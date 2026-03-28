@@ -25,28 +25,34 @@ block main
                                             h5.product-title #{item.productId.title}
                                             p.product-price $#{item.productId.price}
                                 td
-                                    input.quantity-input(
-                                        type="number" 
-                                        min="1" 
-                                        max="100" 
-                                        value=item.quantity
-                                        name=`quantity-${item.productId._id}`
-                                    )
+                                    form.quantity-form(
+                                        method="POST" action=`/cart/update` 
+                                        id="update-quantity-form"
+                                        )
+                                        input.quantity-input(
+                                            type="number" 
+                                            name="quantity" 
+                                            min="1"
+                                            max="100" 
+                                            value=item.quantity 
+                                            data-product-id=item.productId._id
+                                        )
+
                                 td $#{(item.productId.price * item.quantity)}
                                 td
-                                    button.btn.btn-danger(type="button" data-product-id=item.productId._id)
+                                    button.delete-button(type="button" data-product-id=item.productId._id)
                                         i.fa-solid.fa-trash-can
 
                 .cart-total
                     h3 Total: $#{cart.totalPrice}
-                
+
     else
         .section-empty-cart
             .container
                 h2 Your cart is empty.
                 a(href='/') Continue shopping
-    
+
     form(id="remove-from-cart-form" method="POST" action="/cart/delete" style="display:none;")
         input(type="hidden" name="productId" id="remove-product-id")
-    
+
     script(src="/client/js/product.js")

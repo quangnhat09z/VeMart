@@ -55,3 +55,17 @@ module.exports.removeFromCart = async (req, res) => {
     req.flash('success', 'Product removed from cart successfully!');
     res.redirect(req.header('Referer') || '/');
 }
+
+// [PATCH] /cart/update/:productId/:quantity
+module.exports.updateQuantity = async (req, res) => {
+    const productId = req.params.productId;
+    const quantity = parseInt(req.params.quantity);
+    const cartId = req.cookies.cartId;
+
+    await Cart.updateOne(
+        { _id: cartId, 'products.productId': productId },
+        { $set: { 'products.$.quantity': quantity } }
+    );
+    req.flash('success', 'Cart updated successfully!');
+    res.redirect(req.header('Referer') || '/cart');
+}
