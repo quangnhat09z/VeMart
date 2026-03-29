@@ -6,155 +6,155 @@ block main
     +alert(messages)
     .container
         h2 Your Cart    
-        .row
-            .col-md-6
-                form.checkout-form(method="POST" action="/checkout")
-                    // Contact Information
-                    .checkout-section
-                        h3.section-title
-                            | Contact Information
-                        .form-group
-                            label(for="email") Email
-                            input.form-control#email(
-                                type="email" 
-                                name="email" 
-                                placeholder="your@email.com"
-                                required
-                            )
-                        .form-group
-                            label(for="phone") Phone Number
-                            input.form-control#phone(
-                                type="tel" 
-                                name="phone" 
-                                placeholder="+1 (555) 123-4567"
-                                required
-                            )
-
-                    // Delivery Information
-                    .checkout-section
-                        h3.section-title
-                            | Delivery Information
-                        .form-group
-                            label(for="country") Country
-                            select.form-control#country(name="country" required)
-                                option(value="") Select a country
-                                option(value="US") United States
-                                option(value="VN") Vietnam
-                                option(value="CA") Canada
-                                option(value="UK") United Kingdom
-                        .form-group
-                            label(for="fullname") Full Name
-                            input.form-control#fullname(
-                                type="text" 
-                                name="fullname" 
-                                placeholder="John Doe"
-                                required
-                            )
-                        .form-group
-                            label(for="address") Address
-                            input.form-control#address(
-                                type="text" 
-                                name="address" 
-                                placeholder="123 Main Street, City, State"
-                                required
-                            )
-
-                    // Shipping Method
-                    .checkout-section
-                        h3.section-title
-                            | Shipping Method
-                        .shipping-options
-                            .shipping-option
-                                input#standard(
-                                    type="radio" 
-                                    name="shippingMethod" 
-                                    value="standard" 
-                                    checked
+        .col-md-10.mx-auto
+            .row
+                .col-md-6
+                    form.checkout-form(method="POST" action="/checkout")
+                        // Contact Information
+                        .checkout-section
+                            h3.section-title
+                                | Contact Information
+                            .form-group
+                                label(for="email") Email
+                                input.form-control#email(
+                                    type="email" 
+                                    name="email" 
+                                    placeholder="your@email.com"
+                                    required
                                 )
-                                label(for="standard")
-                                    .option-label
-                                        span.method-name Standard Shipping
-                                        span.method-price Free
-                                    p.method-desc Estimated delivery: 5-7 business days
-
-                            .shipping-option
-                                input#fast(
-                                    type="radio" 
-                                    name="shippingMethod" 
-                                    value="fast"
+                            .form-group
+                                label(for="phone") Phone Number
+                                input.form-control#phone(
+                                    type="tel" 
+                                    name="phone" 
+                                    placeholder="+1 (555) 123-4567"
+                                    required
                                 )
-                                label(for="fast")
-                                    .option-label
-                                        span.method-name Fast Shipping
-                                        span.method-price $9.99
-                                    p.method-desc Estimated delivery: 2-3 business days
 
-                    // Payment Method
-                    .checkout-section
-                        h3.section-title
-                            | Payment Method
-                        .payment-options
-                            .payment-option
-                                input#cash(
-                                    type="radio" 
-                                    name="paymentMethod" 
-                                    value="cash" 
+                        // Delivery Information
+                        .checkout-section
+                            h3.section-title
+                                | Delivery Information
+                            .form-group
+                                label(for="country") Country
+                                select.form-control#country(name="country" required)
+                                    option(value="") Select a country
+                                    option(value="US") United States
+                                    option(value="VN") Vietnam
+                                    option(value="CA") Canada
+                                    option(value="UK") United Kingdom
+                            .form-group
+                                label(for="fullname") Full Name
+                                input.form-control#fullname(
+                                    type="text" 
+                                    name="fullname" 
+                                    placeholder="John Doe"
+                                    required
                                 )
-                                label(for="cash")
-                                    .option-label
-                                        span By Cash
-                                    p.method-desc Pay when you receive your order
-
-                            .payment-option
-                                input#bank(
-                                    type="radio" 
-                                    name="paymentMethod" 
-                                    value="bank" 
-                                    checked
+                            .form-group
+                                label(for="address") Address
+                                input.form-control#address(
+                                    type="text" 
+                                    name="address" 
+                                    placeholder="123 Main Street, City, State"
+                                    required
                                 )
-                                label(for="bank")
-                                    .option-label
-                                        span By Bank Transfer
-                                    p.method-desc Transfer before delivery
 
-                    // Complete Order Button
-                    button.btn-complete-order(type="submit") Complete Order
+                        // Shipping Method
+                        .checkout-section
+                            h3.section-title
+                                | Shipping Method
+                            .shipping-options
+                                .shipping-option
+                                    input#standard(
+                                        type="radio" 
+                                        name="shippingMethod" 
+                                        value="standard" 
+                                        checked
+                                    )
+                                    label(for="standard")
+                                        .option-label
+                                            span.method-name Standard Shipping
+                                            span.method-price Free
+                                        p.method-desc Estimated delivery: 5-7 business days
 
-            .col-md-6
-                table.cart-table
-                    thead
-                        tr                        
-                            th #
-                            th Product
-                            th Quantity
-                            th Total
-                            th Action
-                    tbody
-                        each item, index in cart.products
-                            tr
-                                td #{index + 1} 
-                                td
-                                    .product-row   
-                                        .product-image(class="view-detail" data-product-slug=item.productId.slug)
-                                            img(src=item.productId.imgUrl alt=item.productId.title)
-                                        .product-info(class="view-detail" data-product-slug=item.productId.slug)
+                                .shipping-option
+                                    input#fast(
+                                        type="radio" 
+                                        name="shippingMethod" 
+                                        value="fast"
+                                    )
+                                    label(for="fast")
+                                        .option-label
+                                            span.method-name Fast Shipping
+                                            span.method-price $9.99
+                                        p.method-desc Estimated delivery: 2-3 business days
+
+                        // Payment Method
+                        .checkout-section
+                            h3.section-title
+                                | Payment Method
+                            .payment-options
+                                .payment-option
+                                    input#cash(
+                                        type="radio" 
+                                        name="paymentMethod" 
+                                        value="cash" 
+                                    )
+                                    label(for="cash")
+                                        .option-label
+                                            span By Cash
+                                        p.method-desc Pay when you receive your order
+
+                                .payment-option
+                                    input#bank(
+                                        type="radio" 
+                                        name="paymentMethod" 
+                                        value="bank" 
+                                        checked
+                                    )
+                                    label(for="bank")
+                                        .option-label
+                                            span By Bank Transfer
+                                        p.method-desc Transfer before delivery
+
+                        // Complete Order Button
+                        button.btn-complete-order(type="submit") Complete Order
+
+                .col-md-6
+                    .cart-table
+                        .table 
+                            each item in cart.products
+                                .product-row   
+                                    .product-quantity=item.quantity
+                                    .product-image
+                                        img(src=item.productId.imgUrl alt=`${item.productId.title}`)
+                                    .product-info   
+                                        .product-description
                                             h5.product-title #{item.productId.title}
-                                            p.product-price $#{item.productId.price}
-                                td
-                                    form.quantity-form(
-                                        method="POST" action=`/cart/update` 
-                                        id="update-quantity-form"
-                                        )
-                                        input.quantity-input(
-                                            type="number" 
-                                            name="quantity" 
-                                            value=item.quantity 
-                                            data-product-id=item.productId._id
-                                        )
+                                            span.product-asin #{item.productId.asin}
+                                        p.product-price $#{item.productId.price.toFixed(2)}
+                                
+                        
+                        hr
+                        .subtotal-row   
+                            .subtotal 
+                                span.subtotal-label Subtotal:
+                                span.subtotal-price $#{totalPrice}
+                            .shipping 
+                                span.shipping-label Shipping:
+                                span.shipping-price Free
+                            .total 
+                                span.total-label Total:
+                                span.total-price $#{totalPrice}    
 
-                                td $#{(item.productId.price * item.quantity)}
-                                td
-                                    button.delete-button(type="button" data-product-id=item.productId._id)
-                                        i.fa-solid.fa-trash-can
+
+
+
+
+
+
+
+
 
     script(src="/client/js/product.js")

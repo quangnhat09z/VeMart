@@ -10,8 +10,8 @@ exports.viewCheckout = async (req, res) => {
         return total + item.productId.price * item.quantity;
     }, 0);
 
-
     res.render('client/pages/checkout/viewCheckout', { 
-        cart 
+        cart:cart,
+        totalPrice: cart.totalPrice.toFixed(2)
     }); 
 }

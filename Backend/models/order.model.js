@@ -18,7 +18,7 @@ const orderSchema = new mongoose.Schema({
             discountPercentage: { type: Number, default: 0 },
         }
     ],
-    totalAmount: { type: Number, required: true },
+    totalAmount : { type: Number, required: true },
     status: { type: String, enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'], default: 'Pending' },
     createdAt: { type: Date, default: Date.now },
     deleted: { type: Boolean, default: false },
