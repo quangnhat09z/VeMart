@@ -9,7 +9,7 @@ block main
         .col-md-10.mx-auto
             .row
                 .col-md-6
-                    form.checkout-form(method="POST" action="/checkout")
+                    form.checkout-form(method="POST" action="/checkout/order")
                         // Contact Information
                         .checkout-section
                             h3.section-title
@@ -20,7 +20,7 @@ block main
                                     type="email" 
                                     name="email" 
                                     placeholder="your@email.com"
-                                    required
+                                    required 
                                 )
                             .form-group
                                 label(for="phone") Phone Number

@@ -4,7 +4,7 @@ include ../../mixins/alert.pug
 block main
     link(rel="stylesheet" href="/client/styles/css/cart.css")
     +alert(messages)
-    if (cart)
+    if (cart.products.length > 0)
         .section-cart
             .container
                 h2 Your Cart
@@ -53,7 +53,7 @@ block main
                                 .cart-totals
                                     .totals-row
                                         span.total-title Subtotal:
-                                        span.cart-total $#{cart.totalPrice}
+                                        span.cart-total $#{cart.totalPrice.toFixed(2)}
                                     small.tax-note.caption-large.rte
                                     | Taxes and shipping calculated at checkout
                                 .cart-actions

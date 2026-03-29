@@ -4,7 +4,7 @@ const orderSchema = new mongoose.Schema({
     // user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     cart_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Cart', required: true },
     userInfo: {
-        name: { type: String, required: true },
+        fullname: { type: String, required: true },
         email: { type: String, required: true },
         phone: { type: String, required: true },
         address: { type: String, required: true }
@@ -20,6 +20,8 @@ const orderSchema = new mongoose.Schema({
     ],
     totalAmount : { type: Number, required: true },
     status: { type: String, enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'], default: 'Pending' },
+    shipppingMethod: { type: String, required: true },
+    paymentMethod: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     deleted: { type: Boolean, default: false },
     deletedAt: { type: Date }
