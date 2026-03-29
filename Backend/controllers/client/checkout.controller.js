@@ -19,6 +19,7 @@ exports.viewCheckout = async (req, res) => {
 // [POST] /checkout/order
 exports.createOrder = async (req, res) => {
     try {
+        console.log('Order Data Received:', req.body);
         const cartId = req.cookies.cartId;
         const cart = await Cart.findById(cartId).populate('products.productId');
         const orderUserData = {
@@ -29,7 +30,9 @@ exports.createOrder = async (req, res) => {
         }
         const orderProducts = cart.products.map(item => ({
             productId: item.productId._id,
+            productTitle: item.productId.title,
             quantity: item.quantity,
+            imgUrl: item.productId.imgUrl,
             price: item.productId.price,
             listPrice: item.productId.listPrice,
             discountPercentage: item.productId.discountPercentage
@@ -57,11 +60,23 @@ exports.createOrder = async (req, res) => {
             cart.save();
         });
 
-        res.redirect(req.header('Referer') || '/');
+        res.redirect('/checkout/success/' + newOrder._id);
         
     } catch (error) {
         req.flash('error', 'Failed to place order. Please try again.');
         console.error('Error creating order:', error);
         res.redirect(req.header('Referer') || '/checkout');
     }
+}
+
+// [GET] /checkout/success/:orderId
+exports.viewOrderSuccess = async (req, res) => {
+    const orderId = req.params.orderId;
+    const order = await Order.findById(orderId);
+
+    console.log('Order Details:', order);
+    res.render('client/pages/checkout/viewOrderSuccess', {
+        order: order,
+        
+    });
 }

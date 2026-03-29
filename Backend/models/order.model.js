@@ -12,7 +12,9 @@ const orderSchema = new mongoose.Schema({
     products: [
         {
             productId: { type: String, required: true },
+            productTitle: { type: String, required: true },
             quantity: { type: Number, required: true },
+            imgUrl: { type: String },
             price: { type: Number, required: true },
             listPrice: { type: Number},
             discountPercentage: { type: Number, default: 0 },

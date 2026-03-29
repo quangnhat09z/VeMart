@@ -1,0 +1,41 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main
+    link(rel="stylesheet" href="/client/styles/css/checkout.css")
+    +alert(messages)
+    .container(style="margin-top: 30px;")  
+        h2.order-title Order Confirmation
+        p.order-description Thank you for your purchase! Your order has been successfully placed. Below are the details
+            .col-md-10.mx-auto
+                .row.order-details
+                    .col-md-5.user-info
+                        h3 Customer Information
+                        .info-item
+                            span.label Name:
+                            span.value #{order.userInfo.fullname}
+                        .info-item
+                            span.label Email:
+                            span.value #{order.userInfo.email}
+                        .info-item
+                            span.label Phone:
+                            span.value #{order.userInfo.phone}
+                        .info-item
+                            span.label Address:
+                            span.value #{order.userInfo.address}
+
+                    .col-md-7.order-info
+                        h3 Order Details
+                        .order-items
+                            each item in order.products
+                                .order-item
+                                    .item-image
+                                        img(src=item.imgUrl alt=item.productTitle)
+                                    .item-info
+                                        h4 #{item.productTitle}
+                                        p Quantity: #{item.quantity}
+                                        p Price: $#{item.price}
+                        .order-total
+                            p Total: $#{order.totalAmount}
+
+    script(src="/client/js/product.js")
