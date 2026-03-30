@@ -46,11 +46,11 @@ exports.createOrder = async (req, res) => {
             userInfo: orderUserData,
             products: orderProducts,
             totalAmount: totalAmount.toFixed(2),
-            shipppingMethod: req.body.shippingMethod,
+            shippingMethod: req.body.shippingMethod,
             paymentMethod: req.body.paymentMethod
         });
         
-        // await newOrder.save();
+        await newOrder.save();
 
 
         req.flash('success', 'Your order has been placed successfully!');

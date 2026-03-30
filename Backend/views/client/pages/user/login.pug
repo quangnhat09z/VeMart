@@ -1,0 +1,22 @@
+extends ../../layout/default.pug
+
+block main
+    link(rel="stylesheet" href="/client/styles/css/user.css")
+    .container(style="margin-top: 60px; margin-bottom: 60px;")
+        .col-md-8.mx-auto
+            .row
+                .col-md-6.form-box
+                    h3.login__title Login
+                    p.login__subtitle Sign in to your account.
+                    form.login__form(method="POST" action="/user/login")
+                        .login__form-group
+                            label(for="email") Email
+                            input#email(type="email" name="email" required)
+                        .login__form-group
+                            label(for="password") Password
+                            input#password(type="password" name="password" required)
+                        button.login__submit(type="submit") Login
+                .col-md-6.change-action
+                    h4.login__info-title Already an account holder?
+                    button.login__info-btn(type="button" onclick="window.location.href='/user/register'") Register Here
+                    p.login__info-text By creating an account, you agree to our Terms of Service and Privacy Policy.

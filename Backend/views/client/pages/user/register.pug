@@ -1,0 +1,25 @@
+extends ../../layout/default.pug
+
+block main
+    link(rel="stylesheet" href="/client/styles/css/user.css")
+    .container(style="margin-top: 60px; margin-bottom: 60px;")
+        .col-md-8.mx-auto
+            .row
+                .col-md-6.form-box
+                    h3.register__title Register
+                    p.register__subtitle Create your account to access all features.
+                    form.register__form(method="POST" action="/user/register")
+                        .register__form-group
+                            label(for="username") Full Name
+                            input#username(type="text" name="fullname" required)
+                        .register__form-group
+                            label(for="email") Email
+                            input#email(type="email" name="email" required)
+                        .register__form-group
+                            label(for="password") Password
+                            input#password(type="password" name="password" required)
+                        button.register__submit(type="submit") Register
+                .col-md-6.change-action
+                    h4.register__info-title Don't have an account?
+                    button.register__info-btn(type="button" onclick="window.location.href='/user/login'") Login Here
+                    p.register__info-text Your privacy and security are important to us. For more information on how we use your data read our Privacy Policy.
