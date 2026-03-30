@@ -6,6 +6,10 @@ module.exports.login = (req, res, next) => {
         req.flash('error', 'Email is required');
         return res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
     }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+        req.flash('error', 'Invalid email format');
+        return res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
+    }
     if (!password) {
         req.flash('error', 'Password is required');
         return res.redirect(`${systemConfig.prefixAdmin}/auth/login`);

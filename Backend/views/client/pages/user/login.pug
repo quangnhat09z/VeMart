@@ -1,7 +1,9 @@
 extends ../../layout/default.pug
+include ../../mixins/alert.pug
 
 block main
     link(rel="stylesheet" href="/client/styles/css/user.css")
+    +alert(messages)
     .container(style="margin-top: 60px; margin-bottom: 60px;")
         .col-md-8.mx-auto
             .row
@@ -11,10 +13,10 @@ block main
                     form.login__form(method="POST" action="/user/login")
                         .login__form-group
                             label(for="email") Email
-                            input#email(type="email" name="email" required)
+                            input#email(type="text" name="email")
                         .login__form-group
                             label(for="password") Password
-                            input#password(type="password" name="password" required)
+                            input#password(type="password" name="password")
                         button.login__submit(type="submit") Login
                 .col-md-6.change-action
                     h4.login__info-title Already an account holder?

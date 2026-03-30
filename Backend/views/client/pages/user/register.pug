@@ -1,7 +1,8 @@
 extends ../../layout/default.pug
-
+include ../../mixins/alert.pug
 block main
     link(rel="stylesheet" href="/client/styles/css/user.css")
+    +alert(messages)
     .container(style="margin-top: 60px; margin-bottom: 60px;")
         .col-md-8.mx-auto
             .row
@@ -11,13 +12,13 @@ block main
                     form.register__form(method="POST" action="/user/register")
                         .register__form-group
                             label(for="username") Full Name
-                            input#username(type="text" name="fullname" required)
+                            input#username(type="text" name="fullname")
                         .register__form-group
                             label(for="email") Email
-                            input#email(type="email" name="email" required)
+                            input#email(type="text" name="email")
                         .register__form-group
                             label(for="password") Password
-                            input#password(type="password" name="password" required)
+                            input#password(type="password" name="password")
                         button.register__submit(type="submit") Register
                 .col-md-6.change-action
                     h4.register__info-title Don't have an account?
