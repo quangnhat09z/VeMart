@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    fullName: {
+    fullname: {
         type: String,
     },
     phone: {
@@ -41,13 +41,13 @@ const userSchema = new mongoose.Schema({
         enum: ['active', 'inactive'],
         default: 'active'
     },
-    createdBy: {
-        account_id: String,
-        createdAt: {
-            type: Date,
-            default: Date.now
-        }
-    },
+    // createdBy: {
+    //     account_id: String,
+    //     createdAt: {
+    //         type: Date,
+    //         default: Date.now
+    //     }
+    // },
     deleted: {
         type: Boolean,
         default: false

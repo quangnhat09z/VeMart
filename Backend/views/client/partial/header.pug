@@ -31,6 +31,8 @@ section.header
                     div.cart-quantity #{cartQuantity || 0}
                 a.header__info-icon.header__info-icon--profile(href="/user/register")
                     i.fa-solid.fa-user
-
+                if(user)
+                    a.header__info-icon.header__info-icon--login(href="/user/logout")
+                        i.fa-solid.fa-right-from-bracket
 
 script(src="/client/js/header.js")

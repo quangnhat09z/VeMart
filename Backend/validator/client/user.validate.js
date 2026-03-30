@@ -1,9 +1,16 @@
+const User = require('../../models/user.model');
+
 function showAlert(req, res, message, redirectUrl) {
     req.flash('error', message);
     res.redirect(redirectUrl);
 }
 
-module.exports.register = (req, res, next) => {
+async function checkExistEmail(email) {
+    const existingUser = await User.findOne({ email: email });
+    return existingUser;
+}
+
+module.exports.register = async (req, res, next) => {
     const { fullname, email, password } = req.body;
     if (!fullname) {
         return showAlert(req, res, 'Full name is required', '/user/register');
@@ -13,6 +20,10 @@ module.exports.register = (req, res, next) => {
     }
     if (!/\S+@\S+\.\S+/.test(email)) {
         return showAlert(req, res, 'Invalid email format', '/user/register');
+    }
+    const existingUser = await checkExistEmail(email);
+    if (existingUser) {
+        return showAlert(req, res, 'Email already exists', '/user/register');
     }
     if (!password) {
         return showAlert(req, res, 'Password is required', '/user/register');
