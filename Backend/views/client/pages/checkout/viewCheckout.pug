@@ -17,18 +17,16 @@ block main
                             .form-group
                                 label(for="email") Email
                                 input.form-control#email(
-                                    type="email" 
+                                    
                                     name="email" 
                                     placeholder="your@email.com"
-                                    required 
                                 )
                             .form-group
                                 label(for="phone") Phone Number
                                 input.form-control#phone(
                                     type="tel" 
                                     name="phone" 
-                                    placeholder="+1 (555) 123-4567"
-                                    required
+                                    placeholder="+1 (555) 123-4567"                  
                                 )
 
                         // Delivery Information
@@ -37,7 +35,7 @@ block main
                                 | Delivery Information
                             .form-group
                                 label(for="country") Country
-                                select.form-control#country(name="country" required)
+                                select.form-control#country(name="country")
                                     option(value="") Select a country
                                     option(value="US") United States
                                     option(value="VN") Vietnam
@@ -49,7 +47,6 @@ block main
                                     type="text" 
                                     name="fullname" 
                                     placeholder="John Doe"
-                                    required
                                 )
                             .form-group
                                 label(for="address") Address
@@ -57,7 +54,6 @@ block main
                                     type="text" 
                                     name="address" 
                                     placeholder="123 Main Street, City, State"
-                                    required
                                 )
 
                         // Shipping Method

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../../controllers/client/cart.controller.js');
-const validator = require('../../validator/client/updateQuantityCart.js');
+const validator = require('../../validator/client/updateQuantityCart.validate.js');
 
 router.get('/', controller.viewCart);
 router.post('/add/:productId', controller.addToCart);

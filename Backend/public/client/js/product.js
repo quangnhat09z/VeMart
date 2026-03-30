@@ -1,4 +1,4 @@
-console.log("Product page loaded");
+// console.log("Product page loaded");
 
 // Handle Add to Cart button click in viewDetail page
 const addToCartButton = document.querySelector('.product-detail__actions-btn-cart');
@@ -11,7 +11,7 @@ if (addToCartButton && addtoCartForm) {
 }
 
 // Remove from cart in Cart page
-const removeFromCartButtons = document.querySelectorAll('.btn-danger');
+const removeFromCartButtons = document.querySelectorAll('.delete-button');
 const removeFromCartForm = document.getElementById('remove-from-cart-form');
 if (removeFromCartButtons && removeFromCartForm) {
     removeFromCartButtons.forEach(button => {

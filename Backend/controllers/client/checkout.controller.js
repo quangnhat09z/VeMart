@@ -19,7 +19,7 @@ exports.viewCheckout = async (req, res) => {
 // [POST] /checkout/order
 exports.createOrder = async (req, res) => {
     try {
-        console.log('Order Data Received:', req.body);
+        // console.log('Order Data Received:', req.body);
         const cartId = req.cookies.cartId;
         const cart = await Cart.findById(cartId).populate('products.productId');
         const orderUserData = {
@@ -50,7 +50,7 @@ exports.createOrder = async (req, res) => {
             paymentMethod: req.body.paymentMethod
         });
         
-        await newOrder.save();
+        // await newOrder.save();
 
 
         req.flash('success', 'Your order has been placed successfully!');
