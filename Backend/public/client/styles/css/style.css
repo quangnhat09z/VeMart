@@ -1,22 +1,104 @@
 .top {
-  background-image: url(https://vegina-store.myshopify.com/cdn/shop/files/topbar.jpg?v=1613781964);
-  background-size: center;
-  background-position: center;
-  background-color: aqua;
+  background: linear-gradient(135deg, #436b8e, rgb(42.476076555, 67.8349282297, 90.023923445));
+  color: white;
+  font-size: 14px;
+}
+.top__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
 }
 .top__content {
-  color: white;
   margin: 0;
-  padding: 7px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.95;
 }
 .top__content--flick {
-  font-weight: 600;
-  animation: flicker 0.8s infinite;
+  font-weight: 700;
+  position: relative;
+  color: white;
 }
-@keyframes flicker {
-  50% {
-    color: #436b8e;
+.top__content--flick::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.6);
+  animation: flickerLine 1.2s infinite;
+}
+@keyframes flickerLine {
+  0% {
+    opacity: 0.2;
+    transform: scaleX(0.6);
   }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0.2;
+    transform: scaleX(0.6);
+  }
+}
+.top__function {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.top__function-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+}
+.top__function-item i {
+  font-size: 13px;
+}
+.top__function-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+.top__function-auth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.top__function-auth span {
+  opacity: 0.6;
+}
+.top__function-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.top__function-profile:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+.top__function-profile-img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+}
+.top__function-profile-name {
+  margin: 0;
+  font-weight: 500;
+  color: white;
+  white-space: nowrap;
 }
 
 .header {

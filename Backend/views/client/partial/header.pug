@@ -1,5 +1,31 @@
+section.top 
+    .container  
+        .top__wrapper
+            p.top__content 
+                span.top__content--flick Free shipping 
+                | on orders over $50 and free returns for all orders!
+            .top__function 
+                .top__function-support
+                    a.top__function-item(href="#")
+                        i.fa-solid.fa-phone 
+                        |    Contact Us
+                if(!user)
+                    .top__function-auth
+                        a.top__function-item(href="/user/register") Register
+                        span |
+                        a.top__function-item(href="/user/login") Sign In
+                else 
+                    .top__function-profile 
+                        if (user.avatar === undefined || user.avatar === null)
+                            img.top__function-profile-img(src='https://staging.svgrepo.com/show/369033/user-circle.svg' alt="image")
+                        else    
+                            img.top__function-profile-img(src=`${user.avatar}` alt="image")                   
+                        p.top__function-profile-name #{user.fullname}
+
 section.header
+
     .container
+        //- div #{user}
         .header__wrapper
             a.header__logo(href="/")
                 img(src="/client/images/logo3rd.png" alt="image")
@@ -21,7 +47,7 @@ section.header
                     input(type="text" name="keyword" placeholder="Search for products")
                 button.header__info-icon.header__info-icon--search
                     i.fa-solid.fa-magnifying-glass
-                
+
                 button.header__info-icon.header__info-icon--favourite
                     i.fa-regular.fa-heart
 
@@ -29,10 +55,9 @@ section.header
                 a.header__info-icon.header__info-icon--cart(href="/cart") 
                     i.fa-solid.fa-cart-shopping
                     div.cart-quantity #{cartQuantity || 0}
-                a.header__info-icon.header__info-icon--profile(href="/user/register")
-                    i.fa-solid.fa-user
-                if(user)
-                    a.header__info-icon.header__info-icon--login(href="/user/logout")
-                        i.fa-solid.fa-right-from-bracket
+                if (!user)
+                    a.header__info-icon.header__info-icon--profile(href="/user/register")
+                        i.fa-solid.fa-user
+
 
 script(src="/client/js/header.js")
