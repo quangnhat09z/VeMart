@@ -18,3 +18,21 @@ searchForm.addEventListener('submit', (e) => {
     const query = searchForm.querySelector('input').value;
     window.location.href = `/product?keyword=${encodeURIComponent(query)}`;
 });
+
+// Toggle profile dropdown
+const profileIcon = document.querySelector('.top__function-profile');
+
+if (profileIcon) {
+    const dropdown = profileIcon.querySelector('.top__function-profile-dropdown');
+
+    profileIcon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        profileIcon.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!profileIcon.contains(e.target)) {
+            profileIcon.classList.remove('active');
+        }
+    });
+}

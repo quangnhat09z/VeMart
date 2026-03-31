@@ -21,7 +21,14 @@ section.top
                         else    
                             img.top__function-profile-img(src=`${user.avatar}` alt="image")                   
                         p.top__function-profile-name #{user.fullname}
-
+                    
+                        .top__function-profile-dropdown
+                            a.top__function-profile-dropdown-item(href="/user/profile")
+                                i.fa-solid.fa-user
+                                | Personal Info
+                            a.top__function-profile-dropdown-item(href="/user/logout")
+                                i.fa-solid.fa-right-from-bracket
+                                | Logout
 section.header
 
     .container
