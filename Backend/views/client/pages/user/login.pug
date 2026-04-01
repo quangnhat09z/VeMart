@@ -18,6 +18,8 @@ block main
                             label(for="password") Password
                             input#password(type="password" name="password")
                         button.login__submit(type="submit") Login
+                    .login__forgot
+                        a(href="/user/password/forgot-password") Forgot Password? 
                 .col-md-6.change-action
                     h4.login__info-title Already an account holder?
                     button.login__info-btn(type="button" onclick="window.location.href='/user/register'") Register Here

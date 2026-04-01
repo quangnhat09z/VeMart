@@ -45,3 +45,14 @@ module.exports.login = (req, res, next) => {
     }
     next();
 }
+
+module.exports.forgotPassword = (req, res, next) => {
+    const { email } = req.body;
+    if (!email) {
+        return showAlert(req, res, 'Email is required', `/user/password/forgot-password`);
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+        return showAlert(req, res, 'Invalid email format', `/user/password/forgot-password`);
+    }
+    next();
+}
