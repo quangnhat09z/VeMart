@@ -115,7 +115,6 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 12px;
 }
 .form-box .login__cancel:hover {
   background-color: rgb(227.25, 227.25, 227.25);

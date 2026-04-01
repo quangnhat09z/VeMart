@@ -71,7 +71,7 @@ module.exports.forgotPassword = async (req, res) => {
     const objectForgotPassword = {
         email: email,
         otp: otp.toString(),
-        expireAt: Date.now() + 1 * 60 * 1000 // OTP het han sau 1 phut
+        expireAt: Date.now() + 5 * 60 * 1000 // OTP het han sau 1 phut
     }
     console.log('Object forgot password:', objectForgotPassword);
 
@@ -80,5 +80,73 @@ module.exports.forgotPassword = async (req, res) => {
 
     req.flash('success', 'An OTP has been sent to your email. Please check your inbox.');
 
-    res.redirect('/user/password/forgot-password');
+    res.redirect(`/user/password/otp/email=${email}`);
+}
+
+// GET /user/password/otp/email=:email
+module.exports.otpPage = async (req, res) => {
+    const { email } = req.params;
+    res.render('client/pages/user/otp', {
+        email
+    });
+}
+
+// POST /user/password/otp
+module.exports.otp = async (req, res) => {
+    const { email, otp } = req.body;
+    console.log('Received OTP verification request:', { email, otp });
+    const forgotPassword = await ForgotPassword.findOne({ email: email, otp: otp });
+    if (!forgotPassword) {
+        req.flash('error', 'Invalid OTP');
+        return res.redirect(`/user/password/otp/email=${email}`);
+    }
+    if (forgotPassword.expireAt < Date.now()) {
+        req.flash('error', 'OTP has expired');
+        return res.redirect(`/user/password/otp/email=${email}`);
+    }
+
+    const user = await User.findOne({
+        email: email,
+        deleted: false,
+        status: 'active'
+    });
+    if (!user) {
+        req.flash('error', 'User is inactive. Please contact support.');
+        return res.redirect(`/user/password/otp/email=${email}`);
+    } else {
+        req.flash('success', 'OTP verification successful. You can now reset your password.');
+    }
+    await ForgotPassword.deleteOne({ _id: forgotPassword._id });
+    res.cookie("tokenUser", user.tokenUser, { httpOnly: true, maxAge: 15 * 60 * 1000 });
+    res.redirect('/user/password/reset-password');
+}
+
+// GET /user/password/reset-password
+module.exports.resetPasswordPage = async (req, res) => {
+    res.render('client/pages/user/reset-password');
+}
+
+// POST /user/password/reset-password
+module.exports.resetPassword = async (req, res) => {
+    const { newPassword, confirmPassword } = req.body;
+    const tokenUser = req.cookies.tokenUser;
+    if (!tokenUser) {
+        req.flash('error', 'Invalid token');
+        return res.redirect('/user/password/reset-password');
+    }
+    const user = await User.findOne({ tokenUser: tokenUser });
+    if (!user) {
+        req.flash('error', 'User not found');
+        return res.redirect('/user/password/reset-password');
+    }
+    await User.updateOne(
+        { _id: user._id }, 
+        { password: newPassword }
+    );
+    
+    await ForgotPassword.deleteOne({ email: user.email });
+
+    res.clearCookie('tokenUser');
+    req.flash('success', 'Password reset successful. Please log in.');
+    res.redirect('/user/login');
 }

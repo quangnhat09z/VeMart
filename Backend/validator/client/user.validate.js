@@ -56,3 +56,25 @@ module.exports.forgotPassword = (req, res, next) => {
     }
     next();
 }
+
+module.exports.resetPassword = (req, res, next) => {
+    const { newPassword, confirmPassword } = req.body;
+    if (!newPassword) {
+        return showAlert(req, res, 'New password is required', `/user/password/reset-password`);
+    }
+    if (!confirmPassword) {
+        return showAlert(req, res, 'Confirm password is required', `/user/password/reset-password`);
+    }
+    if (newPassword !== confirmPassword) {
+        return showAlert(req, res, 'Passwords do not match', `/user/password/reset-password`);
+    }
+    next();
+}
+
+module.exports.otp = (req, res, next) => {
+    const { otp, email } = req.body;
+    if (!otp) {
+        return showAlert(req, res, 'OTP is required', `/user/password/otp/email=${email}`);
+    }
+    next();
+}
