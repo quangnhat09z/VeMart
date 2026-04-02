@@ -1,5 +1,6 @@
 const User = require('../../models/user.model.js');
 const ForgotPassword = require('../../models/forgot-password.model.js');
+const  sendMailHelper  = require('../../helpers/sendMail.js');
 const crypto = require('crypto');
 
 // GET /user/register
@@ -79,6 +80,9 @@ module.exports.forgotPassword = async (req, res) => {
     await forgotPassword.save();
 
     req.flash('success', 'An OTP has been sent to your email. Please check your inbox.');
+    const subject = 'VeMart OTP for Password Reset';
+    const html = `Your OTP for password reset is: <b>${otp}</b>. It will expire in 5 minutes. Please do not share this OTP with anyone.`;
+    await sendMailHelper.sendMail(email, subject, html);
 
     res.redirect(`/user/password/otp/email=${email}`);
 }
