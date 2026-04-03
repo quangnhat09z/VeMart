@@ -54,6 +54,11 @@ module.exports.logout = async (req, res) => {
     res.redirect('/');
 }
 
+// GET /user/profile
+module.exports.profilePage = async (req, res) => {
+    res.render('client/pages/user/profile');
+}
+
 // GET /user/password/forgot-password
 module.exports.forgotPasswordPage = async (req, res) => {
     res.render('client/pages/user/forgot-password');

@@ -15,6 +15,7 @@ router.post('/login',
     controller.login
 );
 router.get('/logout', controller.logout);
+router.get('/profile', controller.profilePage);
 
 // Password reset routes
 router.get('/password/forgot-password', controller.forgotPasswordPage);
@@ -32,5 +33,4 @@ router.post('/password/reset-password',
     validate.resetPassword,
     controller.resetPassword
 );
-
 module.exports = router;

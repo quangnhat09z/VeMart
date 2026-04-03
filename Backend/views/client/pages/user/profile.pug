@@ -1,0 +1,50 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main
+    link(rel="stylesheet" href="/client/styles/css/user.css")
+    +alert(messages)
+
+    .container.my-5
+        .row.justify-content-center.user-profile
+            .col-md-10.col-lg-8
+                .card.user-card
+                    .card-body
+                        .row.align-items-center
+                            
+                            .col-md-5.text-center
+                                .user-avatar-wrapper
+                                    if user.avatar
+                                        img.user-avatar(src=user.avatar, alt=user.fullname)
+                                    else
+                                        .user-avatar-placeholder
+                                            i.bi.bi-person
+
+                            .col-md-7
+                                h2.user-name= user.fullname
+                                a.change-password-link(href='/admin/personal/change-password')
+                                    i.fas.fa-edit
+                                    |  Change Password
+
+                                if user.status === 'active'
+                                    span.user-status.active Active
+                                else
+                                    span.user-status.inactive Inactive
+
+                                .user-info
+                                    .info-item
+                                        span.label Email
+                                        span.value= user.email
+
+                                    .info-item
+                                        span.label Phone
+                                        if user.phone
+                                            span.value= user.phone
+                                        else
+                                            span.value.muted Not updated
+
+                                .user-actions
+                                    a.btn.edit(href='/user/edit') Edit Profile
+                                    a.btn.back(href='/') Back
+
+                            
