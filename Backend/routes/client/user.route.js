@@ -22,6 +22,7 @@ router.get('/profile/edit', controller.editProfilePage);
 router.patch('/profile/edit',
     upload.single('avatar'),
     handleMulterError,
+    validate.editProfile,
     controller.editProfile
 );
 router.get('/profile/change-password', controller.changePasswordPage);

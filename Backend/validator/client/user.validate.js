@@ -1,4 +1,13 @@
 const User = require('../../models/user.model');
+const fs = require("fs");
+
+function dealImage(imagePath) {
+    if (imagePath) {
+        fs.unlink(imagePath.path, (err) => {
+            if (err) console.log(err);
+        });
+    }
+}
 
 function showAlert(req, res, message, redirectUrl) {
     req.flash('error', message);
@@ -75,6 +84,27 @@ module.exports.otp = (req, res, next) => {
     const { otp, email } = req.body;
     if (!otp) {
         return showAlert(req, res, 'OTP is required', `/user/password/otp/email=${email}`);
+    }
+    next();
+}
+
+module.exports.editProfile = async (req, res, next) => {
+    const { fullname, email } = req.body;
+    if (!fullname) {
+        dealImage(req.file);
+        return showAlert(req, res, 'Full name is required', `/user/profile/edit`);
+    }
+    if (!email) {
+        dealImage(req.file);
+        return showAlert(req, res, 'Email is required', `/user/profile/edit`);
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+        dealImage(req.file);
+        return showAlert(req, res, 'Invalid email format', `/user/profile/edit`);
+    }
+    if (checkExistEmail(email)) {
+        dealImage(req.file);
+        return showAlert(req, res, 'Email already exists', `/user/profile/edit`);
     }
     next();
 }

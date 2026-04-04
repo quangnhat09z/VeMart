@@ -27,18 +27,16 @@ block main
                                                 name='fullname',
                                                 value=user.fullname || '',
                                                 placeholder='Enter full name',
-                                                required
                                             )
 
                                         .info-item
                                             label.label(for='email') Email
                                             input.form-input(
-                                                type='email',
+                                                type='text',
                                                 id='email',
                                                 name='email',
                                                 value=user.email || '',
                                                 placeholder='Enter email',
-                                                required
                                             )
 
                                         .info-item
@@ -52,8 +50,8 @@ block main
                                             )
 
                                     .user-actions
-                                        button.btn.btn-primary(type='submit') Save
-                                        a.btn.btn-outline-secondary(href='/user/profile') Back
+                                        button.btn.edit(type='submit') Save
+                                        a.btn.back(href='/user/profile') Back
 
                                 // ===== RIGHT: AVATAR =====
                                 .col-md-5.text-center
@@ -65,18 +63,22 @@ block main
                                             .user-avatar-placeholder
                                                 i.bi.bi-person
 
-                                    img#new-avatar.user-avatar.preview-avatar(style='display: none;')
+                                        img#new-avatar.user-avatar.preview-avatar(style='display: none;')
 
-                                    .mt-3
+                                    .mt-3.avatar-upload
                                         input#avatar-input.form-control(
                                             type='file',
                                             name='avatar',
                                             accept='image/*',
                                             onchange='previewAvatar(this)'
+                                            style='display: none;'
                                         )
+                                        label.avatar-button-upload(for="avatar-input" style="cursor: pointer;")
+                                            i.fas.fa-upload
+                                            |  Choose File
+                                        span.avatar-label No file chosen
 
-                                        small.text-muted
-                                            i.bi.bi-info-circle
-                                            |  JPG, PNG (Max 5MB)
+                                    .text-muted
+                                            |  JPG, PNG, AVIF, WEBP (Max 5MB)
 
     script(src="/client/js/user.js")
