@@ -1,6 +1,7 @@
 const User = require('../../models/user.model.js');
 const ForgotPassword = require('../../models/forgot-password.model.js');
-const  sendMailHelper  = require('../../helpers/sendMail.js');
+const sendMailHelper = require('../../helpers/sendMail.js');
+const Cart = require('../../models/cart.model.js');
 const crypto = require('crypto');
 
 // GET /user/register
@@ -28,21 +29,79 @@ module.exports.loginPage = async (req, res) => {
 module.exports.login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
+    
     if (!user) {
         req.flash('error', 'Email does not exist');
         return res.redirect('/user/login');
     }
+    
+    // TODO: Thay thế bằng bcrypt.compare() khi fix mật khẩu
     if (user.password !== password) {
         req.flash('error', 'Email or password is incorrect');
         return res.redirect('/user/login');
     }
+    
     if (user.status !== 'active') {
         req.flash('error', 'Your account is inactive. Please contact support.');
         return res.redirect('/user/login');
     }
 
-    // req.session.user = user;
-    res.cookie('tokenUser', user.tokenUser, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 });
+    // Merge cart
+    if (req.cookies.cartId) {
+        try {
+            const anonymousCart = await Cart.findById(req.cookies.cartId);
+            let userCart = await Cart.findOne({ user_id: user._id });
+            
+            if (anonymousCart && anonymousCart.products && anonymousCart.products.length > 0) {
+                if (!userCart) {
+                    userCart = new Cart({ user_id: user._id, products: [] });
+                }
+                
+                anonymousCart.products.forEach(anonProduct => {
+                    const existingProduct = userCart.products.find(
+                        p => p._id.toString() === anonProduct._id.toString()
+                    );
+                    
+                    if (existingProduct) {
+                        existingProduct.quantity += anonProduct.quantity;
+                    } else {
+                        userCart.products.push(anonProduct);
+                    }
+                });
+                
+                await userCart.save();
+            }
+            
+            // Xóa anonymous cart 
+            await Cart.deleteOne({ _id: req.cookies.cartId });
+        } catch (error) {
+            console.error('Error merging carts:', error);
+            // Không hủy login nếu merge thất bại
+        }
+    } else {
+        let userCart = await Cart.findOne({ user_id: user._id });
+        if (!userCart) {
+            userCart = new Cart({ user_id: user._id, products: [] });
+            await userCart.save();
+        }
+    }
+
+    // Lấy user cart ID để lưu vào cookie
+    const userCart = await Cart.findOne({ user_id: user._id });
+    res.cookie('cartId', userCart._id.toString(), { 
+        httpOnly: true, 
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        secure: true,  
+        sameSite: 'strict'  
+    });
+    
+    res.cookie('tokenUser', user.tokenUser, { 
+        httpOnly: true, 
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        secure: true,
+        sameSite: 'strict'
+    });
+    
     req.flash('success', 'Login successful.');
     res.redirect('/');
 }
@@ -50,6 +109,7 @@ module.exports.login = async (req, res) => {
 // GET /user/logout
 module.exports.logout = async (req, res) => {
     res.clearCookie('tokenUser');
+    res.clearCookie('cartId');
     req.flash('success', 'Logout successful.');
     res.redirect('/');
 }
@@ -191,10 +251,10 @@ module.exports.resetPassword = async (req, res) => {
         return res.redirect('/user/password/reset-password');
     }
     await User.updateOne(
-        { _id: user._id }, 
+        { _id: user._id },
         { password: newPassword }
     );
-    
+
     await ForgotPassword.deleteOne({ email: user.email });
 
     res.clearCookie('tokenUser');
