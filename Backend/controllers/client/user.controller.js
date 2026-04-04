@@ -59,11 +59,32 @@ module.exports.profilePage = async (req, res) => {
     res.render('client/pages/user/profile');
 }
 
+// GET /user/profile/edit
+module.exports.editProfilePage = async (req, res) => {
+    res.render('client/pages/user/edit-profile');
+}
+// POST /user/profile/edit
+module.exports.editProfile = async (req, res) => {
+    try {
+        const tokenUser = req.cookies.tokenUser;
+        const updateData = req.body;
+        if (req.file) {
+            updateData.avatar = `/uploads/${req.file.filename}`;
+        }
+        await User.findOneAndUpdate({ tokenUser: tokenUser }, updateData);
+        req.flash('success', 'Profile updated successfully');
+        res.redirect('/user/profile');
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        req.flash('error', 'An error occurred while updating profile.');
+        return res.redirect('/user/profile/edit');
+    }
+}
+
 // GET /user/password/forgot-password
 module.exports.forgotPasswordPage = async (req, res) => {
     res.render('client/pages/user/forgot-password');
 }
-
 // POST /user/password/forgot-password
 module.exports.forgotPassword = async (req, res) => {
     const { email } = req.body;

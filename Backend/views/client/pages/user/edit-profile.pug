@@ -1,0 +1,92 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main
+    link(rel="stylesheet" href="/client/styles/css/user.css")
+    +alert(messages)
+
+    .container.my-5
+        .row.justify-content-center.user-profile-edit
+            .col-md-10.col-lg-8
+                .card.user-card
+                    .card-header.bg-light
+                        h4.mb-0 Profile Edit
+
+                    .card-body
+                        form(method='POST' action='/user/profile/edit?_method=PATCH' enctype='multipart/form-data')
+                            .row.align-items-center.mb-4
+                                // Avatar Preview
+                                .col-md-5.text-center
+                                    .user-avatar-wrapper.mb-3
+                                        if user.avatar
+                                            img#current-avatar.user-avatar(src=user.avatar, alt=user.fullname)
+                                        else
+                                            .user-avatar-placeholder
+                                                i.bi.bi-person
+                                    .user-avatar-wrapper.mb-3
+                                        img#new-avatar.user-avatar(src='' alt='Avatar Preview' style='display: none;') 
+
+                                    .form-group
+                                        input#avatar-input.form-control.form-control-sm(
+                                            type='file',
+                                            name='avatar',
+                                            accept='image/*',
+                                            onchange='previewAvatar(this)'
+                                           
+                                        )
+                                        //- label.btn.btn-outline-secondary.mb-0(for="imgUrl" style="cursor: pointer;")
+                                        //-     i.fas.fa-upload
+                                        //-     |  Choose File
+                                        //- span.badge.bg-secondary(upload-image-label) No file chosen
+                                        small.form-text.text-muted
+                                            i.bi.bi-info-circle
+                                            |  Choose avatar JPG, PNG (Max 5MB)
+
+                                // Form Fields
+                                .col-md-7
+                                    // Fullname
+                                    .mb-3
+                                        label.form-label(for='fullname') Full Name
+                                        input.form-control(
+                                            type='text',
+                                            id='fullname',
+                                            name='fullname',
+                                            value=user.fullname || '',
+                                            placeholder='Enter full name',
+                                            required
+                                        )
+
+                                    // Email
+                                    .mb-3
+                                        label.form-label(for='email') Email
+                                        input.form-control(
+                                            type='email',
+                                            id='email',
+                                            name='email',
+                                            value=user.email || '',
+                                            placeholder='Enter email',
+                                            required
+                                        )
+
+                                    // Phone
+                                    .mb-3
+                                        label.form-label(for='phone') Phone number
+                                        input.form-control(
+                                            type='tel',
+                                            id='phone',
+                                            name='phone',
+                                            value=user.phone || '',
+                                            placeholder='Enter phone number'
+                                        )
+
+                                .row.mt-4
+                                    .col-12
+                                        .d-flex.gap-2.justify-content-center
+                                            button.btn.save(type='submit')                                          
+                                                |  Save
+
+                                            a.btn.back(href='/user/profile')                                   
+                                                |  Back
+
+    script(src="/client/js/user.js") 
+

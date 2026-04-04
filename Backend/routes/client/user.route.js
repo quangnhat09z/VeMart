@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const controller = require('../../controllers/client/user.controller.js')
 const validate = require('../../validator/client/user.validate.js');
+const { handleMulterError } = require('../../helpers/storageMulter.js')
+const upload = require('../../helpers/storageMulter.js');
 
 router.get('/register', controller.registerPage);
 router.post('/register',
@@ -16,6 +18,12 @@ router.post('/login',
 );
 router.get('/logout', controller.logout);
 router.get('/profile', controller.profilePage);
+router.get('/profile/edit', controller.editProfilePage);
+router.patch('/profile/edit',
+    upload.single('avatar'),
+    handleMulterError,
+    controller.editProfile
+);
 
 // Password reset routes
 router.get('/password/forgot-password', controller.forgotPasswordPage);
