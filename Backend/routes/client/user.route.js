@@ -25,10 +25,10 @@ router.patch('/profile/edit',
     controller.editProfile
 );
 router.get('/profile/change-password', controller.changePasswordPage);
-// router.post('/profile/change-password',
-//     // validate.changePassword,
-//     controller.changePassword
-// );
+router.patch('/profile/change-password',
+    validate.changePassword,
+    controller.changePassword
+);
 
 // Password reset routes
 router.get('/password/forgot-password', controller.forgotPasswordPage);

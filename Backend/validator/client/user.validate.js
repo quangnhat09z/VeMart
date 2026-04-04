@@ -78,3 +78,29 @@ module.exports.otp = (req, res, next) => {
     }
     next();
 }
+
+module.exports.changePassword = async (req, res, next) => {
+    const { currentPassword, newPassword, confirmNewPassword } = req.body;
+    const tokenUser = req.cookies.tokenUser;
+    const user = await User.findOne({ tokenUser: tokenUser });
+
+    if (!user) {
+        return showAlert(req, res, 'User not found', `/user/profile/change-password`);
+    }
+    if (!currentPassword) {
+        return showAlert(req, res, 'Current password is required', `/user/profile/change-password`);
+    }
+    if (currentPassword !== user.password) {
+        return showAlert(req, res, 'Current password is incorrect', `/user/profile/change-password`);
+    }
+    if (!newPassword) {
+        return showAlert(req, res, 'New password is required', `/user/profile/change-password`);
+    }
+    if (!confirmNewPassword) {
+        return showAlert(req, res, 'Confirm password is required', `/user/profile/change-password`);
+    }
+    if (newPassword !== confirmNewPassword) {
+        return showAlert(req, res, 'Passwords do not match', `/user/profile/change-password`);
+    }
+    next();
+}

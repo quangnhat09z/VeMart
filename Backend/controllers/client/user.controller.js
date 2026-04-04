@@ -86,6 +86,22 @@ module.exports.changePasswordPage = async (req, res) => {
     res.render('client/pages/user/change-password');
 }
 
+// PATCH /user/profile/change-password
+module.exports.changePassword = async (req, res) => {
+    const { currentPassword, newPassword } = req.body;
+    const tokenUser = req.cookies.tokenUser;
+    const user = await User.findOne({ tokenUser: tokenUser });
+    if (!user) {
+        req.flash('error', 'User not found');
+        return res.redirect('/user/profile/change-password');
+    }
+    user.password = newPassword;
+    await user.save();
+    req.flash('success', 'Password changed successfully');
+    res.redirect('/user/profile');
+}
+
+
 // GET /user/password/forgot-password
 module.exports.forgotPasswordPage = async (req, res) => {
     res.render('client/pages/user/forgot-password');
