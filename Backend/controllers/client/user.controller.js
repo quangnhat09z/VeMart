@@ -81,6 +81,11 @@ module.exports.editProfile = async (req, res) => {
     }
 }
 
+// GET /user/profile/change-password
+module.exports.changePasswordPage = async (req, res) => {
+    res.render('client/pages/user/change-password');
+}
+
 // GET /user/password/forgot-password
 module.exports.forgotPasswordPage = async (req, res) => {
     res.render('client/pages/user/forgot-password');

@@ -396,4 +396,105 @@
   padding: 6px 16px;
 }
 
+.user-profile-changePassword .user-card {
+  border-radius: 16px;
+  padding: 20px;
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(145deg, #ffffff, #f9fafc);
+  transition: all 0.3s ease;
+  position: relative;
+}
+.user-profile-changePassword .user-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+.user-profile-changePassword .user-card::after {
+  content: "Security";
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-size: 11px;
+  background: #fff3cd;
+  color: #856404;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+.user-profile-changePassword .user-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+}
+.user-profile-changePassword form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.user-profile-changePassword .info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f8f9fa;
+  transition: all 0.25s ease;
+}
+.user-profile-changePassword .info-item:focus-within {
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(67, 107, 142, 0.15);
+}
+.user-profile-changePassword .info-item .label {
+  font-size: 13px;
+  color: #6c757d;
+  min-width: 160px;
+}
+.user-profile-changePassword .info-item .form-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  text-align: right;
+  font-size: 14px;
+  width: 60%;
+}
+.user-profile-changePassword .info-item .form-input::placeholder {
+  color: #adb5bd;
+}
+.user-profile-changePassword .user-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.user-profile-changePassword .user-actions .btn {
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-size: 14px;
+  transition: all 0.25s ease;
+}
+.user-profile-changePassword .user-actions .btn-primary {
+  background-color: #436b8e;
+  color: white;
+  border: none;
+}
+.user-profile-changePassword .user-actions .btn-primary:hover {
+  transform: translateY(-2px);
+}
+.user-profile-changePassword .user-actions .btn-outline-secondary {
+  background-color: #f0f0f0;
+  color: #232323;
+  border: none;
+}
+.user-profile-changePassword .user-actions .btn-outline-secondary:hover {
+  background: #f1f3f5;
+}
+.user-profile-changePassword .security-note {
+  font-size: 12px;
+  color: #868e96;
+  margin-top: 4px;
+}
+.user-profile-changePassword .security-note i {
+  margin-right: 4px;
+}
+
 /*# sourceMappingURL=user.css.map */
