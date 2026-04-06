@@ -1,8 +1,217 @@
 extend ../../layout/default.pug
 
-block main
-    h1 Trang tổng quan
+append head
+  link(rel="stylesheet" href="/admin/styles/css/dashboard.css")
 
-    div #{user}
-    div ----------------------------
-    div #{role}
+block main
+  - const adminName = (user && (user.fullName || user.name)) || "Admin";
+  - const now = new Date();
+  - const greeting = now.getHours() < 12 ? "Chào buổi sáng" : (now.getHours() < 18 ? "Chào buổi chiều" : "Chào buổi tối");
+
+  .dashboard
+    .dash-top
+      .dash-top__left
+        h1.dash-title Dashboard
+        p.dash-subtitle #{greeting}, #{adminName}. Tổng quan nhanh hệ thống hôm nay.
+
+      .dash-top__right
+        form.dash-search(action="", method="get")
+          i.fa-solid.fa-magnifying-glass.dash-search__icon
+          input.dash-search__input(type="search", name="q", placeholder="Tìm nhanh: đơn hàng, khách hàng, sản phẩm…", autocomplete="off")
+        .dash-actions
+          a.btn.btn-primary.dash-actions__btn(href="/admin/products/create")
+            i.fa-solid.fa-plus
+            span Thêm sản phẩm
+          a.btn.btn-outline-secondary.dash-actions__btn(href="/admin/orders")
+            i.fa-solid.fa-receipt
+            span Xem đơn hàng
+
+    .dash-grid
+      .dash-cards
+        .dash-card
+          .dash-card__icon.bg-soft-blue
+            i.fa-solid.fa-bag-shopping
+          .dash-card__meta
+            .dash-card__label Đơn hàng
+            .dash-card__value 128
+            .dash-card__hint
+              i.fa-solid.fa-arrow-trend-up
+              span +12% so với hôm qua
+
+        .dash-card
+          .dash-card__icon.bg-soft-green
+            i.fa-solid.fa-dollar-sign
+          .dash-card__meta
+            .dash-card__label Doanh thu
+            .dash-card__value 48.5M
+            .dash-card__hint
+              i.fa-solid.fa-arrow-trend-up
+              span +8.4% tuần này
+
+        .dash-card
+          .dash-card__icon.bg-soft-purple
+            i.fa-solid.fa-users
+          .dash-card__meta
+            .dash-card__label Khách hàng mới
+            .dash-card__value 36
+            .dash-card__hint
+              i.fa-solid.fa-arrow-trend-up
+              span +5 hôm nay
+
+        .dash-card
+          .dash-card__icon.bg-soft-orange
+            i.fa-solid.fa-triangle-exclamation
+          .dash-card__meta
+            .dash-card__label Cảnh báo tồn kho
+            .dash-card__value 9
+            .dash-card__hint.text-warn
+              i.fa-solid.fa-circle-info
+              span Cần nhập thêm
+
+      .dash-panels
+        .dash-panel.dash-panel--wide
+          .dash-panel__head
+            .dash-panel__title Hiệu suất 7 ngày
+            .dash-panel__tools
+              button.btn.btn-sm.btn-light(type="button") 7 ngày
+              button.btn.btn-sm.btn-light(type="button") 30 ngày
+              button.btn.btn-sm.btn-light(type="button") 90 ngày
+          .dash-panel__body
+            .chart-placeholder
+              .chart-placeholder__grid
+              .chart-placeholder__content
+                i.fa-solid.fa-chart-line
+                .chart-placeholder__title Biểu đồ (placeholder)
+                .chart-placeholder__desc Tích hợp chart (Chart.js/echarts) tại đây khi có dữ liệu thật.
+
+        .dash-panel
+          .dash-panel__head
+            .dash-panel__title Trạng thái đơn hàng
+            .dash-panel__tools
+              a.btn.btn-sm.btn-outline-secondary(href="/admin/orders") Chi tiết
+          .dash-panel__body
+            .status-list
+              .status-row
+                .status-row__left
+                  .status-dot.dot-green
+                  span Đã thanh toán
+                .status-row__right
+                  span 54
+                  .status-bar
+                    .status-bar__fill(style="width: 54%")
+              .status-row
+                .status-row__left
+                  .status-dot.dot-blue
+                  span Đang giao
+                .status-row__right
+                  span 28
+                  .status-bar
+                    .status-bar__fill.is-blue(style="width: 28%")
+              .status-row
+                .status-row__left
+                  .status-dot.dot-orange
+                  span Chờ xác nhận
+                .status-row__right
+                  span 33
+                  .status-bar
+                    .status-bar__fill.is-orange(style="width: 33%")
+              .status-row
+                .status-row__left
+                  .status-dot.dot-red
+                  span Hủy/Hoàn
+                .status-row__right
+                  span 13
+                  .status-bar
+                    .status-bar__fill.is-red(style="width: 13%")
+
+      .dash-panels
+        .dash-panel.dash-panel--wide
+          .dash-panel__head
+            .dash-panel__title Đơn hàng gần đây
+            .dash-panel__tools
+              a.btn.btn-sm.btn-primary(href="/admin/orders") Xem tất cả
+          .dash-panel__body
+            .table-responsive
+              table.table.table-hover.align-middle.dash-table
+                thead
+                  tr
+                    th Mã đơn
+                    th Khách hàng
+                    th Trạng thái
+                    th.text-end Tổng
+                    th.text-end Hành động
+                tbody
+                  tr
+                    td
+                      a.dash-link(href="/admin/orders/VM-10241") #VM-10241
+                      .dash-muted 2 phút trước
+                    td
+                      .d-flex.align-items-center.gap-2
+                        .avatar-circle AV
+                        .d-flex.flex-column
+                          span.fw-semibold Anh Vũ
+                          span.dash-muted anhvu@gmail.com
+                    td
+                      span.badge.dash-badge.is-success Đã thanh toán
+                    td.text-end.fw-semibold 1.250.000₫
+                    td.text-end
+                      a.btn.btn-sm.btn-outline-secondary(href="/admin/orders/VM-10241") Xem
+                  tr
+                    td
+                      a.dash-link(href="/admin/orders/VM-10240") #VM-10240
+                      .dash-muted 15 phút trước
+                    td
+                      .d-flex.align-items-center.gap-2
+                        .avatar-circle TM
+                        .d-flex.flex-column
+                          span.fw-semibold Thảo My
+                          span.dash-muted thaomy@gmail.com
+                    td
+                      span.badge.dash-badge.is-warning Chờ xác nhận
+                    td.text-end.fw-semibold 890.000₫
+                    td.text-end
+                      a.btn.btn-sm.btn-outline-secondary(href="/admin/orders/VM-10240") Xem
+                  tr
+                    td
+                      a.dash-link(href="/admin/orders/VM-10239") #VM-10239
+                      .dash-muted 1 giờ trước
+                    td
+                      .d-flex.align-items-center.gap-2
+                        .avatar-circle HD
+                        .d-flex.flex-column
+                          span.fw-semibold Hồng Đào
+                          span.dash-muted hongdao@gmail.com
+                    td
+                      span.badge.dash-badge.is-info Đang giao
+                    td.text-end.fw-semibold 2.040.000₫
+                    td.text-end
+                      a.btn.btn-sm.btn-outline-secondary(href="/admin/orders/VM-10239") Xem
+
+        .dash-panel
+          .dash-panel__head
+            .dash-panel__title Hoạt động gần đây
+            .dash-panel__tools
+              button.btn.btn-sm.btn-light(type="button") Lọc
+          .dash-panel__body
+            .activity
+              .activity-item
+                .activity-dot.is-blue
+                .activity-main
+                  .activity-title
+                    span.fw-semibold Cập nhật trạng thái
+                    span.dash-muted · 3 phút trước
+                  .activity-desc Đơn #VM-10241 chuyển sang “Đã thanh toán”.
+              .activity-item
+                .activity-dot.is-green
+                .activity-main
+                  .activity-title
+                    span.fw-semibold Thêm sản phẩm
+                    span.dash-muted · 1 giờ trước
+                  .activity-desc “Áo thun basic” đã được thêm vào kho.
+              .activity-item
+                .activity-dot.is-orange
+                .activity-main
+                  .activity-title
+                    span.fw-semibold Cảnh báo tồn kho
+                    span.dash-muted · 3 giờ trước
+                  .activity-desc 3 SKU sắp hết hàng, cần nhập thêm.

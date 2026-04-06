@@ -1,0 +1,100 @@
+.filter{
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, .08);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, .06);
+  overflow: hidden;
+}
+
+.filter .filter-title{
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(15, 23, 42, .08);
+  background: linear-gradient(180deg, rgba(15,23,42,.02), rgba(15,23,42,0));
+}
+
+.filter .filter-title__left{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #0f172a;
+  font-weight: 900;
+}
+
+.filter .filter-title__left h5{
+  margin: 0;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: -.01em;
+}
+
+.filter .filter-title__right{
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.filter .filter-content{
+  padding: 12px 14px 14px;
+}
+
+.filter .filter-content .filter-buttons{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.filter .filter-content .btn{
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-weight: 800;
+  font-size: 13px;
+  border: 1px solid rgba(15, 23, 42, .10);
+  color: #0f172a;
+  background: #fff;
+}
+
+.filter .filter-content .btn:hover{
+  background: rgba(59,130,246,.08);
+  border-color: rgba(59,130,246,.20);
+}
+
+.filter .filter-content .active{
+  background: rgba(59,130,246,.12);
+  border-color: rgba(59,130,246,.25);
+  color: #1d4ed8;
+}
+
+.filter .filter-content .form-floating{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.filter .filter-content form{
+  width: min(520px, 100%);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.filter .filter-content input{
+  flex: 1 1 auto;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, .10);
+  padding: 0 14px;
+  outline: none;
+}
+
+.filter .filter-content input:focus{
+  border-color: rgba(59,130,246,.45);
+  box-shadow: 0 0 0 4px rgba(59,130,246,.18);
+}
+
+@media (max-width: 992px){
+  .filter .filter-content .form-floating{ justify-content: flex-start; }
+}
