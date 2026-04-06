@@ -23,34 +23,70 @@ block main
                                     value=settingGeneral.site_name
                                 )
 
-                            .form-group.mb-3
-                                label.form-label(for="logo") Logo
-                                input.form-control(
-                                    type="file"
-                                    id="logo"
-                                    name="logo"
-                                    accept="image/*"
-                                )
-                                if settingGeneral.logo
-                                    .mt-2
-                                        small.text-muted Current logo:
-                                        br
-                                        img(src=settingGeneral.logo alt="Logo" style="max-width: 200px; max-height: 100px;")
+                            .form-group.row
+                                .col-md-6
+                                    .mb-3
+                                            label.form-label(for="logo") Logo
+                                            .d-flex.gap-2.align-items-center
+                                                input.form-control#logo(
+                                                    type="file"
+                                                    class="form-control-file"
+                                                    accept="image/*"
+                                                    name="logo"
+                                                    upload-image-input
+                                                    style="display: none;"                                  
+                                                )
+                                                label.btn.btn-outline-secondary.mb-0(for="logo" style="cursor: pointer;")
+                                                    i.fas.fa-upload
+                                                    |  Choose File
+                                                span.badge.bg-secondary(upload-image-label) No file chosen
 
-                            .form-group.mb-3
-                                label.form-label(for="favicon") Favicon
-                                input.form-control(
-                                    type="file"
-                                    id="favicon"
-                                    name="favicon"
-                                    accept="image/*"
-                                )
-                                if settingGeneral.favicon
-                                    .mt-2
-                                        small.text-muted Current favicon:
-                                        br
-                                        img(src=settingGeneral.favicon alt="Favicon" style="max-width: 50px; max-height: 50px;")
+                                            img(
+                                                src=`${settingGeneral.logo}`, 
+                                                alt="Preview Image", 
+                                                class="img-thumbnail mt-2", 
+                                                upload-image-preview
+                                                style="object-fit: contain; max-width: 200px; max-height: 100px;"
+                                            )
+                                            button.btn-close(
+                                                type='button' 
+                                                aria-label='Close' 
+                                                upload-image-clear 
+                                                style="display:none"
+                                            )
 
+                            
+                                .col-md-6
+                                    .mb-3
+                                        div(upload-image)
+                                            label.form-label(for="favicon") Favicon
+                                            .d-flex.gap-2.align-items-center
+                                                input.form-control#favicon(
+                                                    type="file"
+                                                    class="form-control-file"
+                                                    accept="image/*"
+                                                    name="favicon"
+                                                    upload-image-input
+                                                    style="display: none;"                                  
+                                                )
+                                                label.btn.btn-outline-secondary.mb-0(for="favicon" style="cursor: pointer;")
+                                                    i.fas.fa-upload
+                                                    |  Choose File
+                                                span.badge.bg-secondary(upload-image-label) No file chosen
+
+                                            img(
+                                                src=`${settingGeneral.favicon}`, 
+                                                alt="Preview Image", 
+                                                class="img-thumbnail mt-2", 
+                                                upload-image-preview
+                                                style="object-fit: contain; max-width: 200px; max-height: 100px;"
+                                            )
+                                            button.btn-close(
+                                                type='button' 
+                                                aria-label='Close' 
+                                                upload-image-clear 
+                                                style="display:none"
+                                            )
                             hr
 
                             h5.mb-3 Contact Information
