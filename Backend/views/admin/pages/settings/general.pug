@@ -157,10 +157,20 @@ block main
                                     value=settingGeneral.contact_social ? settingGeneral.contact_social.instagram : ''
                                 )
 
+                            .form-group.mb-3
+                                label.form-label(for="copyright") Copyright
+                                input.form-control(
+                                    type="text"
+                                    id="copyright"
+                                    name="copyright"
+                                    placeholder="Enter copyright text"
+                                    value=settingGeneral.copyright
+                                )
+
                             hr
 
                             .form-group
                                 button.btn.btn-primary(type="submit")
                                     i.fas.fa-save.me-2
                                     | Save Changes
-                                a.btn.btn-secondary.ms-2(href="/admin/settings") Cancel
+                                a.btn.btn-secondary.ms-2(href="/admin/dashboard") Cancel

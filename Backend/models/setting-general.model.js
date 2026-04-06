@@ -12,6 +12,7 @@ const settingGeneralSchema = new mongoose.Schema({
         twitter: { type: String },
         instagram: { type: String }
     },
+    copyright: { type: String},
 }, { timestamps: true });
 
 const SettingGeneral = mongoose.model('SettingGeneral', settingGeneralSchema, 'setting-general');

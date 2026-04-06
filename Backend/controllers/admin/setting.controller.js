@@ -10,7 +10,6 @@ module.exports.general = async (req, res) => {
 }
 
 module.exports.updateGeneral = async (req, res) => {
-    console.log('Data updated:', req.body);
     try {
         const generalData = req.body;
         const existingSetting = await SettingGeneral.findOne();
