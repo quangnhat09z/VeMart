@@ -29,18 +29,14 @@ module.exports.loginPage = async (req, res) => {
 module.exports.login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
-    
     if (!user) {
         req.flash('error', 'Email does not exist');
         return res.redirect('/user/login');
     }
-    
-    // TODO: Thay thế bằng bcrypt.compare() khi fix mật khẩu
     if (user.password !== password) {
         req.flash('error', 'Email or password is incorrect');
         return res.redirect('/user/login');
     }
-    
     if (user.status !== 'active') {
         req.flash('error', 'Your account is inactive. Please contact support.');
         return res.redirect('/user/login');
@@ -254,7 +250,6 @@ module.exports.resetPassword = async (req, res) => {
         { _id: user._id },
         { password: newPassword }
     );
-
     await ForgotPassword.deleteOne({ email: user.email });
 
     res.clearCookie('tokenUser');

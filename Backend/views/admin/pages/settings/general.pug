@@ -1,0 +1,130 @@
+extends ../../layout/default
+include ../../mixins/alert.pug
+
+block main
+    +alert(messages)
+    .container-fluid
+        .row.mb-4
+            .col-12
+                h1.mb-3 General Settings
+
+        .row
+            .col-md-8
+                .card
+                    .card-body
+                        form(action="/admin/settings/general" method="POST" enctype="multipart/form-data")
+                            .form-group.mb-3
+                                label.form-label(for="site_name") Site Name
+                                input.form-control(
+                                    type="text"
+                                    id="site_name"
+                                    name="site_name"
+                                    placeholder="Enter site name"
+                                    value=settingGeneral.site_name
+                                )
+
+                            .form-group.mb-3
+                                label.form-label(for="logo") Logo
+                                input.form-control(
+                                    type="file"
+                                    id="logo"
+                                    name="logo"
+                                    accept="image/*"
+                                )
+                                if settingGeneral.logo
+                                    .mt-2
+                                        small.text-muted Current logo:
+                                        br
+                                        img(src=settingGeneral.logo alt="Logo" style="max-width: 200px; max-height: 100px;")
+
+                            .form-group.mb-3
+                                label.form-label(for="favicon") Favicon
+                                input.form-control(
+                                    type="file"
+                                    id="favicon"
+                                    name="favicon"
+                                    accept="image/*"
+                                )
+                                if settingGeneral.favicon
+                                    .mt-2
+                                        small.text-muted Current favicon:
+                                        br
+                                        img(src=settingGeneral.favicon alt="Favicon" style="max-width: 50px; max-height: 50px;")
+
+                            hr
+
+                            h5.mb-3 Contact Information
+
+                            .form-group.mb-3
+                                label.form-label(for="contact_email") Contact Email
+                                input.form-control(
+                                    type="text"
+                                    id="contact_email"
+                                    name="contact_email"                    
+                                    placeholder="Enter contact email"
+                                    value=settingGeneral.contact_email
+                                )
+
+                            .form-group.mb-3
+                                label.form-label(for="contact_phone") Contact Phone
+                                input.form-control(
+                                    type="tel"
+                                    id="contact_phone"
+                                    name="contact_phone"
+                                    placeholder="Enter contact phone"
+                                    value=settingGeneral.contact_phone
+                                )
+
+                            .form-group.mb-3
+                                label.form-label(for="contact_address") Contact Address
+                                textarea.form-control(
+                                    id="contact_address"
+                                    name="contact_address"
+                                    rows="3"
+                                    placeholder="Enter contact address"
+                                ) #{settingGeneral.contact_address}
+
+                            hr
+
+                            h5.mb-3 Social Media Links
+
+                            .row
+                                .col-md-6
+                                    .form-group.mb-3
+                                        label.form-label(for="contact_social_facebook") Facebook
+                                        input.form-control(
+                                            type="text"
+                                            id="contact_social_facebook"
+                                            name="contact_social[facebook]"
+                                            placeholder="https://facebook.com/..."
+                                            value=settingGeneral.contact_social ? settingGeneral.contact_social.facebook : ''
+                                        )
+
+                                .col-md-6
+                                    .form-group.mb-3
+                                        label.form-label(for="contact_social_twitter") Twitter
+                                        input.form-control(
+                                            type="text"
+                                            id="contact_social_twitter"
+                                            name="contact_social[twitter]"
+                                            placeholder="https://twitter.com/..."
+                                            value=settingGeneral.contact_social ? settingGeneral.contact_social.twitter : ''
+                                        )
+
+                            .form-group.mb-3
+                                label.form-label(for="contact_social_instagram") Instagram
+                                input.form-control(
+                                    type="text"
+                                    id="contact_social_instagram"
+                                    name="contact_social[instagram]"
+                                    placeholder="https://instagram.com/..."
+                                    value=settingGeneral.contact_social ? settingGeneral.contact_social.instagram : ''
+                                )
+
+                            hr
+
+                            .form-group
+                                button.btn.btn-primary(type="submit")
+                                    i.fas.fa-save.me-2
+                                    | Save Changes
+                                a.btn.btn-secondary.ms-2(href="/admin/settings") Cancel
