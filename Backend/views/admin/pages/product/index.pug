@@ -46,7 +46,7 @@ block main
                 .sort.mb-0
                     +sortFormProduct(sortValue)
 
-            form.product-table-wrap(checkbox-multi)
+            .product-table-wrap
                 .product-table-top
                     .product-table-top__left
                         +form-change-multiple-status(`${prefixAdmin}/products/change-multiple-status?_method=PATCH` )
@@ -56,7 +56,7 @@ block main
                             span #{products.length} sản phẩm
 
                 .table-responsive.product-table-card
-                    table.table.table-hover.align-middle.product-table
+                    table.table.table-hover.align-middle.product-table(checkbox-multi)
                         thead
                             tr
                                 th(style="width: 44px;")

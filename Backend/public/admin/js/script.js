@@ -52,7 +52,6 @@ if (buttonStatus.length > 0) {
 
 // Search by title
 const searchForm = document.querySelector('#search-form');
-// console.log(searchForm);
 if (searchForm) {
     searchForm.addEventListener('submit', function (event) {
         event.preventDefault();
@@ -68,6 +67,25 @@ if (searchForm) {
         window.location.href = url.href;
 
     });
+}
+
+// Sortable table
+const sortableTables = document.querySelectorAll('.sortable-table');
+if (sortableTables.length > 0) {
+    sortableTables.forEach(table => {
+        table.addEventListener('change', function (event) {
+            const sortValue = event.target.value;
+            let url = new URL(window.location.href);
+            if (sortValue) {
+                url.searchParams.set('sort', sortValue);
+            }
+            else {
+                url.searchParams.delete('sort');
+            }
+            window.location.href = url.toString();
+        });
+    });
+
 }
 
 // Pagination
@@ -123,13 +141,14 @@ if (checkboxMulti) {
 // End Checkbox multi
 
 // Form change muiltiple status
-const formChangeMultipleStatus = document.querySelector('#changeMultipleStatusForm');
-
+const formChangeMultipleStatus = document.getElementById('changeMultipleStatusForm');
+console.log("ge", formChangeMultipleStatus);
 if (formChangeMultipleStatus) {
     formChangeMultipleStatus.addEventListener('submit', function (event) {
         event.preventDefault();
 
         const selectedItems = document.querySelectorAll('.checkbox-item:checked');
+        console.log("Selected items:", selectedItems);
         const actionType = event.target.type.value;
         if (actionType === "delete-all") {
             let isConfirm = confirm("Are you sure you want to delete all selected items?");
@@ -137,7 +156,6 @@ if (formChangeMultipleStatus) {
                 return;
             }
         }
-
 
         if (selectedItems.length > 0) {
             const selectedIdList = document.querySelector('#selectedIdList'); // Ô input ẩn để lưu danh sách ID đã chọn
@@ -232,21 +250,3 @@ if (imgInputs.length > 0) {
     });
 }
 
-// Sortable table
-const sortableTables = document.querySelectorAll('.sortable-table');
-if (sortableTables.length > 0) {
-    sortableTables.forEach(table => {
-        table.addEventListener('change', function (event) {
-            const sortValue = event.target.value;
-            let url = new URL(window.location.href);
-            if (sortValue) {
-                url.searchParams.set('sort', sortValue);
-            }
-            else {
-                url.searchParams.delete('sort');
-            }
-            window.location.href = url.toString();
-        });
-    });
-
-}
