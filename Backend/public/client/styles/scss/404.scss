@@ -1,0 +1,114 @@
+@import "variable";
+@import "mixin";
+
+.page-404 {
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    &__card {
+        border: none;
+        height: 425px;
+        border-radius: 16px;
+        padding: 30px 20px;
+        background: linear-gradient(145deg, #ffffff, #f9fafc);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        align-content: center;
+        transition: all 0.3s ease;
+
+        &:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+        }
+    }
+
+    &__code {
+        font-size: 90px;
+        font-weight: 800;
+        color: $color-primary;
+        margin-bottom: 10px;
+        letter-spacing: 2px;
+
+        animation: float404 3s ease-in-out infinite;
+    }
+
+    &__title {
+        font-size: 30px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    &__desc {
+        font-size: 16px;
+        color: #6c757d;
+        margin-bottom: 20px;
+        line-height: 1.6;
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+
+        .btn {
+            border-radius: 20px;
+            padding: 6px 18px;
+            font-size: 14px;
+            transition: all 0.25s ease;
+        }
+
+        .back {
+            background-color: $color-primary;
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: darken($color-primary, 8%);
+                box-shadow: 0 4px 12px rgba(67, 107, 142, 0.3);
+            }
+
+            &:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 6px rgba(67, 107, 142, 0.2);
+            }
+        }
+
+        .home{
+            background-color: #f0f0f0;
+            color: $color-text;
+            border: none;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: darken(#f0f0f0, 5%);
+                color: darken(#666, 10%);
+                box-shadow: 0 4px 12px rgba(67, 107, 142, 0.2);
+            }
+
+            &:active {
+                transform: translateY(0);
+                box-shadow: none;
+            }
+        }
+    }
+}
+
+@keyframes float404 {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}

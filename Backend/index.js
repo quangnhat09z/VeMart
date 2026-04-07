@@ -47,6 +47,10 @@ route(app)
 routeAdmin(app)
 routeApi(app)
 
+app.use((req, res) => {
+  res.status(404).render('client/pages/errors/404')
+})
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
 })
