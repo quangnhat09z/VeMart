@@ -1,0 +1,31 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main 
+    //Chat page styles
+    link(rel="stylesheet" href="/client/styles/css/chat.css")
+    +alert(messages)
+    .container
+        #chat-window.chat__window
+            .chat__header
+                span.chat__title
+                    i.fas.fa-user-tie
+                    |  Admin
+                button#chat-close.chat__close(aria-label="Đóng")
+                    i.fas.fa-times
+            .chat__body
+                #chat-messages.chat__messages
+                    .chat__message.chat__message--bot
+                        .chat__message-content
+                            | Xin chào! Bạn cần tôi hỗ trợ gì?
+            .chat__footer
+                form#chat-form.chat__form
+                    input#chat-input.chat__input(
+                        type="text"
+                        placeholder="Type a message..."
+                        autocomplete="off"
+                    )
+                    button.chat__send(type="submit" aria-label="Gửi")
+                        i.fas.fa-paper-plane
+
+    script(src="/client/js/chat.js")
