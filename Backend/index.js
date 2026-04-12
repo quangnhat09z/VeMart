@@ -15,6 +15,7 @@ const route = require('./routes/client/index.route.js')
 const routeAdmin = require('./routes/admin/index.route.js')
 const routeApi = require('./routes/api/index.route.js')
 
+const socketMiddleware = require('./middleware/client/socket.middleware.js');
 const chatController = require('./controllers/client/chat.controller');
 
 db.connect()
@@ -26,7 +27,13 @@ const port = process.env.PORT
 const server = createServer(app);
 const io = new Server(server);
 global.io = io;
+socketMiddleware(io);
 chatController.initSocket(io);
+
+// ✅ DEBUG
+console.log('io type:', typeof io);
+console.log('io.use type:', typeof io.use);
+console.log('io constructor:', io.constructor.name);
 // end socket io
 
 app.set('views', './views')
