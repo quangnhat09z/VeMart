@@ -4,6 +4,9 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const flash = require('express-flash')
 
+const { createServer } = require('node:http');
+const { Server } = require('socket.io');
+
 require('dotenv').config()
 
 const db = require('./config/database.js')
@@ -16,6 +19,15 @@ db.connect()
 
 const app = express()
 const port = process.env.PORT
+
+// socket io
+const server = createServer(app);
+const io = new Server(server);
+io.on('connection', (socket) => {
+    console.log('a user connected, socket id: ' + socket.id);
+    // socket.emit('SERVER_SEND_SOCKET_ID', socket.id);
+});
+// end socket io
 
 app.set('views', './views')
 app.set('view engine', 'pug')
@@ -51,6 +63,6 @@ app.use((req, res) => {
   res.status(404).render('client/pages/errors/404')
 })
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
 })

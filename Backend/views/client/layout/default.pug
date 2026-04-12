@@ -2,16 +2,16 @@ doctype html
 html
   head
     title #{pageTitle}
-    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css")
-    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css")
-    link(rel="stylesheet", href="/client/styles/css/base.css")
-    link(rel="stylesheet", href="/client/styles/css/style.css")
-    link(rel="stylesheet", href="/chatbox/styles/css/style.css")
-    link(rel="stylesheet", href="/client/styles/css/category.css")
-    link(rel="stylesheet", href="/client/styles/css/viewDetail.css")
-    //- link(rel="stylesheet", href="/client/styles/css/cart.css")
-    //- link(rel="stylesheet", href="/client/styles/css/checkout.css")
-    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css")
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css")
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css")
+    link(rel="stylesheet" href="/client/styles/css/base.css")
+    link(rel="stylesheet" href="/client/styles/css/style.css")
+    link(rel="stylesheet" href="/chatbox/styles/css/style.css")
+    link(rel="stylesheet" href="/client/styles/css/category.css")
+    link(rel="stylesheet" href="/client/styles/css/viewDetail.css")
+    //- link(rel="stylesheet" href="/client/styles/css/cart.css")
+    //- link(rel="stylesheet" href="/client/styles/css/checkout.css")
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css")
   body
 
     include ../partial/header.pug
@@ -23,6 +23,10 @@ html
     include ../partial/chatbox.pug
 
     script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js")
-    //- script(src="/client/js/script.js")
+    
+    //- socket io
+    script(src="/socket.io/socket.io.js") 
+    script(src="/client/js/socket.js") 
+    
     script(src="/chatbox/js/chatbox.js")
     script(src="/client/js/script.js") 
