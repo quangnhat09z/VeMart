@@ -134,7 +134,7 @@
   }
 
   .chat__message--user & {
-    background: linear-gradient(135deg, $color-primary 0%, $color-secondary 100%);
+    background-color: $color-primary;
     color: white;
     border-bottom-right-radius: 4px;
   }

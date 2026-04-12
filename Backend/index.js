@@ -15,6 +15,8 @@ const route = require('./routes/client/index.route.js')
 const routeAdmin = require('./routes/admin/index.route.js')
 const routeApi = require('./routes/api/index.route.js')
 
+const chatController = require('./controllers/client/chat.controller');
+
 db.connect()
 
 const app = express()
@@ -23,10 +25,8 @@ const port = process.env.PORT
 // socket io
 const server = createServer(app);
 const io = new Server(server);
-io.on('connection', (socket) => {
-    console.log('a user connected, socket id: ' + socket.id);
-    // socket.emit('SERVER_SEND_SOCKET_ID', socket.id);
-});
+global.io = io;
+chatController.initSocket(io);
 // end socket io
 
 app.set('views', './views')

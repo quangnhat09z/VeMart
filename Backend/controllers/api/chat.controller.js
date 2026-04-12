@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const ChatMessage = require('../../models/chat.model.js');
+const ChatMessage = require('../../models/chatAI.model.js');
 
 const CHAT_SYSTEM_PROMPT = `Bạn là trợ lý AI của VeMart - một cửa hàng thương mại điện tử. 
 Hãy trả lời thân thiện, ngắn gọn về sản phẩm, đơn hàng, chính sách vận chuyển, 
