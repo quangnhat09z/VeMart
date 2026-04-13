@@ -15,9 +15,17 @@ block main
                     i.fas.fa-times
             .chat__body
                 #chat-messages.chat__messages
-                    .chat__message.chat__message--bot
-                        .chat__message-content
-                            | Xin chào! Bạn cần tôi hỗ trợ gì?
+                    for chat in chats
+                        if chat.user_id === user._id.toString()                          
+                            .chat__message.chat__message--user
+                                .chat__message-content
+                                    | #{chat.content}
+                        else 
+                            
+                            .chat__message.chat__message--bot
+                                .chat__message-name #{chat.infoUser}
+                                .chat__message-content
+                                    | #{chat.content}
             .chat__footer
                 form#chat-form.chat__form
                     input#chat-input.chat__input(

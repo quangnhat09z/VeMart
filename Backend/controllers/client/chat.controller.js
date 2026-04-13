@@ -1,9 +1,21 @@
 const ChatUser = require('../../models/chatUser.model.js');
+const User = require('../../models/user.model.js');
 
 // [GET] /chat
-module.exports.index = (req, res) => {
+module.exports.index = async (req, res) => {
+    const chats = await ChatUser.find();
+    console.log(chats);
+    for (let chat of chats) {
+        if (chat.user_id) {
+            const userInfo = await User.findById(chat.user_id).select('fullname');
+            chat.infoUser = userInfo ? userInfo.fullname : 'Unknown User';
+        }
+    }
+    console.log("Chat user IDs:", chats.map(chat => chat.user_id));
+    console.log("Current user ID:", res.locals.user._id);
     res.render('client/pages/chat/index', {
         title: 'Chat with us',
+        chats: chats
     });
 }
 

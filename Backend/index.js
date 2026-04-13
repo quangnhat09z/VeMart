@@ -30,11 +30,6 @@ global.io = io;
 socketMiddleware(io);
 chatController.initSocket(io);
 
-// ✅ DEBUG
-console.log('io type:', typeof io);
-console.log('io.use type:', typeof io.use);
-console.log('io constructor:', io.constructor.name);
-// end socket io
 
 app.set('views', './views')
 app.set('view engine', 'pug')
