@@ -14,7 +14,7 @@ block main
                 button#chat-close.chat__close(aria-label="Đóng")
                     i.fas.fa-times
             .chat__body
-                #chat-messages.chat__messages
+                #chat-messages.chat__messages(myid=user.id)
                     for chat in chats
                         if chat.user_id === user._id.toString()                          
                             .chat__message.chat__message--user
@@ -35,5 +35,3 @@ block main
                     )
                     button.chat__send(type="submit" aria-label="Gửi")
                         i.fas.fa-paper-plane
-
-    script(src="/client/js/chat.js")

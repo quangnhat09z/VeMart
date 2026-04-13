@@ -1,20 +1,26 @@
-const socket = io();
+// const socket = window.socket = io();
 
-const form = document.getElementById('form');
-const input = document.getElementById('input');
-const messages = document.getElementById('messages');
+// const form = document.getElementById('chat-form');
+// const input = document.getElementById('chat-input');
+// const messages = document.getElementById('chat-messages');
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (input.value) {
-        socket.emit('CLIENT_SEND_MESSAGE', input.value);
-        input.value = '';
-    }
-});
+// if (form && input && messages) {
+//     form.addEventListener('submit', (e) => {
+//         e.preventDefault();
+//         if (input.value) {
+//             socket.emit('CLIENT_SEND_MESSAGE', input.value);
+//             input.value = '';
+//         }
+//     });
 
-socket.on('SERVER_RETURN_MESSAGE', (msg) => {
-    const item = document.createElement('li');
-    item.textContent = msg;
-    messages.appendChild(item);
-    window.scrollTo(0, document.body.scrollHeight);
-});
+//     socket.on('SERVER_RETURN_MESSAGE', (msg) => {
+//         const item = document.createElement('div');
+//         item.className = 'chat__message chat__message--bot';
+//         const contentEl = document.createElement('div');
+//         contentEl.className = 'chat__message-content';
+//         contentEl.textContent = msg;
+//         item.appendChild(contentEl);
+//         messages.appendChild(item);
+//         messages.scrollTop = messages.scrollHeight;
+//     });
+// }

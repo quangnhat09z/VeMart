@@ -1,107 +1,54 @@
 console.log('Chat script loaded');
-// (function () {
-//     const toggle = document.getElementById('chat-toggle');
-//     const windowEl = document.getElementById('chat-window');
-//     const closeBtn = document.getElementById('chat-close');
-//     const form = document.getElementById('chat-form');
-//     const input = document.getElementById('chat-input');
-//     const messagesEl = document.getElementById('chat-messages');
+const socket = window.socket = io();
 
-//     if (!toggle || !windowEl || !form || !messagesEl) return;
+const chatForm = document.getElementById('chat-form');
+const chatInput = document.getElementById('chat-input');
+const chatMessages = document.getElementById('chat-messages');
 
-//     function getWelcomeMessage() {
-//         return 'Xin chào! Tôi là trợ lý AI của VeMart. Bạn cần tôi hỗ trợ gì?';
-//     }
-
-//     function clearMessages() {
-//         messagesEl.innerHTML = '';
-//     }
-
-//     function appendMessage(content, isUser) {
-//         const div = document.createElement('div');
-//         div.className = `chat__message chat__message--${isUser ? 'user' : 'bot'}`;
-//         const contentEl = document.createElement('div');
-//         contentEl.className = 'chat__message-content';
-//         contentEl.textContent = content;
-//         div.appendChild(contentEl);
-//         messagesEl.appendChild(div);
-//         messagesEl.scrollTop = messagesEl.scrollHeight;
-//     }
-
-//     function renderHistory(messages) {
-//         clearMessages();
-//         if (messages.length === 0) {
-//             appendMessage(getWelcomeMessage(), false);
-//         } else {
-//             messages.forEach(function (m) {
-//                 appendMessage(m.content, m.role === 'user');
-//             });
-//         }
-//     }
-
-//     function appendTypingIndicator() {
-//         const div = document.createElement('div');
-//         div.className = 'chat__message chat__message--bot chat__message--typing';
-//         div.id = 'chat-typing';
-//         div.innerHTML = '<div class="chat__message-content">Đang suy nghĩ...</div>';
-//         messagesEl.appendChild(div);
-//         messagesEl.scrollTop = messagesEl.scrollHeight;
-//     }
-
-//     function removeTypingIndicator() {
-//         const el = document.getElementById('chat-typing');
-//         if (el) el.remove();
-//     }
-
-
-//     function openChat() {
-//         windowEl.classList.add('chat__window--open');
-//         loadHistory();
-//         input.focus();
-//     }
-
-//     function closeChat() {
-//         windowEl.classList.remove('chat__window--open');
-//     }
-
-//     toggle.addEventListener('click', function () {
-//         if (windowEl.classList.contains('chat__window--open')) {
-//             closeChat();
-//         } else {
-//             openChat();
-//         }
-//     });
-
-//     closeBtn.addEventListener('click', closeChat);
-
-// })();
-
-(function () {
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-input');
-    const chatMessages = document.getElementById('chat-messages');
-
-    if (!chatForm || !chatInput || !chatMessages) return;
-
+if (chatForm && chatInput && chatMessages) {
+    // Send message to server
     chatForm.addEventListener('submit', function (e) {
         e.preventDefault();
         const message = chatInput.value.trim();
-        if (message === '') return;
+        if (message != '') {
 
-        // Hiển thị tin nhắn của người dùng
-        const userMessageEl = document.createElement('div');
-        userMessageEl.className = 'chat__message chat__message--user';
+            // Hiển thị tin nhắn của người dùng
+            const userMessageEl = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            const htmlString = `
+                <div class="chat__message chat__message--user">
+                    <div class="chat__message-content">${message}</div>
+                </div>
+            `;
+            div.innerHTML = htmlString;
+            userMessageEl.appendChild(div);
 
-        const userContentEl = document.createElement('div');
-        userContentEl.className = 'chat__message-content';
+            // Gửi tin nhắn đến server
+            socket.emit('CLIENT_SEND_MESSAGE', message);
 
-        userContentEl.textContent = message;
-        userMessageEl.appendChild(userContentEl);
-        chatMessages.appendChild(userMessageEl);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-        socket.emit('CLIENT_SEND_MESSAGE', message);
-        chatInput.value = '';
+            const chatBody = document.querySelector('.chat__body');
+            chatBody.scrollTop = chatBody.scrollHeight;
+            chatInput.value = ''
+        }
     });
 
 
-})();
+    // Listen for messages from server  
+    socket.on('SERVER_RETURN_MESSAGE', function (data) {
+        
+        const botMessageEl = document.getElementById('chat-messages');
+        if (botMessageEl.getAttribute('myid') !== data.user_id) {
+            const div = document.createElement('div');
+            const htmlString = `
+            <div class="chat__message chat__message--bot">
+                <div class="chat__message-name">${data.fullname}</div>
+                <div class="chat__message-content">${data.content}</div>
+            </div>`;
+            div.innerHTML = htmlString;
+            botMessageEl.appendChild(div);
+
+            const chatBody = document.querySelector('.chat__body');
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+    });
+}

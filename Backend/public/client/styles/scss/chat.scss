@@ -1,11 +1,10 @@
-
 @import "variable";
 @import "mixin";
 
 
 // Chat Window Styling
 .chat__window {
-//   position: fixed;
+  //   position: fixed;
   bottom: 20px;
   right: 20px;
   width: 380px;
@@ -107,15 +106,15 @@
 
 .chat__message {
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
   animation: fadeIn 0.3s ease-out;
 
   &--bot {
-    align-items: flex-start; 
+    align-items: flex-start;
   }
 
   &--user {
-    align-items: flex-end;    
+    align-items: flex-end;
   }
 }
 
@@ -212,6 +211,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -222,6 +222,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
