@@ -33,5 +33,10 @@ block main
                         placeholder="Type a message..."
                         autocomplete="off"
                     )
+                    .chat-emoji
+                        i.fas.fa-smile
+                    emoji-picker(id="emoji-picker" class="emoji-picker")
                     button.chat__send(type="submit" aria-label="Gửi")
                         i.fas.fa-paper-plane
+
+    

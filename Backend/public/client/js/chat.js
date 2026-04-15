@@ -5,6 +5,9 @@ const chatForm = document.getElementById('chat-form');
 const chatInput = document.getElementById('chat-input');
 const chatMessages = document.getElementById('chat-messages');
 
+const chatBody = document.querySelector('.chat__body');
+chatBody.scrollTop = chatBody.scrollHeight;
+
 if (chatForm && chatInput && chatMessages) {
     // Send message to server
     chatForm.addEventListener('submit', function (e) {
@@ -35,7 +38,6 @@ if (chatForm && chatInput && chatMessages) {
 
     // Listen for messages from server  
     socket.on('SERVER_RETURN_MESSAGE', function (data) {
-        
         const botMessageEl = document.getElementById('chat-messages');
         if (botMessageEl.getAttribute('myid') !== data.user_id) {
             const div = document.createElement('div');
@@ -52,3 +54,30 @@ if (chatForm && chatInput && chatMessages) {
         }
     });
 }
+
+// Emoji picker
+const emojiButton = document.querySelector('.chat-emoji');
+const emojiPicker = document.querySelector('.emoji-picker');
+
+if (emojiButton && emojiPicker) {
+    emojiButton.addEventListener('click', () => {
+        emojiPicker.classList.toggle('active');
+    });
+
+    emojiPicker.addEventListener('emoji-click', event => {
+        const emoji = event.detail.unicode;
+        chatInput.value += emoji;
+    });
+
+    document.addEventListener('click', (event) => {
+        const clickedOutside =
+            !emojiPicker.contains(event.target) &&
+            !emojiButton.contains(event.target);
+
+        if (clickedOutside) {
+            emojiPicker.classList.remove('active');
+        }
+    });
+}
+
+console.log(document.querySelector('emoji-picker').shadowRoot);
