@@ -1,112 +1,169 @@
-console.log('Chat script loaded');
 const socket = window.socket = io();
 
-const chatForm = document.getElementById('chat-form');
-const chatInput = document.getElementById('chat-input');
-const chatMessages = document.getElementById('chat-messages');
+const TYPING_TIMEOUT = 2000;
+const MAX_TEXTAREA_HEIGHT = 150;
+const INITIAL_TEXTAREA_HEIGHT = 40;
 
-const chatBody = document.querySelector('.chat__body');
-chatBody.scrollTop = chatBody.scrollHeight;
+const elements = {
+    chatForm: document.getElementById('chat-form'),
+    chatInput: document.getElementById('chat-input'),
+    chatMessages: document.getElementById('chat-messages'),
+    chatBody: document.querySelector('.chat__body'),
+    emojiButton: document.querySelector('.chat-emoji'),
+    emojiPicker: document.querySelector('.emoji-picker')
+};
 
-if (chatForm && chatInput && chatMessages) {
-    // Send message to server
-    chatForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const message = chatInput.value.trim();
-        if (message != '') {
+// State
+let typingTimeout;
 
-            // Hiển thị tin nhắn của người dùng
-            const userMessageEl = document.getElementById('chat-messages');
-            const div = document.createElement('div');
-            const htmlString = `
-                <div class="chat__message chat__message--user">
-                    <div class="chat__message-content">${message}</div>
-                </div>
-            `;
-            div.innerHTML = htmlString;
-            userMessageEl.appendChild(div);
-
-            // Gửi tin nhắn đến server
-            socket.emit('CLIENT_SEND_MESSAGE', message);
-
-            const chatBody = document.querySelector('.chat__body');
-            chatBody.scrollTop = chatBody.scrollHeight;
-            chatInput.value = ''
-        }
-    });
-
-
-    // Listen for messages from server  
-    socket.on('SERVER_RETURN_MESSAGE', function (data) {
-        const botMessageEl = document.getElementById('chat-messages');
-        if (botMessageEl.getAttribute('myid') !== data.user_id) {
-            const div = document.createElement('div');
-            const htmlString = `
-            <div class="chat__message chat__message--bot">
-                <div class="chat__message-name">${data.fullname}</div>
-                <div class="chat__message-content">${data.content}</div>
-            </div>`;
-            div.innerHTML = htmlString;
-            botMessageEl.appendChild(div);
-            if (botMessageEl.querySelector('.chat__messages-typing')) {
-                botMessageEl.querySelector('.chat__messages-typing').remove();
-            }
-            const chatBody = document.querySelector('.chat__body');
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-    });
-
-    chatInput.addEventListener('keyup', function () {
-        socket.emit('CLIENT_SEND_TYPING', true);
-    });
-
-    socket.on('SERVER_RETURN_TYPING', function (data) {
-        const typingEl = document.querySelector('.chat__messages');
-        if (data.isTyping) {
-            const div = document.createElement('div');
-            const htmlString = `
-            <div class="chat__messages-typing">
-                <div class="chat__message chat__message--bot">
-                    <div class="chat__message-name">${data.fullname} is typing</div>
-                    <div class="chat__message-typing">
-                        <div class="typing-indicator">
-                            <span></span><span></span><span></span>
-                            </div></div></div></div>
-            `
-
-            div.innerHTML = htmlString;
-            if (!typingEl.querySelector('.chat__messages-typing')) {
-                typingEl.appendChild(div);
-            }
-            const chatBody = document.querySelector('.chat__body');
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-    });
-
+function scrollToBottom() {
+    elements.chatBody.scrollTop = elements.chatBody.scrollHeight;
 }
 
-// Emoji picker
-const emojiButton = document.querySelector('.chat-emoji');
-const emojiPicker = document.querySelector('.emoji-picker');
+function createMessageElement(content, fullname, isUser = false) {
+    const div = document.createElement('div');
+    if (isUser) {
+        div.innerHTML = `
+            <div class="chat__message chat__message--user">
+                <div class="chat__message-content">${content}</div>
+            </div>
+        `;
+    } else {
+        div.innerHTML = `
+            <div class="chat__message chat__message--bot">
+                <div class="chat__message-name">${fullname}</div>
+                <div class="chat__message-content">${content}</div>
+            </div>
+        `;
+    }
+    return div;
+}
 
-if (emojiButton && emojiPicker) {
-    emojiButton.addEventListener('click', () => {
-        emojiPicker.classList.toggle('active');
+function createTypingIndicator(fullname) {
+    const div = document.createElement('div');
+    div.classList.add('typing-indicator');
+    div.innerHTML = `
+        <div class="chat__messages-typing">
+            <div class="chat__message chat__message--bot">
+                <div class="chat__message-name">${fullname} is typing</div>
+                <div class="chat__message-typing">
+                    <div class="typing-indicator">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    return div;
+}
+
+function removeTypingIndicator() {
+    const typingEl = elements.chatMessages.querySelector('.typing-indicator');
+    if (typingEl) typingEl.remove();
+}
+
+// Textarea Auto-Resize
+function initTextareaAutoResize() {
+    elements.chatInput.addEventListener('input', () => {
+        elements.chatInput.style.height = 'auto';
+        elements.chatInput.style.height = Math.min(elements.chatInput.scrollHeight, MAX_TEXTAREA_HEIGHT) + 'px';
+    });
+}
+
+// Form Submission
+function initFormSubmit() {
+    elements.chatInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            elements.chatForm.dispatchEvent(new Event('submit'));
+        }
     });
 
-    emojiPicker.addEventListener('emoji-click', event => {
-        const emoji = event.detail.unicode;
-        chatInput.value += emoji;
+    elements.chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const message = elements.chatInput.value.trim();
+        
+        if (message) {
+            elements.chatMessages.appendChild(createMessageElement(message, '', true));
+            socket.emit('CLIENT_SEND_MESSAGE', message);
+            scrollToBottom();
+            
+            elements.chatInput.value = '';
+            elements.chatInput.style.height = INITIAL_TEXTAREA_HEIGHT + 'px';
+        }
+    });
+}
+
+// Typing Indicator
+function showTypingIndicator() {
+    socket.emit('CLIENT_SEND_TYPING', true);
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+        socket.emit('CLIENT_SEND_TYPING', false);
+    }, TYPING_TIMEOUT);
+}
+
+function initTypingIndicator() {
+    elements.chatInput.addEventListener('keyup', showTypingIndicator);
+
+    socket.on('SERVER_RETURN_TYPING', (data) => {
+        if (data.isTyping) {
+            if (!elements.chatMessages.querySelector('.typing-indicator')) {
+                elements.chatMessages.appendChild(createTypingIndicator(data.fullname));
+            }
+            scrollToBottom();
+        } else {
+            removeTypingIndicator();
+        }
+    });
+}
+
+// Socket Events
+function initSocketEvents() {
+    socket.on('SERVER_RETURN_MESSAGE', (data) => {
+        if (elements.chatMessages.getAttribute('myid') !== data.user_id) {
+            elements.chatMessages.appendChild(createMessageElement(data.content, data.fullname));
+            removeTypingIndicator();
+            scrollToBottom();
+        }
+    });
+}
+
+// Emoji Picker
+function initEmojiPicker() {
+    if (!elements.emojiButton || !elements.emojiPicker) return;
+
+    elements.emojiButton.addEventListener('click', () => {
+        elements.emojiPicker.classList.toggle('active');
+    });
+
+    elements.emojiPicker.addEventListener('emoji-click', (event) => {
+        elements.chatInput.value += event.detail.unicode;
+        elements.chatInput.focus();
+        showTypingIndicator();
     });
 
     document.addEventListener('click', (event) => {
-        const clickedOutside =
-            !emojiPicker.contains(event.target) &&
-            !emojiButton.contains(event.target);
-
+        const clickedOutside = 
+            !elements.emojiPicker.contains(event.target) && 
+            !elements.emojiButton.contains(event.target);
+        
         if (clickedOutside) {
-            emojiPicker.classList.remove('active');
+            elements.emojiPicker.classList.remove('active');
         }
     });
 }
 
+
+function init() {
+    if (!elements.chatForm || !elements.chatInput || !elements.chatMessages) return;
+
+    scrollToBottom();
+    initTextareaAutoResize();
+    initFormSubmit();
+    initTypingIndicator();
+    initSocketEvents();
+    initEmojiPicker();
+}
+
+init();

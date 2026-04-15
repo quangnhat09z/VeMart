@@ -197,18 +197,27 @@
 .chat__input {
   flex: 1;
   padding: 10px 14px;
+  padding-right: 30px;
   border: 1.5px solid #cbd5e0;
   border-radius: 24px;
   font-size: 14px;
   outline: none;
   transition: all 0.3s ease;
   font-family: inherit;
+  resize: none;
+  min-height: 40px;
+  max-height: 200px;
+  overflow-y: auto;
+  line-height: 1.4;
 }
 .chat__input:focus {
   border-color: #436b8e;
 }
 .chat__input::placeholder {
   color: #a0aec0;
+}
+.chat__input::-webkit-scrollbar {
+  display: none;
 }
 
 .chat-emoji {
@@ -223,7 +232,7 @@
   color: #436b8e;
   position: absolute;
   right: 13%;
-  bottom: 7%;
+  bottom: 6%;
 }
 .chat-emoji i {
   font-size: 18px;
@@ -269,6 +278,7 @@
   font-size: 16px;
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  align-self: flex-end;
 }
 .chat__send:hover {
   transform: scale(1.1);

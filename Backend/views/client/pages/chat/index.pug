@@ -30,11 +30,7 @@ block main
 
             .chat__footer
                 form#chat-form.chat__form
-                    input#chat-input.chat__input(
-                        type="text"
-                        placeholder="Type a message..."
-                        autocomplete="off"
-                    )
+                    textarea(id="chat-input" class="chat__input" rows="1" placeholder="Type a message...")
                     .chat-emoji
                         i.fas.fa-smile
                     emoji-picker(id="emoji-picker" class="emoji-picker")
