@@ -45,6 +45,16 @@ module.exports.initSocket = (io) => {
             }
         });
 
+        // typing
+        socket.on('CLIENT_SEND_TYPING', (isTyping) => {
+            const user = socket.user || null;
+            socket.broadcast.emit('SERVER_RETURN_TYPING', {
+                user_id: user ? user._id : null,
+                fullname: user ? user.fullname : 'Guest',
+                isTyping: isTyping
+            });
+        });
+
         socket.on('disconnect', () => {
             console.log('user disconnected');
         });

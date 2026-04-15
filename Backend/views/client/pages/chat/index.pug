@@ -21,11 +21,13 @@ block main
                                 .chat__message-content
                                     | #{chat.content}
                         else 
-                            
                             .chat__message.chat__message--bot
                                 .chat__message-name #{chat.infoUser}
                                 .chat__message-content
-                                    | #{chat.content}
+                                    | #{chat.content}                   
+                    
+
+
             .chat__footer
                 form#chat-form.chat__form
                     input#chat-input.chat__input(
@@ -39,4 +41,3 @@ block main
                     button.chat__send(type="submit" aria-label="Gửi")
                         i.fas.fa-paper-plane
 
-    

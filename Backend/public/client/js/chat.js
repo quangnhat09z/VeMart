@@ -48,11 +48,41 @@ if (chatForm && chatInput && chatMessages) {
             </div>`;
             div.innerHTML = htmlString;
             botMessageEl.appendChild(div);
-
+            if (botMessageEl.querySelector('.chat__messages-typing')) {
+                botMessageEl.querySelector('.chat__messages-typing').remove();
+            }
             const chatBody = document.querySelector('.chat__body');
             chatBody.scrollTop = chatBody.scrollHeight;
         }
     });
+
+    chatInput.addEventListener('keyup', function () {
+        socket.emit('CLIENT_SEND_TYPING', true);
+    });
+
+    socket.on('SERVER_RETURN_TYPING', function (data) {
+        const typingEl = document.querySelector('.chat__messages');
+        if (data.isTyping) {
+            const div = document.createElement('div');
+            const htmlString = `
+            <div class="chat__messages-typing">
+                <div class="chat__message chat__message--bot">
+                    <div class="chat__message-name">${data.fullname} is typing</div>
+                    <div class="chat__message-typing">
+                        <div class="typing-indicator">
+                            <span></span><span></span><span></span>
+                            </div></div></div></div>
+            `
+
+            div.innerHTML = htmlString;
+            if (!typingEl.querySelector('.chat__messages-typing')) {
+                typingEl.appendChild(div);
+            }
+            const chatBody = document.querySelector('.chat__body');
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+    });
+
 }
 
 // Emoji picker
@@ -80,4 +110,3 @@ if (emojiButton && emojiPicker) {
     });
 }
 
-console.log(document.querySelector('emoji-picker').shadowRoot);
