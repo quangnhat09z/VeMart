@@ -18,22 +18,32 @@ block main
                     for chat in chats
                         if chat.user_id === user._id.toString()                          
                             .chat__message.chat__message--user
-                                .chat__message-content
-                                    | #{chat.content}
+                                if (chat.content)
+                                    .chat__message-content
+                                        | #{chat.content}  
+                                .chat__message-image        
+                                    each image in chat.images
+                                        img(src=image, alt="User Image")
                         else 
                             .chat__message.chat__message--bot
-                                .chat__message-name #{chat.infoUser}
-                                .chat__message-content
-                                    | #{chat.content}                   
-                    
+                                if (chat.content)
+                                    .chat__message-name #{chat.infoUser}
+                                    .chat__message-content
+                                        | #{chat.content}               
+                                .chat__message-image        
+                                    each image in chat.images
+                                        img(src=image, alt="User Image")
 
 
             .chat__footer
                 form#chat-form.chat__form
+                   
                     textarea(id="chat-input" class="chat__input" rows="1" placeholder="Type a message...")
                     .chat-emoji
                         i.fas.fa-smile
                     emoji-picker(id="emoji-picker" class="emoji-picker")
                     button.chat__send(type="submit" aria-label="Gửi")
                         i.fas.fa-paper-plane
+
+    div(class="custom-file-container" data-upload-id="upload-images")
 

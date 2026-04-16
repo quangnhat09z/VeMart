@@ -1,3 +1,6 @@
+import { FileUploadWithPreview } from 'https://unpkg.com/file-upload-with-preview/dist/index.js';
+
+
 const socket = window.socket = io();
 
 const TYPING_TIMEOUT = 2000;
@@ -82,12 +85,18 @@ function initFormSubmit() {
     elements.chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const message = elements.chatInput.value.trim();
-        
-        if (message) {
-            elements.chatMessages.appendChild(createMessageElement(message, '', true));
-            socket.emit('CLIENT_SEND_MESSAGE', message);
+        const images = upload.cachedFileArray;
+
+        if (message || images.length > 0) {
+            if (message) {
+                elements.chatMessages.appendChild(createMessageElement(message, '', true));
+            }
+            socket.emit('CLIENT_SEND_MESSAGE', {
+                content: message,
+                images: images 
+            });
             scrollToBottom();
-            
+
             elements.chatInput.value = '';
             elements.chatInput.style.height = INITIAL_TEXTAREA_HEIGHT + 'px';
         }
@@ -144,20 +153,31 @@ function initEmojiPicker() {
     });
 
     document.addEventListener('click', (event) => {
-        const clickedOutside = 
-            !elements.emojiPicker.contains(event.target) && 
+        const clickedOutside =
+            !elements.emojiPicker.contains(event.target) &&
             !elements.emojiButton.contains(event.target);
-        
+
         if (clickedOutside) {
             elements.emojiPicker.classList.remove('active');
         }
     });
 }
 
+let upload;
+
+function initFileUpload() {
+    // upload = new FileUploadWithPreview('upload-images');
+    upload = new FileUploadWithPreview('upload-images', {
+        multiple: true,
+        maxFileCount: 5,
+    });
+}
 
 function init() {
+
     if (!elements.chatForm || !elements.chatInput || !elements.chatMessages) return;
 
+    initFileUpload();
     scrollToBottom();
     initTextareaAutoResize();
     initFormSubmit();

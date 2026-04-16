@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://unpkg.com/file-upload-with-preview/dist/style.css">
+</head>
+<body>
+    <div class="custom-file-container" data-upload-id="my-unique-id">
+        
+    </div>
+
+    <script type="module">
+        import { FileUploadWithPreview } from 'https://unpkg.com/file-upload-with-preview/dist/index.js';
+
+        const upload = new FileUploadWithPreview('my-unique-id', {
+            multiple: true,
+            maxFileCount: 5,
+        });
+
+        console.log(upload.cachedFileArray);
+    </script>
+</body>
+</html>
