@@ -10,22 +10,6 @@ module.exports.index = async (req, res) => {
             const userInfo = await User.findById(chat.user_id).select('fullname');
             chat.infoUser = userInfo ? userInfo.fullname : 'Unknown User';
         }
-
-        if (chat.images && chat.images.length > 0) {
-            chat.images = chat.images.map((img) => {
-                const buffer =
-                    img?.buffer ||
-                    img?.data ||
-                    img?.buffer?.buffer ||
-                    img?.data?.buffer;
-
-                if (!buffer) return null;
-
-                const base64 = Buffer.from(buffer).toString('base64');
-                const mimeType = img?.mimeType || 'image/jpeg';
-                return `data:${mimeType};base64,${base64}`;
-            }).filter(Boolean);
-        }
     }
 
     res.render('client/pages/chat/index', {
@@ -48,7 +32,6 @@ module.exports.initSocket = (io) => {
                     images: data.images
                 });
                 await chat.save();
-                console.log('Received message from client: ' + data.content);
 
                 // Phát lại cho tất cả client
                 io.emit('SERVER_RETURN_MESSAGE', {

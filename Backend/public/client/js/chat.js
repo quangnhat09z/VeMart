@@ -23,22 +23,40 @@ function scrollToBottom() {
     elements.chatBody.scrollTop = elements.chatBody.scrollHeight;
 }
 
-function createMessageElement(content, fullname, isUser = false) {
+function createMessageElement(content, fullname, images = [], isUser) {
     const div = document.createElement('div');
-    if (isUser) {
-        div.innerHTML = `
-            <div class="chat__message chat__message--user">
-                <div class="chat__message-content">${content}</div>
-            </div>
-        `;
-    } else {
-        div.innerHTML = `
-            <div class="chat__message chat__message--bot">
-                <div class="chat__message-name">${fullname}</div>
-                <div class="chat__message-content">${content}</div>
+
+    const roleClass = isUser ? 'chat__message--user' : 'chat__message--bot';
+    const imageClass = isUser ? 'chat__message-image--user' : 'chat__message-image--bot';
+
+    const hasContent = !!content;
+    const hasImages = images && images.length > 0;
+
+    let html = `<div class="chat__message ${roleClass}">`;
+
+    // Bot thì có tên
+    if (!isUser) {
+        html += `<div class="chat__message-name">${fullname}</div>`;
+    }
+
+    // Content
+    if (hasContent) {
+        html += `<div class="chat__message-content">${content}</div>`;
+    }
+
+    // Images
+    if (hasImages) {
+        html += `
+            <div class="chat__message-image ${imageClass}">
+                ${images.map(img => `<img src="${img}" alt="Image">`).join('')}
             </div>
         `;
     }
+
+    html += `</div>`;
+
+    div.innerHTML = html;
+
     return div;
 }
 
@@ -82,23 +100,38 @@ function initFormSubmit() {
         }
     });
 
-    elements.chatForm.addEventListener('submit', (e) => {
+    elements.chatForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const message = elements.chatInput.value.trim();
-        const images = upload.cachedFileArray;
+        const files = upload.cachedFileArray;
 
-        if (message || images.length > 0) {
-            if (message) {
-                elements.chatMessages.appendChild(createMessageElement(message, '', true));
-            }
+        if (message || files.length > 0) {
+            // Convert files to base64
+            const imageBase64 = await Promise.all(
+                files.map((file) => {
+                    return new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = () => resolve(null);
+                        reader.readAsDataURL(file);
+                    });
+                })
+            );
+
+            elements.chatMessages.appendChild(
+                createMessageElement(message, '', imageBase64.filter(Boolean), true)
+            );
+
             socket.emit('CLIENT_SEND_MESSAGE', {
                 content: message,
-                images: images
+                images: imageBase64.filter(Boolean)
             });
-            scrollToBottom();
 
+            scrollToBottom();
             elements.chatInput.value = '';
             elements.chatInput.style.height = INITIAL_TEXTAREA_HEIGHT + 'px';
+            
+
         }
     });
 }
@@ -131,7 +164,7 @@ function initTypingIndicator() {
 function initSocketEvents() {
     socket.on('SERVER_RETURN_MESSAGE', (data) => {
         if (elements.chatMessages.getAttribute('myid') !== data.user_id) {
-            elements.chatMessages.appendChild(createMessageElement(data.content, data.fullname));
+            elements.chatMessages.appendChild(createMessageElement(data.content, data.fullname, data.images, false));
             removeTypingIndicator();
             scrollToBottom();
         }
@@ -172,21 +205,22 @@ function initFileUpload() {
     });
 
     window.addEventListener('fileUploadWithPreview:imagesAdded', (e) => {
-        console.log('Images added:', e.detail.uploadId);
+        // console.log('Images added:', e.detail.uploadId);
         if (e.detail.uploadId === 'upload-images') {
+            viewImagePreviewBox(true);
             addImageToPreview();
         }
     });
 
     window.addEventListener('fileUploadWithPreview:imageDeleted', (e) => {
-        console.log('Images deleted:', e.detail.uploadId);
+        // console.log('Images deleted:', e.detail.uploadId);
         if (e.detail.uploadId === 'upload-images') {
             addImageToPreview();
         }
     });
 
     window.addEventListener('fileUploadWithPreview:clearButtonClicked', (e) => {
-        console.log('Images cleared:', e.detail.uploadId);
+        // console.log('Images cleared:', e.detail.uploadId);
         if (e.detail.uploadId === 'upload-images') {
             addImageToPreview();
         }
@@ -246,10 +280,10 @@ function initPreviewDelete() {
             '[data-upload-id="upload-images"] .image-preview-item-clear-icon'
         );
 
-        console.log(libDeleteButtons[index]);
+        // console.log(libDeleteButtons[index]);
         if (libDeleteButtons[index]) {
             libDeleteButtons[index].click();
-            console.log('Deleted image at index:', index);
+            // console.log('Deleted image at index:', index);
         }
     });
 }
@@ -264,12 +298,14 @@ function initUploadButton() {
             if (fileInput) {
                 fileInput.click();
             }
-
-            const imagePreviewBox = document.querySelector('.image-preview-box');
-            if (imagePreviewBox) {
-                imagePreviewBox.classList.add('active');
-            }
         });
+    }
+}
+
+function viewImagePreviewBox(active) {
+    const imagePreviewBox = document.querySelector('.image-preview-box');
+    if (imagePreviewBox) {
+        imagePreviewBox.classList.toggle('active', active);
     }
 }
 
