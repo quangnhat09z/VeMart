@@ -24,7 +24,6 @@ function scrollToBottom() {
 }
 
 function createMessageElement(content, fullname, images = [], isUser) {
-    const div = document.createElement('div');
 
     const roleClass = isUser ? 'chat__message--user' : 'chat__message--bot';
     const imageClass = isUser ? 'chat__message-image--user' : 'chat__message-image--bot';
@@ -32,7 +31,10 @@ function createMessageElement(content, fullname, images = [], isUser) {
     const hasContent = !!content;
     const hasImages = images && images.length > 0;
 
-    let html = `<div class="chat__message ${roleClass}">`;
+    // let html = `<div class="chat__message ${roleClass}">`;
+    const div = document.createElement('div');
+    div.classList.add('chat__message', roleClass);
+    let html = ''
 
     // Bot thì có tên
     if (!isUser) {
@@ -55,6 +57,8 @@ function createMessageElement(content, fullname, images = [], isUser) {
 
     html += `</div>`;
     div.innerHTML = html;
+
+    const gallery = new Viewer(div);
     return div;
 }
 
@@ -129,6 +133,7 @@ function initFormSubmit() {
             elements.chatInput.value = '';
             elements.chatInput.style.height = INITIAL_TEXTAREA_HEIGHT + 'px';
             clearImagePreviewBox();
+            upload.resetPreviewPanel();
         }
     });
 }
@@ -311,12 +316,18 @@ function clearImagePreviewBox() {
     }
 }
 
+function initViewerImageFullScreen() {
+    const chatBody = document.querySelector('.chat__body');
+    const gallery = new Viewer(chatBody);
+}
+
 function init() {
 
     if (!elements.chatForm || !elements.chatInput || !elements.chatMessages) return;
 
     initFileUpload();
     initPreviewDelete();
+    initViewerImageFullScreen();
     scrollToBottom();
     initTextareaAutoResize();
     initFormSubmit();
