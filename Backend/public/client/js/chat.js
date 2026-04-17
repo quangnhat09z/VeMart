@@ -54,9 +54,7 @@ function createMessageElement(content, fullname, images = [], isUser) {
     }
 
     html += `</div>`;
-
     div.innerHTML = html;
-
     return div;
 }
 
@@ -130,8 +128,7 @@ function initFormSubmit() {
             scrollToBottom();
             elements.chatInput.value = '';
             elements.chatInput.style.height = INITIAL_TEXTAREA_HEIGHT + 'px';
-            
-
+            clearImagePreviewBox();
         }
     });
 }
@@ -205,7 +202,6 @@ function initFileUpload() {
     });
 
     window.addEventListener('fileUploadWithPreview:imagesAdded', (e) => {
-        // console.log('Images added:', e.detail.uploadId);
         if (e.detail.uploadId === 'upload-images') {
             viewImagePreviewBox(true);
             addImageToPreview();
@@ -213,14 +209,12 @@ function initFileUpload() {
     });
 
     window.addEventListener('fileUploadWithPreview:imageDeleted', (e) => {
-        // console.log('Images deleted:', e.detail.uploadId);
         if (e.detail.uploadId === 'upload-images') {
             addImageToPreview();
         }
     });
 
     window.addEventListener('fileUploadWithPreview:clearButtonClicked', (e) => {
-        // console.log('Images cleared:', e.detail.uploadId);
         if (e.detail.uploadId === 'upload-images') {
             addImageToPreview();
         }
@@ -306,6 +300,14 @@ function viewImagePreviewBox(active) {
     const imagePreviewBox = document.querySelector('.image-preview-box');
     if (imagePreviewBox) {
         imagePreviewBox.classList.toggle('active', active);
+    }
+}
+
+function clearImagePreviewBox() {
+    const imagePreviewBox = document.querySelector('.image-preview-box');
+    if (imagePreviewBox) {
+        imagePreviewBox.innerHTML = '';
+        imagePreviewBox.classList.remove('active');
     }
 }
 
