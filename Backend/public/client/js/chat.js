@@ -93,7 +93,7 @@ function initFormSubmit() {
             }
             socket.emit('CLIENT_SEND_MESSAGE', {
                 content: message,
-                images: images 
+                images: images
             });
             scrollToBottom();
 
@@ -166,11 +166,111 @@ function initEmojiPicker() {
 let upload;
 
 function initFileUpload() {
-    // upload = new FileUploadWithPreview('upload-images');
     upload = new FileUploadWithPreview('upload-images', {
         multiple: true,
         maxFileCount: 5,
     });
+
+    window.addEventListener('fileUploadWithPreview:imagesAdded', (e) => {
+        console.log('Images added:', e.detail.uploadId);
+        if (e.detail.uploadId === 'upload-images') {
+            addImageToPreview();
+        }
+    });
+
+    window.addEventListener('fileUploadWithPreview:imageDeleted', (e) => {
+        console.log('Images deleted:', e.detail.uploadId);
+        if (e.detail.uploadId === 'upload-images') {
+            addImageToPreview();
+        }
+    });
+
+    window.addEventListener('fileUploadWithPreview:clearButtonClicked', (e) => {
+        console.log('Images cleared:', e.detail.uploadId);
+        if (e.detail.uploadId === 'upload-images') {
+            addImageToPreview();
+        }
+    });
+}
+
+async function addImageToPreview() {
+    const imagePreviewBox = document.querySelector('.image-preview-box');
+    if (!imagePreviewBox) return;
+
+    const files = upload?.cachedFileArray || [];
+    imagePreviewBox.innerHTML = '';
+
+    if (!files.length) {
+        imagePreviewBox.classList.remove('active');
+        return;
+    }
+
+    const urls = await Promise.all(files.map((file) => {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = () => resolve(null);
+            reader.readAsDataURL(file);
+        });
+    }));
+
+
+    urls.filter(Boolean).forEach((url, index) => {
+        const div = document.createElement('div');
+        const deleteBtn = document.createElement('span');
+
+        div.className = 'image-preview-item';
+        div.dataset.index = index;
+        deleteBtn.className = 'image-preview-item-clear';
+        deleteBtn.appendChild(document.createElement('i')).className = 'fa-solid fa-xmark image-preview-item-clear-icon';
+        div.style.backgroundImage = `url("${url}")`;
+        div.appendChild(deleteBtn);
+        imagePreviewBox.appendChild(div);
+    });
+
+    imagePreviewBox.classList.add('active');
+}
+
+function initPreviewDelete() {
+    const imagePreviewBox = document.querySelector('.image-preview-box');
+    if (!imagePreviewBox) return;
+
+    imagePreviewBox.addEventListener('click', (e) => {
+        const btn = e.target.closest('.image-preview-item-clear');
+        if (!btn) return;
+
+        const item = btn.closest('.image-preview-item');
+        const index = Number(item.dataset.index);
+
+        const libDeleteButtons = document.querySelectorAll(
+            '[data-upload-id="upload-images"] .image-preview-item-clear-icon'
+        );
+
+        console.log(libDeleteButtons[index]);
+        if (libDeleteButtons[index]) {
+            libDeleteButtons[index].click();
+            console.log('Deleted image at index:', index);
+        }
+    });
+}
+
+function initUploadButton() {
+    const attachButton = document.querySelector('.chat-attach-image');
+    if (attachButton) {
+        attachButton.addEventListener('click', () => {
+            const fileInput = document.querySelector(
+                '[data-upload-id="upload-images"] .input-hidden'
+            );
+            if (fileInput) {
+                fileInput.click();
+            }
+
+            const imagePreviewBox = document.querySelector('.image-preview-box');
+            if (imagePreviewBox) {
+                imagePreviewBox.classList.add('active');
+            }
+        });
+    }
 }
 
 function init() {
@@ -178,12 +278,14 @@ function init() {
     if (!elements.chatForm || !elements.chatInput || !elements.chatMessages) return;
 
     initFileUpload();
+    initPreviewDelete();
     scrollToBottom();
     initTextareaAutoResize();
     initFormSubmit();
     initTypingIndicator();
     initSocketEvents();
     initEmojiPicker();
+    initUploadButton();
 }
 
 init();

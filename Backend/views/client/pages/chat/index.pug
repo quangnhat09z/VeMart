@@ -6,6 +6,8 @@ block main
     link(rel="stylesheet" href="/client/styles/css/chat.css")
     +alert(messages)
     .container
+        div(class="custom-file-container" data-upload-id="upload-images")
+
         #chat-window.chat__window
             .chat__header
                 span.chat__title
@@ -21,7 +23,7 @@ block main
                                 if (chat.content)
                                     .chat__message-content
                                         | #{chat.content}  
-                                .chat__message-image        
+                                .chat__message-image.chat__message-image--user        
                                     each image in chat.images
                                         img(src=image, alt="User Image")
                         else 
@@ -30,14 +32,16 @@ block main
                                     .chat__message-name #{chat.infoUser}
                                     .chat__message-content
                                         | #{chat.content}               
-                                .chat__message-image        
+                                .chat__message-image.chat__message-image--bot        
                                     each image in chat.images
                                         img(src=image, alt="User Image")
 
 
             .chat__footer
+                .image-preview-box
                 form#chat-form.chat__form
-                   
+                    button.chat-attach-image(type="button" aria-label="Đính kèm")
+                        i.fa-regular.fa-image
                     textarea(id="chat-input" class="chat__input" rows="1" placeholder="Type a message...")
                     .chat-emoji
                         i.fas.fa-smile
@@ -45,5 +49,4 @@ block main
                     button.chat__send(type="submit" aria-label="Gửi")
                         i.fas.fa-paper-plane
 
-    div(class="custom-file-container" data-upload-id="upload-images")
 

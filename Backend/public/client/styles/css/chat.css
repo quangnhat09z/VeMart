@@ -131,14 +131,16 @@
 }
 
 .chat__message-image {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  display: flex;
   gap: 8px;
   margin-top: 6px;
   max-width: 220px;
 }
+.chat__message-image--user {
+  justify-content: flex-end;
+}
 .chat__message-image img {
-  width: 100%;
+  width: 100px;
   height: 80px;
   object-fit: cover;
   border-radius: 10px;
@@ -206,12 +208,73 @@
   border-top: 1px solid #e2e8f0;
   border-radius: 0 0 16px 16px;
 }
+.chat__footer .image-preview-box {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  height: 100px;
+  display: none;
+}
+.chat__footer .image-preview-box.active {
+  display: flex;
+}
+.chat__footer .image-preview-box .image-preview-item {
+  width: 80px;
+  height: 80px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.chat__footer .image-preview-box .image-preview-item:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+}
+.chat__footer .image-preview-box .image-preview-item-clear {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+.chat__footer .image-preview-box .image-preview-item-clear:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
 
 .chat__form {
   display: flex;
   gap: 8px;
   align-items: center;
   position: relative;
+}
+.chat__form .chat-attach-image {
+  background: none;
+  border: none;
+  color: #436b8e;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 18px;
+}
+.chat__form .chat-attach-image:hover {
+  color: rgb(34.3014354067, 54.7799043062, 72.6985645933);
+}
+.chat__form .chat-attach-image i {
+  font-size: 23px;
 }
 
 .chat__input {
@@ -306,6 +369,31 @@
 }
 .chat__send:active {
   transform: scale(0.95);
+}
+
+.custom-file-container {
+  position: relative;
+  margin: 8px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: 8px;
+  display: flex;
+}
+
+.custom-file-container .image-preview {
+  display: flex;
+}
+.custom-file-container .image-preview-item {
+  width: 76px;
+  height: 76px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+.custom-file-container .image-preview:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
 }
 
 @keyframes slideInUp {
