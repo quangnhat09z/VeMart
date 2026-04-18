@@ -1,0 +1,25 @@
+extends ../../layout/default.pug
+include ../../mixins/box-head.pug
+
+block main
+    .container 
+        .row 
+            .col-12
+                +box-head("My Wishlist")
+        if (wishlistItems.length === 0)
+            .row
+                .col-12
+                    p.text-center.mt-4 Your wishlist is empty.
+        else 
+            .row
+                each item in wishlistItems
+                    .col-md-4.mb-4
+                        .card
+                            img.card-img-top(src=`${item.productId.imgUrl}` alt="Product Image")
+                            .card-body
+                                h5.card-title #{item.productId.name}
+                                p.card-text $#{item.productId.price}
+                                form(method="POST" action="/wishlist/remove")
+                                    input(type="hidden" name="productId" value=item.productId._id)
+                                    button.btn.btn-danger(type="submit") Remove from Wishlist
+            

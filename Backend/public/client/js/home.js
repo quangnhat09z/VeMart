@@ -186,3 +186,16 @@ addToCartButtons.forEach(button => {
         addToCartForm.submit();
     });
 });
+
+// Add to wishlist from home page
+const addToWishlistButtons = document.querySelectorAll('.add-to-wishlist');
+const addToWishlistForm = document.getElementById('add-to-wishlist-form');
+const wishlistHiddenProductIdInput = document.getElementById('wishlist-hidden-product-id');
+
+addToWishlistButtons.forEach(button => {
+    button.addEventListener('click', function () {
+        const productId = this.getAttribute('data-product-id');
+        wishlistHiddenProductIdInput.value = productId;
+        addToWishlistForm.submit();
+    });
+});
