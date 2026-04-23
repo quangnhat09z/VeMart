@@ -7,15 +7,14 @@ module.exports.wishlistPage = async (req, res) => {
     const wishlist = await Wishlist.findOne({
         user_id: userId
     }).populate('products.productId');
-    
-    
-    console.log('Wishlist items:', wishlist ? wishlist.products : []);
+
     res.render('client/pages/wishlist/index', {
         title: 'Wishlist',
         wishlistItems: wishlist ? wishlist.products : []
     });
 }
 
+// [POST] /wishlist/add
 module.exports.addToWishlist = async (req, res) => {
     const userId = res.locals.user ? res.locals.user._id : null;
     const { productId } = req.body;
@@ -31,6 +30,23 @@ module.exports.addToWishlist = async (req, res) => {
             await wishlist.save();
         }
         req.flash('success', 'Product added to wishlist');
-        res.redirect('/home');
+        res.redirect('/');
+    }
+}
+
+// [DELETE] /wishlist/remove
+module.exports.removeFromWishlist = async (req, res) => {
+    const userId = res.locals.user ? res.locals.user._id : null;
+    const { productId } = req.body;
+    console.log('Removing product from wishlist:', { userId, productId });
+    
+    if (userId) {
+        const result = await Wishlist.updateOne(
+            { user_id: userId }, 
+            { $pull: { products: { productId: productId } } } 
+        );
+        // console.log('Remove from wishlist result:', result);
+        req.flash('success', 'Product removed from wishlist');
+        res.redirect('/wishlist');
     }
 }

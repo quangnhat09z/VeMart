@@ -1,0 +1,134 @@
+@import "variable";
+@import "mixin";
+
+.wishlist {
+
+    &-empty {
+        text-align: center;
+        margin-top: 40px;
+        color: #868e96;
+
+        i {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        & .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.25s ease;
+            background: $color-primary;
+            color: #fff;
+
+            &:hover {
+                background: darken($color-primary, 10%);    
+            }
+        }
+    }
+
+    &-card {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid #eef0f2;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+
+        &:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+        }
+
+        &__img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            padding: 10px;
+            background: #f9fafb;
+        }
+
+        &__badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgb(204, 66, 66);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        &__body {
+            padding: 14px;
+        }
+
+        &__title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        &__price {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+
+            .current {
+                color: $color-primary;
+                font-weight: 700;
+                font-size: 16px;
+            }
+
+            .old {
+                color: #adb5bd;
+                text-decoration: line-through;
+                font-size: 13px;
+            }
+        }
+
+        &__rating {
+            font-size: 13px;
+            color: #f59f00;
+            margin-bottom: 12px;
+
+            i {
+                margin-left: 4px;
+            }
+        }
+    }
+
+    .btn-remove {
+        width: 100%;
+        border: none;
+        background: #ffe3e3;
+        color: #e03131;
+        padding: 8px;
+        border-radius: 8px;
+        font-size: 13px;
+        transition: all 0.25s ease;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+
+        &:hover {
+            background: #e03131;
+            color: #fff;
+        }
+    }
+}

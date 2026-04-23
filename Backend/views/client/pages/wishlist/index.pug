@@ -1,25 +1,50 @@
 extends ../../layout/default.pug
 include ../../mixins/box-head.pug
-
+include ../../mixins/alert.pug
 block main
-    .container 
-        .row 
+    link(rel="stylesheet" href="/client/styles/css/wishlist.css")
+    +alert(messages)
+    .container.my-5.wishlist
+        .row
             .col-12
                 +box-head("My Wishlist")
+
         if (wishlistItems.length === 0)
             .row
                 .col-12
-                    p.text-center.mt-4 Your wishlist is empty.
+                    .wishlist-empty
+                        i.fa-regular.fa-heart
+                        p Your wishlist is empty.
+                        a.btn(href="/product") Go Shopping
+
         else 
             .row
                 each item in wishlistItems
-                    .col-md-4.mb-4
-                        .card
-                            img.card-img-top(src=`${item.productId.imgUrl}` alt="Product Image")
-                            .card-body
-                                h5.card-title #{item.productId.name}
-                                p.card-text $#{item.productId.price}
-                                form(method="POST" action="/wishlist/remove")
+                    .col-md-3.mb-3
+                        .wishlist-card
+                            if item.productId.discountPercentage > 0
+                                .wishlist-card__badge 
+                                    | #{item.productId.discountPercentage}% OFF
+
+                            img.wishlist-card__img(
+                                src=item.productId.imgUrl 
+                                alt="Product Image"
+                            )
+
+                            .wishlist-card__body
+                                h5.wishlist-card__title #{item.productId.title}
+
+                                .wishlist-card__price
+                                    span.current $#{item.productId.price}
+                                    if item.productId.listPrice > 0
+                                        span.old $#{item.productId.listPrice}
+
+                                .wishlist-card__rating
+                                    span #{item.productId.stars}
+                                    i.fa-solid.fa-star
+
+                                form(method="POST" action="/wishlist/remove?_method=DELETE")
                                     input(type="hidden" name="productId" value=item.productId._id)
-                                    button.btn.btn-danger(type="submit") Remove from Wishlist
-            
+                                    button.btn-remove(type="submit")
+                                        i.fa-solid.fa-trash
+                                        |  Remove

@@ -1,0 +1,111 @@
+.wishlist-empty {
+  text-align: center;
+  margin-top: 40px;
+  color: #868e96;
+}
+.wishlist-empty i {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+.wishlist-empty p {
+  margin-bottom: 15px;
+}
+.wishlist-empty .btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.25s ease;
+  background: #436b8e;
+  color: #fff;
+}
+.wishlist-empty .btn:hover {
+  background: rgb(50.6507177033, 80.8899521531, 107.3492822967);
+}
+.wishlist-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #eef0f2;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+.wishlist-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+.wishlist-card__img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  padding: 10px;
+  background: #f9fafb;
+}
+.wishlist-card__badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgb(204, 66, 66);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.wishlist-card__body {
+  padding: 14px;
+}
+.wishlist-card__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.wishlist-card__price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.wishlist-card__price .current {
+  color: #436b8e;
+  font-weight: 700;
+  font-size: 16px;
+}
+.wishlist-card__price .old {
+  color: #adb5bd;
+  text-decoration: line-through;
+  font-size: 13px;
+}
+.wishlist-card__rating {
+  font-size: 13px;
+  color: #f59f00;
+  margin-bottom: 12px;
+}
+.wishlist-card__rating i {
+  margin-left: 4px;
+}
+.wishlist .btn-remove {
+  width: 100%;
+  border: none;
+  background: #ffe3e3;
+  color: #e03131;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 13px;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.wishlist .btn-remove:hover {
+  background: #e03131;
+  color: #fff;
+}
+
+/*# sourceMappingURL=wishlist.css.map */
