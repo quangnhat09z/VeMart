@@ -60,6 +60,7 @@ section.header
 
                 a.header__info-icon.header__info-icon--favourite(href="/wishlist")
                     i.fa-regular.fa-heart
+                    div.wishlist-quantity #{wishlistQuantity || 0}
 
                 //- Cart
                 a.header__info-icon.header__info-icon--cart(href="/cart") 

@@ -10,11 +10,13 @@ const wishlistRoutes = require('./wishlist.route.js');
 const cartMiddleware = require('../../middleware/client/cart.middleware.js');
 const userMiddleware = require('../../middleware/client/user.middleware.js');
 const settingMiddleware = require('../../middleware/client/setting.middleware.js');
+const wishlistMiddleware = require('../../middleware/client/wishlist.middleware.js');
 
 module.exports = (app) => {
     app.use(cartMiddleware.cartId);
     app.use(userMiddleware.userInfo);
     app.use(settingMiddleware.setting);
+    app.use(wishlistMiddleware.wishlistId);
 
     app.use('/', homeRoutes);
 

@@ -277,6 +277,31 @@
   color: #436b8e;
   border: 1px solid #436b8e;
 }
+.header__info-icon--favourite {
+  position: relative;
+}
+.header__info-icon--favourite .wishlist-quantity {
+  position: absolute;
+  top: 0px;
+  right: -5px;
+  background-color: #436b8e;
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s;
+  text-align: center;
+}
+.header__info-icon--favourite:hover .wishlist-quantity {
+  background-color: white;
+  color: #436b8e;
+  border: 1px solid #436b8e;
+}
 @keyframes slideIn {
   from {
     opacity: 0;
