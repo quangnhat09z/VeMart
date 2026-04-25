@@ -38,14 +38,13 @@ module.exports.addToWishlist = async (req, res) => {
 module.exports.removeFromWishlist = async (req, res) => {
     const userId = res.locals.user ? res.locals.user._id : null;
     const { productId } = req.body;
-    console.log('Removing product from wishlist:', { userId, productId });
     
     if (userId) {
         const result = await Wishlist.updateOne(
             { user_id: userId }, 
             { $pull: { products: { productId: productId } } } 
         );
-        // console.log('Remove from wishlist result:', result);
+       
         req.flash('success', 'Product removed from wishlist');
         res.redirect('/wishlist');
     }

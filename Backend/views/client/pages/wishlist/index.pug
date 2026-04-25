@@ -24,7 +24,7 @@ block main
                         .wishlist-card
                             if item.productId.discountPercentage > 0
                                 .wishlist-card__badge 
-                                    | #{item.productId.discountPercentage}% OFF
+                                    | #{item.productId.discountPercentage * 100}% OFF
 
                             img.wishlist-card__img(
                                 src=item.productId.imgUrl 
