@@ -16,9 +16,12 @@ module.exports.index = async (req, res) => {
     }
 
     const products = await Product.find(filter);
+    const categories = await Category.find(filter);
+   
     res.render("client/pages/product/index", {
         pageTitle: "List of Products",
-        products: products
+        products: products,
+        categories: categories
     })
 }
 

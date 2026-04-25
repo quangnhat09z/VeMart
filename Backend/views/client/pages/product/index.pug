@@ -2,72 +2,136 @@ extends ../../layout/default.pug
 include ../../mixins/box-head.pug
 
 block main
-    .container 
-        .row 
+    link(rel="stylesheet" href="/client/styles/css/product.css")
+    .container-fluid.my-5.product-page
+
+        .row
             .col-12
                 +box-head("List of Products")
-
-        //- .row.mb-3
-        //-     .col-12.col-md-6
-        //-         form.d-flex.gap-2(method="GET")
-        //-             label.form-label.mb-0.align-self-center(for="sort") Sắp xếp:
-        //-             select.form-control.form-control-sm(id="sort" name="sort" style="max-width: 250px;")
-        //-                 option(value="") Mặc định
-        //-                 option(value="newest") Mới nhất
-        //-                 option(value="price_asc") Giá tăng dần
-        //-                 option(value="price_desc") Giá giảm dần
-        //-                 option(value="name_asc") Tên A-Z
-        //-                 option(value="name_desc") Tên Z-A
-        //-                 option(value="discount_desc") Giảm giá nhiều nhất
-        //-                 option(value="rating_desc") Đánh giá cao nhất
-        //-             button.btn.btn-sm.btn-primary(type="submit") Sắp xếp
 
         if (products.length === 0)
             .row
                 .col-12
                     p.text-center.mt-4 No products found.
+
         else
-            .row 
-                for item in products
-                    .item
-                        if item.discountPercentage > 0  
-                            div.item__discount - #{item.discountPercentage * 100}%
+            .row.mt-3
+                .col-md-3
+                    form(method="GET" action="/product")
+                        .product-sidebar
 
-                        div.item__box-image
-                            img.item__image(
-                                alt=item.title 
-                                src=item.imgUrl
-                                class="view-detail"
-                                data-product-slug=item.slug
-                            )
+                            h5.product-sidebar__title
+                                i.fa-solid.fa-list
+                                | Categories
+                            ul.product-sidebar__list.product-sidebar__categories
+                                each category in categories
+                                    li
+                                        .category-item
+                                            input(type="checkbox" id=`cat-${category._id}` name="category" value=category._id)
+                                            label(for=`cat-${category._id}`) #{category.title}
+                                        .category-count 
+                                            if category.productCount > 0
+                                                | (#{category.productCount})
+                                            else 
+                                                | (0)   
 
-                        div.item__content
-                            //- h6.item__content--name Onion - 1kg
-                            h6.item__content--name(
-                                class="view-detail"
-                                data-product-slug=item.slug
-                            ) #{item.title}
-
-                            div.item__content--rate
-                                i.fa-regular.fa-star
-                                i.fa-regular.fa-star
-                                i.fa-regular.fa-star
-                                i.fa-regular.fa-star
-                                i.fa-regular.fa-star
-                                span.item__content--reviews #{item.reviews} reviews
-
-                            div.item__content--price
-                                span.current-price $#{item.price}
-                                if item.listPrice > 0
-                                    span.root-price $#{item.listPrice}
-
-                            div.item__content--demand
-                                button.item__content--button.like_button
-                                    i.fa-regular.fa-heart
-                                button.item__content--button.cart_button
-                                    i.fa-solid.fa-cart-plus
-                                button.item__content--button.watch_button
-                                    i.fa-regular.fa-eye
+                            h5.product-sidebar__title 
+                                i.fa-solid.fa-tag
+                                | Price Range
+                            .product-sidebar__range.product-sidebar__price
+                                .price-inputs
+                                    .price-input-group
+                                        label Min Price
+                                        input(type="number" name="priceMin" min="0" max="1000" step="10" placeholder="$0")
+                                    .price-input-group
+                                        label Max Price
+                                        input(type="number" name="priceMax" min="0" max="1000" step="10" placeholder="$1000")
+                                
+                                input(type="range" name="price" min="0" max="1000" step="10" class="price-slider")
+                                
+                                .price-display
+                                    span.price-text $
+                                        span#priceDisplay 0
+                                    span.price-text     $
+                                        span#maxPriceDisplay 1000
 
 
-    script(src="/client/js/script.js") 
+                            h5.product-sidebar__title 
+                                i.fa-solid.fa-star
+                                | Rating
+                            ul.product-sidebar__list.rating-list
+                                each star in [5, 4, 3, 2, 1]
+                                    li
+                                        input(type="checkbox" id=`rating-${star}` name="rating" value=star)
+                                        label(for=`rating-${star}`)
+                                            .rating-item
+                                                .star-group
+                                                    - for (let i = 0; i < star; i++)
+                                                        i.fa-solid.fa-star
+                                                span.rating-text #{star} stars & up
+
+                            h5.product-sidebar__title
+                                i.fa-solid.fa-percent
+                                | Discount
+                            ul.product-sidebar__list.discount-list
+                                each discount in ["0-10%", "10-20%", "20-30%", "30-40%", "More than 40%"]
+                                    li
+                                        input(type="checkbox" id=`discount-${discount}` name="discount" value=discount)
+                                        label(for=`discount-${discount}`) #{discount}
+
+                            h5.product-sidebar__title
+                                i.fa-solid.fa-box
+                                | Availability
+                            ul.product-sidebar__list
+                                li
+                                    input(type="checkbox" id="inStock" name="inStock" value="true")
+                                    label(for="inStock") In Stock Only
+
+                            button.btn-filter(type="submit") Apply Filters
+
+                            .product-sidebar__image(onclick="window.location.href='/product'")
+                                img(src="/client/images/product-vertical.png" alt="Product Sidebar Image")
+                                button.shop-now(type="button" onclick="window.location.href='/product'") Shop the Collection
+                .col-md-9
+                    .product-image 
+                        img(src="/client/images/product-horizontal.png" alt="Product Banner")
+                        .product-image__overlay
+                            h2.product-image__title TECH MEGA SALE – SMARTER LIVING FOR LESS
+                            p.product-image__subtitle Up to 50% OFF on Top Brands. Limited time only!
+                            
+                   
+                    .product-sort
+                        label(for="sort") Sort by:
+                        select#sort(name="sort" onchange="this.form.submit()")
+                            option(value="newest") Newest
+                            option(value="price-asc") Price: Low to High
+                            option(value="price-desc") Price: High to Low
+                            option(value="rating") Rating
+                    .product-grid
+                        each item in products
+                            .product-card
+
+                                if item.discountPercentage > 0
+                                    .product-card__badge
+                                        | -#{item.discountPercentage * 100}%
+
+                                img.product-card__img(
+                                    src=item.imgUrl
+                                    alt=item.title
+                                    class="view-detail"
+                                    data-product-slug=item.slug
+                                )
+
+                                .product-card__body
+                                    h6.product-card__title.view-detail(
+                                        data-product-slug=item.slug
+                                    ) #{item.title}
+
+                                    .product-card__rating
+                                        span #{item.stars}
+                                        i.fa-solid.fa-star
+
+                                    .product-card__price
+                                        span.current $#{item.price}
+                                        if item.listPrice > 0
+                                            span.old $#{item.listPrice}
