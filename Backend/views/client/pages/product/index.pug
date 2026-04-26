@@ -17,7 +17,7 @@ block main
         else
             .row.mt-3
                 .col-md-3
-                    form(method="GET" action="/product")
+                    form(id="filter-form" method="GET" action="/product")
                         .product-sidebar
 
                             h5.product-sidebar__title
@@ -27,7 +27,7 @@ block main
                                 each category in categories
                                     li
                                         .category-item
-                                            input(type="checkbox" id=`cat-${category._id}` name="category" value=category._id)
+                                            input(type="checkbox" id=`cat-${category._id}` name="category" value=category.slug)
                                             label(for=`cat-${category._id}`) #{category.title}
                                         .category-count 
                                             if category.productCount > 0
@@ -135,3 +135,5 @@ block main
                                         span.current $#{item.price}
                                         if item.listPrice > 0
                                             span.old $#{item.listPrice}
+
+    script(src="/client/js/product.js") 

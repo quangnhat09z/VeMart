@@ -5,19 +5,27 @@ const searchHelper = require('../../helpers/search');
 // [GET]   /product
 module.exports.index = async (req, res) => {
 
-    const filter = {
+    const category_filter = {
         deleted: false,
     }
-    
+    const product_filter = {
+        deleted: false,
+    }
 
     const objectSearch = searchHelper(req.query);
     if (objectSearch.regex) {
-        filter.title = objectSearch.regex;
+        product_filter.title = objectSearch.regex;
+    }
+    if (objectSearch.rating) {
+        product_filter.stars = { $gte: parseFloat(objectSearch.rating) };
     }
 
-    const products = await Product.find(filter);
-    const categories = await Category.find(filter);
-   
+    
+    console.log("Product filter:", product_filter);
+
+    const products = await Product.find(product_filter);
+    const categories = await Category.find(category_filter);
+
     res.render("client/pages/product/index", {
         pageTitle: "List of Products",
         products: products,

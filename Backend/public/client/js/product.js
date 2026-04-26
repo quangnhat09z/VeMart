@@ -1,5 +1,19 @@
 // console.log("Product page loaded");
 
+// Submit filter form in product page
+const filterForm = document.getElementById('filter-form');
+if (filterForm) {
+    filterForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(filterForm);
+        const queryString = new URLSearchParams(formData).toString();
+        const action = filterForm.getAttribute('action');
+        window.location.href = `${action}?${queryString}`;
+    });
+}
+
+
+
 // Handle Add to Cart button click in viewDetail page
 const addToCartButton = document.querySelector('.product-detail__actions-btn-cart');
 const addtoCartForm = document.getElementById('add-to-cart-form');
