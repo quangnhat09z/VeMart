@@ -12,7 +12,68 @@ if (filterForm) {
     });
 }
 
+// Controll price range slider in product page
+const minSlider = document.getElementById('minPrice');
+const maxSlider = document.getElementById('maxPrice');
+const track = document.querySelector('.slider-track');
 
+function updateTrack() {
+    const min = parseInt(minSlider.min);
+    const max = parseInt(minSlider.max);
+
+    const minVal = parseInt(minSlider.value);
+    const maxVal = parseInt(maxSlider.value);
+
+    const percentMin = ((minVal - min) / (max - min)) * 100;
+    const percentMax = ((maxVal - min) / (max - min)) * 100;
+
+    track.style.background = `linear-gradient(
+        to right,
+        #ccc ${percentMin}%,
+        #436b8e ${percentMin}%,
+        #436b8e ${percentMax}%,
+        #ccc ${percentMax}%
+    )`;
+}
+
+// giữ khoảng cách 10
+minSlider.addEventListener('input', () => {
+    if (parseInt(minSlider.value) >= parseInt(maxSlider.value) - 10) {
+        minSlider.value = maxSlider.value - 10;
+    }
+    updateTrack();
+});
+
+maxSlider.addEventListener('input', () => {
+    if (parseInt(maxSlider.value) <= parseInt(minSlider.value) + 10) {
+        maxSlider.value = parseInt(minSlider.value) + 10;
+    }
+    updateTrack();
+});
+
+updateTrack();
+
+// Liên kết giá trị của slider với input number
+const priceMinInput = document.querySelector('input[name="priceMin"]');
+const priceMaxInput = document.querySelector('input[name="priceMax"]');
+minSlider.addEventListener('input', () => {
+    priceMinInput.value = minSlider.value;
+});
+
+maxSlider.addEventListener('input', () => {
+    priceMaxInput.value = maxSlider.value;
+});
+
+if (priceMinInput && priceMaxInput) {
+    priceMinInput.addEventListener('input', () => {
+        minSlider.value = priceMinInput.value;
+        updateTrack();
+    });
+    priceMaxInput.addEventListener('input', () => {
+        maxSlider.value = priceMaxInput.value;
+        updateTrack();
+    });
+}
 
 // Handle Add to Cart button click in viewDetail page
 const addToCartButton = document.querySelector('.product-detail__actions-btn-cart');

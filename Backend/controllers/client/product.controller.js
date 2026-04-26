@@ -19,8 +19,13 @@ module.exports.index = async (req, res) => {
     if (objectSearch.rating) {
         product_filter.stars = { $gte: parseFloat(objectSearch.rating) };
     }
+    if (objectSearch.priceMin) {
+        product_filter.price = { ...product_filter.price, $gte: parseFloat(objectSearch.priceMin) };
+    }
+    if (objectSearch.priceMax) {
+        product_filter.price = { ...product_filter.price, $lte: parseFloat(objectSearch.priceMax) };
+    }
 
-    
     console.log("Product filter:", product_filter);
 
     const products = await Product.find(product_filter);

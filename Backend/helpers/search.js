@@ -13,6 +13,13 @@ module.exports = (query) => {
         objectSearch.rating = query.rating;
     }
 
+    if(query.priceMin) {
+        objectSearch.priceMin = query.priceMin;
+    }
+
+    if(query.priceMax) {
+        objectSearch.priceMax = query.priceMax;
+    }
 
     return objectSearch;
 }
