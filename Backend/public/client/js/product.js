@@ -1,5 +1,30 @@
 // console.log("Product page loaded");
 
+function populateFormFromQueryParams() {
+    const params = new URLSearchParams(window.location.search);
+    const filterForm = document.getElementById('filter-form');
+    
+    if (filterForm) {
+        params.forEach((value, key) => {
+            const input = filterForm.querySelector(`[name="${key}"]`);
+            if (input) {
+                input.value = value;
+            }
+        });
+        
+        if (params.has('priceMin') || params.has('priceMax')) {
+            if (params.has('priceMin')) {
+                minSlider.value = params.get('priceMin');
+            }
+            if (params.has('priceMax')) {
+                maxSlider.value = params.get('priceMax');
+            }
+            updateTrack();
+        }
+    }
+}
+document.addEventListener('DOMContentLoaded', populateFormFromQueryParams);
+
 // Submit filter form in product page
 const filterForm = document.getElementById('filter-form');
 if (filterForm) {
@@ -18,6 +43,7 @@ const maxSlider = document.getElementById('maxPrice');
 const track = document.querySelector('.slider-track');
 
 function updateTrack() {
+    console.log("Updating track with min:", minSlider.value, "max:", maxSlider.value);
     const min = parseInt(minSlider.min);
     const max = parseInt(minSlider.max);
 
@@ -74,6 +100,7 @@ if (priceMinInput && priceMaxInput) {
         updateTrack();
     });
 }
+
 
 // Handle Add to Cart button click in viewDetail page
 const addToCartButton = document.querySelector('.product-detail__actions-btn-cart');
