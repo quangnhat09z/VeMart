@@ -16,14 +16,24 @@ module.exports.index = async (req, res) => {
     if (objectSearch.regex) {
         product_filter.title = objectSearch.regex;
     }
-    if (objectSearch.rating) {
-        product_filter.stars = { $gte: parseFloat(objectSearch.rating) };
+    if (objectSearch.stars) {
+        product_filter.stars = { $gte: parseFloat(objectSearch.stars) };
     }
     if (objectSearch.priceMin) {
         product_filter.price = { ...product_filter.price, $gte: parseFloat(objectSearch.priceMin) };
     }
     if (objectSearch.priceMax) {
         product_filter.price = { ...product_filter.price, $lte: parseFloat(objectSearch.priceMax) };
+    }
+    if (objectSearch.discountPercentage) {
+        const discountRange = objectSearch.discountPercentage.split('-');
+        if (discountRange.length === 2) {
+            const minDiscount = parseFloat(discountRange[0])/100;
+            const maxDiscount = parseFloat(discountRange[1].replace('%', ''))/100;
+            product_filter.discountPercentage = { $gte: minDiscount, $lte: maxDiscount };
+        } else if (objectSearch.discountPercentage === "More than 40%") {
+            product_filter.discountPercentage = { $gt: 0.4 };
+        }
     }
 
     console.log("Product filter:", product_filter);

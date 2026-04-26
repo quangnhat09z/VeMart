@@ -9,8 +9,8 @@ module.exports = (query) => {
         objectSearch.regex = regex;
     }
 
-    if(query.rating) {
-        objectSearch.rating = query.rating;
+    if(query.stars) {
+        objectSearch.stars = query.stars;
     }
 
     if(query.priceMin) {
@@ -19,6 +19,10 @@ module.exports = (query) => {
 
     if(query.priceMax) {
         objectSearch.priceMax = query.priceMax;
+    }
+
+    if (query.discountPercentage) {
+        objectSearch.discountPercentage = query.discountPercentage;
     }
 
     return objectSearch;

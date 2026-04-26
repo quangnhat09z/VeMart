@@ -3,15 +3,21 @@
 function populateFormFromQueryParams() {
     const params = new URLSearchParams(window.location.search);
     const filterForm = document.getElementById('filter-form');
-    
+
     if (filterForm) {
         params.forEach((value, key) => {
-            const input = filterForm.querySelector(`[name="${key}"]`);
-            if (input) {
-                input.value = value;
-            }
+            const inputs = filterForm.querySelectorAll(`[name="${key}"]`);
+            inputs.forEach(input => {
+                if (input.type === 'checkbox') {
+                    if (input.value === value) {
+                        input.checked = true;
+                    }
+                } else {
+                    input.value = value;
+                }
+            });
         });
-        
+
         if (params.has('priceMin') || params.has('priceMax')) {
             if (params.has('priceMin')) {
                 minSlider.value = params.get('priceMin');
@@ -25,10 +31,38 @@ function populateFormFromQueryParams() {
 }
 document.addEventListener('DOMContentLoaded', populateFormFromQueryParams);
 
+// Deal with rating-checkbox
+const ratingCheckboxes = document.querySelectorAll('input[name="stars"]');
+ratingCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function () {
+        if (this.checked) {
+            ratingCheckboxes.forEach(cb => {
+                if (cb !== this) {
+                    cb.checked = false;
+                }
+            });
+        }
+    });
+});
+
+// Deal with discount-checkbox
+const discountCheckboxes = document.querySelectorAll('input[name="discountPercentage"]');
+discountCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function () {
+        if (this.checked) {
+            discountCheckboxes.forEach(cb => {
+                if (cb !== this) {
+                    cb.checked = false;
+                }
+            });
+        }
+    });
+});
+
 // Submit filter form in product page
 const filterForm = document.getElementById('filter-form');
 if (filterForm) {
-    filterForm.addEventListener('submit', function(event) {
+    filterForm.addEventListener('submit', function (event) {
         event.preventDefault();
         const formData = new FormData(filterForm);
         const queryString = new URLSearchParams(formData).toString();
@@ -43,7 +77,6 @@ const maxSlider = document.getElementById('maxPrice');
 const track = document.querySelector('.slider-track');
 
 function updateTrack() {
-    console.log("Updating track with min:", minSlider.value, "max:", maxSlider.value);
     const min = parseInt(minSlider.min);
     const max = parseInt(minSlider.max);
 
@@ -106,7 +139,7 @@ if (priceMinInput && priceMaxInput) {
 const addToCartButton = document.querySelector('.product-detail__actions-btn-cart');
 const addtoCartForm = document.getElementById('add-to-cart-form');
 if (addToCartButton && addtoCartForm) {
-    addToCartButton.addEventListener('click', function(event) {
+    addToCartButton.addEventListener('click', function (event) {
         event.preventDefault();
         addtoCartForm.submit();
     });
@@ -117,7 +150,7 @@ const removeFromCartButtons = document.querySelectorAll('.delete-button');
 const removeFromCartForm = document.getElementById('remove-from-cart-form');
 if (removeFromCartButtons && removeFromCartForm) {
     removeFromCartButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const productId = this.getAttribute('data-product-id');
             document.getElementById('remove-product-id').value = productId;
             const action = removeFromCartForm.getAttribute('action') + `/${productId}?_method=DELETE`;
@@ -132,18 +165,18 @@ const quantityInputs = document.querySelectorAll('.quantity-input');
 const updateQuantityForm = document.getElementById('update-quantity-form');
 if (quantityInputs && updateQuantityForm) {
     quantityInputs.forEach(input => {
-        input.addEventListener('change', function() {
+        input.addEventListener('change', function () {
             const productId = this.getAttribute('data-product-id');
             const quantity = this.value;
             let action = updateQuantityForm.getAttribute('action');
             // Validate client-side trước
             if (!quantity || !/^\d+$/.test(quantity)) {
                 action = action + `/${productId}/+?_method=PATCH`;
-            }else {
+            } else {
                 action = action + `/${productId}/${quantity}?_method=PATCH`;
             }
-            
-            
+
+
             updateQuantityForm.setAttribute('action', action);
             updateQuantityForm.submit();
         });

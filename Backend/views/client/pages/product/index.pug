@@ -65,7 +65,7 @@ block main
                             ul.product-sidebar__list.rating-list
                                 each star in [5, 4, 3, 2, 1]
                                     li
-                                        input(type="checkbox" id=`rating-${star}` name="rating" value=star)
+                                        input(type="checkbox" id=`rating-${star}` name="stars" value=star class="rating-checkbox")
                                         label(for=`rating-${star}`)
                                             .rating-item
                                                 .star-group
@@ -79,7 +79,7 @@ block main
                             ul.product-sidebar__list.discount-list
                                 each discount in ["0-10%", "10-20%", "20-30%", "30-40%", "More than 40%"]
                                     li
-                                        input(type="checkbox" id=`discount-${discount}` name="discount" value=discount)
+                                        input(type="checkbox" id=`discount-${discount}` name="discountPercentage" value=discount class="discount-checkbox")
                                         label(for=`discount-${discount}`) #{discount}
 
                             h5.product-sidebar__title
