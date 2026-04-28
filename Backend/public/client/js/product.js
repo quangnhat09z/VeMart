@@ -134,6 +134,17 @@ if (priceMinInput && priceMaxInput) {
     });
 }
 
+// sort product in product page
+const sortSelect = document.getElementById('sort');
+if (sortSelect) {
+   sortSelect.addEventListener('change', function () {
+        const selectedOption = this.value;
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('sort', selectedOption);
+        window.location.search = urlParams.toString();
+        console.log("Selected sort option:", window.location.search);
+    });
+}
 
 // Handle Add to Cart button click in viewDetail page
 const addToCartButton = document.querySelector('.product-detail__actions-btn-cart');

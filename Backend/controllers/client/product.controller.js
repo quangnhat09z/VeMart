@@ -1,6 +1,7 @@
 const Product = require('../../models/product.model.js')
 const Category = require('../../models/category.model.js')
 const searchHelper = require('../../helpers/search');
+const sortHelper = require('../../helpers/sort');
 
 // [GET]   /product
 module.exports.index = async (req, res) => {
@@ -37,14 +38,17 @@ module.exports.index = async (req, res) => {
     }
 
     console.log("Product filter:", product_filter);
+    const sortOption = sortHelper.sort(req, res);
+    console.log("Sort option:", sortOption);
 
-    const products = await Product.find(product_filter);
+    const products = await Product.find(product_filter).sort(sortOption);
     const categories = await Category.find(category_filter);
 
     res.render("client/pages/product/index", {
         pageTitle: "List of Products",
         products: products,
-        categories: categories
+        categories: categories,
+        sortOption: req.query.sort || "",
     })
 }
 

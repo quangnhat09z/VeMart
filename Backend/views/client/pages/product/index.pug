@@ -105,11 +105,15 @@ block main
                    
                     .product-sort
                         label(for="sort") Sort by:
-                        select#sort(name="sort" onchange="this.form.submit()")
-                            option(value="newest") Newest
-                            option(value="price-asc") Price: Low to High
-                            option(value="price-desc") Price: High to Low
-                            option(value="rating") Rating
+                        select#sort(name="sort" onchange="this.form.submit()" value=sortOption)
+                            option(value="newest" selected=sortOption === 'newest') Newest
+                            option(value="price-asc" selected=sortOption === 'price-asc') Price: Low to High
+                            option(value="price-desc" selected=sortOption === 'price-desc') Price: High to Low
+                            option(value="name-asc" selected=sortOption === 'name-asc') Name: A to Z
+                            option(value="name-desc" selected=sortOption === 'name-desc') Name: Z to A
+                            option(value="rating-desc" selected=sortOption === 'rating-desc') Rating
+                            option(value="discount-desc" selected=sortOption === 'discount-desc') Discount
+
                     .product-grid
                         each item in products
                             .product-card
