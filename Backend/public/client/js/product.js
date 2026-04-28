@@ -59,15 +59,42 @@ discountCheckboxes.forEach(checkbox => {
     });
 });
 
+// Deal with category-checkbox
+const categoryCheckboxes = document.querySelectorAll('input[name="category"]');
+categoryCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function () {
+        if (this.checked) {
+            categoryCheckboxes.forEach(cb => {
+                if (cb !== this) {
+                    cb.checked = false;
+                }
+            });
+        }
+    });
+});
+
 // Submit filter form in product page
 const filterForm = document.getElementById('filter-form');
 if (filterForm) {
     filterForm.addEventListener('submit', function (event) {
         event.preventDefault();
         const formData = new FormData(filterForm);
-        const queryString = new URLSearchParams(formData).toString();
+        const params = new URLSearchParams();
+        
+        const maxPriceInput = document.querySelector('input[name="priceMax"]');
+        const maxPrice = maxPriceInput ? parseInt(maxPriceInput.max) : null;
+        
+        formData.forEach((value, key) => {
+            // Bỏ qua priceMin=0 và priceMax=maxPrice (giá trị mặc định)
+            if (key === 'priceMin' && value === '0') return;
+            if (key === 'priceMax' && maxPrice && value === String(maxPrice)) return;
+            
+            params.append(key, value);
+        });
+        
+        const queryString = params.toString();
         const action = filterForm.getAttribute('action');
-        window.location.href = `${action}?${queryString}`;
+        window.location.href = queryString ? `${action}?${queryString}` : action;
     });
 }
 

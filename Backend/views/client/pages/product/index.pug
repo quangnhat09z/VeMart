@@ -5,104 +5,102 @@ block main
     link(rel="stylesheet" href="/client/styles/css/product.css")
     .container-fluid.my-5.product-page
 
+        //- .row
+        //-     .col-12
+        //-         +box-head("List of Products")
+
         .row
-            .col-12
-                +box-head("List of Products")
-
-        if (products.length === 0)
-            .row
-                .col-12
-                    p.text-center.mt-4 No products found.
-
-        else
-            .row.mt-3
-                .col-md-3
-                    form(id="filter-form" method="GET" action="/product")
-                        .product-sidebar
-
-                            h5.product-sidebar__title
-                                i.fa-solid.fa-list
-                                | Categories
-                            ul.product-sidebar__list.product-sidebar__categories
-                                each category in categories
-                                    li
-                                        .category-item
-                                            input(type="checkbox" id=`cat-${category._id}` name="category" value=category.slug)
-                                            label(for=`cat-${category._id}`) #{category.title}
-                                        .category-count 
-                                            if category.productCount > 0
-                                                | (#{category.productCount})
-                                            else 
-                                                | (0)   
-
-                            h5.product-sidebar__title 
-                                i.fa-solid.fa-tag
-                                | Price Range
-                            .product-sidebar__range.product-sidebar__price
-                                .price-inputs
-                                    .price-input-group
-                                        label Min Price
-                                        input(type="number" name="priceMin" min="0" max="1000" step="10" placeholder="$0")
-                                    .price-input-group
-                                        label Max Price
-                                        input(type="number" name="priceMax" min="0" max="1000" step="10" placeholder="$1000")
-                                
-                                .range-container
-                                    input(type="range" id="minPrice" min="0" max="1000" step="10" value="0")
-                                    input(type="range" id="maxPrice" min="0" max="1000" step="10" value="1000")
-                                    .slider-track
-                                
-                                .price-display
-                                    span.price-text $
-                                        span#priceDisplay 0
-                                    span.price-text     $
-                                        span#maxPriceDisplay 1000
-
-
-                            h5.product-sidebar__title 
-                                i.fa-solid.fa-star
-                                | Rating
-                            ul.product-sidebar__list.rating-list
-                                each star in [5, 4, 3, 2, 1]
-                                    li
-                                        input(type="checkbox" id=`rating-${star}` name="stars" value=star class="rating-checkbox")
-                                        label(for=`rating-${star}`)
-                                            .rating-item
-                                                .star-group
-                                                    - for (let i = 0; i < star; i++)
-                                                        i.fa-solid.fa-star
-                                                span.rating-text #{star} stars & up
-
-                            h5.product-sidebar__title
-                                i.fa-solid.fa-percent
-                                | Discount
-                            ul.product-sidebar__list.discount-list
-                                each discount in ["0-10%", "10-20%", "20-30%", "30-40%", "More than 40%"]
-                                    li
-                                        input(type="checkbox" id=`discount-${discount}` name="discountPercentage" value=discount class="discount-checkbox")
-                                        label(for=`discount-${discount}`) #{discount}
-
-                            h5.product-sidebar__title
-                                i.fa-solid.fa-box
-                                | Availability
-                            ul.product-sidebar__list
+            .col-md-3
+                form(id="filter-form" method="GET" action="/product")
+                    .product-sidebar
+                        h5.product-sidebar__title
+                            i.fa-solid.fa-list
+                            | Categories
+                        ul.product-sidebar__list.product-sidebar__categories
+                            each category in categories
                                 li
-                                    input(type="checkbox" id="inStock" name="inStock" value="true")
-                                    label(for="inStock") In Stock Only
+                                    .category-item
+                                        input(type="checkbox" id=`cat-${category._id}` name="category" value=category.slug)
+                                        label(for=`cat-${category._id}`) #{category.title}
+                                    .category-count 
+                                        if category.productCount > 0
+                                            | (#{category.productCount})
+                                        else 
+                                            | (0)   
 
-                            button.btn-filter(type="submit") Apply Filters
+                        h5.product-sidebar__title 
+                            i.fa-solid.fa-tag
+                            | Price Range
+                        .product-sidebar__range.product-sidebar__price
+                            .price-inputs
+                                .price-input-group
+                                    label Min Price ($)
+                                    input(type="number" name="priceMin" min="0" max=maxPrice step="10" placeholder="$0" value=0)
+                                .price-input-group
+                                    label Max Price ($)
+                                    input(type="number" name="priceMax" min="0" max=maxPrice step="10" placeholder="$1000" value=maxPrice)
 
-                            .product-sidebar__image(onclick="window.location.href='/product'")
-                                img(src="/client/images/product-vertical.png" alt="Product Sidebar Image")
-                                button.shop-now(type="button" onclick="window.location.href='/product'") Shop the Collection
-                .col-md-9
-                    .product-image 
-                        img(src="/client/images/product-horizontal.png" alt="Product Banner")
-                        .product-image__overlay
-                            h2.product-image__title TECH MEGA SALE – SMARTER LIVING FOR LESS
-                            p.product-image__subtitle Up to 50% OFF on Top Brands. Limited time only!
-                            
-                   
+                            .range-container
+                                input(type="range" id="minPrice" min="0" max=maxPrice step="10" value="0")
+                                input(type="range" id="maxPrice" min="0" max=maxPrice step="10" value=maxPrice)
+                                .slider-track
+
+                            .price-display
+                                span.price-text The highest price is $#{maxPrice} 
+
+
+                        h5.product-sidebar__title 
+                            i.fa-solid.fa-star
+                            | Rating
+                        ul.product-sidebar__list.rating-list
+                            each star in [5, 4, 3, 2, 1]
+                                li
+                                    input(type="checkbox" id=`rating-${star}` name="stars" value=star class="rating-checkbox")
+                                    label(for=`rating-${star}`)
+                                        .rating-item
+                                            .star-group
+                                                - for (let i = 0; i < star; i++)
+                                                    i.fa-solid.fa-star
+                                            span.rating-text #{star} stars & up
+
+                        h5.product-sidebar__title
+                            i.fa-solid.fa-percent
+                            | Discount
+                        ul.product-sidebar__list.discount-list
+                            each discount in ["0-10%", "10-20%", "20-30%", "30-40%", "More than 40%"]
+                                li
+                                    input(type="checkbox" id=`discount-${discount}` name="discountPercentage" value=discount class="discount-checkbox")
+                                    label(for=`discount-${discount}`) #{discount}
+
+                        h5.product-sidebar__title
+                            i.fa-solid.fa-box
+                            | Availability
+                        ul.product-sidebar__list
+                            li
+                                input(type="checkbox" id="inStock" name="inStock" value="true")
+                                label(for="inStock") In Stock Only
+
+                        button.btn-filter(type="submit") Apply Filters
+
+                        .product-sidebar__image(onclick="window.location.href='/product'")
+                            img(src="/client/images/product-vertical.png" alt="Product Sidebar Image")
+                            button.shop-now(type="button" onclick="window.location.href='/product'") Shop the Collection
+
+
+            .col-md-9
+                .product-image 
+                    img(src="/client/images/product-horizontal.png" alt="Product Banner")
+                    .product-image__overlay
+                        h2.product-image__title TECH MEGA SALE – SMARTER LIVING FOR LESS
+                        p.product-image__subtitle Up to 50% OFF on Top Brands. Limited time only!
+
+                if (products.length === 0)    
+                    .not-found
+                        p.text-center.mt-4 No products found.
+                        p.text-center There are no products matching from selection
+                        button.btn-clear(onclick="window.location.href='/product'") Reset Filters
+                        
+                else 
                     .product-sort
                         label(for="sort") Sort by:
                         select#sort(name="sort" onchange="this.form.submit()" value=sortOption)
@@ -114,33 +112,33 @@ block main
                             option(value="rating-desc" selected=sortOption === 'rating-desc') Rating
                             option(value="discount-desc" selected=sortOption === 'discount-desc') Discount
 
-                    .product-grid
-                        each item in products
-                            .product-card
+                .product-grid
+                    each item in products
+                        .product-card
 
-                                if item.discountPercentage > 0
-                                    .product-card__badge
-                                        | -#{item.discountPercentage * 100}%
+                            if item.discountPercentage > 0
+                                .product-card__badge
+                                    | -#{item.discountPercentage * 100}%
 
-                                img.product-card__img(
-                                    src=item.imgUrl
-                                    alt=item.title
-                                    class="view-detail"
+                            img.product-card__img(
+                                src=item.imgUrl
+                                alt=item.title
+                                class="view-detail"
+                                data-product-slug=item.slug
+                            )
+
+                            .product-card__body
+                                h6.product-card__title.view-detail(
                                     data-product-slug=item.slug
-                                )
+                                ) #{item.title}
 
-                                .product-card__body
-                                    h6.product-card__title.view-detail(
-                                        data-product-slug=item.slug
-                                    ) #{item.title}
+                                .product-card__rating
+                                    span #{item.stars}
+                                    i.fa-solid.fa-star
 
-                                    .product-card__rating
-                                        span #{item.stars}
-                                        i.fa-solid.fa-star
-
-                                    .product-card__price
-                                        span.current $#{item.price}
-                                        if item.listPrice > 0
-                                            span.old $#{item.listPrice}
+                                .product-card__price
+                                    span.current $#{item.price}
+                                    if item.listPrice > 0
+                                        span.old $#{item.listPrice}
 
     script(src="/client/js/product.js") 

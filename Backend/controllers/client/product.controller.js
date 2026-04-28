@@ -17,6 +17,13 @@ module.exports.index = async (req, res) => {
     if (objectSearch.regex) {
         product_filter.title = objectSearch.regex;
     }
+    if(objectSearch.category) {
+        const category = await Category.findOne({
+            slug: objectSearch.category,
+            deleted: false
+        });
+        product_filter.category_id = category._id;
+    } 
     if (objectSearch.stars) {
         product_filter.stars = { $gte: parseFloat(objectSearch.stars) };
     }
@@ -36,12 +43,17 @@ module.exports.index = async (req, res) => {
             product_filter.discountPercentage = { $gt: 0.4 };
         }
     }
-
-    console.log("Product filter:", product_filter);
+   
     const sortOption = sortHelper.sort(req, res);
-    console.log("Sort option:", sortOption);
 
     const products = await Product.find(product_filter).sort(sortOption);
+    let maxPrice = 400; // Giá trị mặc định nếu không có sản phẩm nào
+    // if (products.length > 0) {
+    //     maxPrice = Math.max(...products.map(p => p.price));
+    // }
+    // maxPrice = Math.ceil(maxPrice / 10) * 10; 
+
+
     const categories = await Category.find(category_filter);
 
     res.render("client/pages/product/index", {
@@ -49,6 +61,7 @@ module.exports.index = async (req, res) => {
         products: products,
         categories: categories,
         sortOption: req.query.sort || "",
+        maxPrice: maxPrice
     })
 }
 

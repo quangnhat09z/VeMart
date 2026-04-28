@@ -9,6 +9,10 @@ module.exports = (query) => {
         objectSearch.regex = regex;
     }
 
+    if (query.category) {
+        objectSearch.category = query.category;
+    }
+
     if(query.stars) {
         objectSearch.stars = query.stars;
     }
