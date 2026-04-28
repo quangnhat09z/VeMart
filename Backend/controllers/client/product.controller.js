@@ -11,19 +11,27 @@ module.exports.index = async (req, res) => {
     }
     const product_filter = {
         deleted: false,
+        isBestSeller: true
     }
 
+    // Xử lý tìm kiếm
     const objectSearch = searchHelper(req.query);
     if (objectSearch.regex) {
         product_filter.title = objectSearch.regex;
     }
-    if(objectSearch.category) {
-        const category = await Category.findOne({
-            slug: objectSearch.category,
-            deleted: false
-        });
-        product_filter.category_id = category._id;
-    } 
+    if (objectSearch.category) {
+        delete product_filter.isBestSeller;
+        if (objectSearch.category === "best-sellers") {
+            product_filter.isBestSeller = true;
+        }
+        else {
+            const category = await Category.findOne({
+                slug: objectSearch.category,
+                deleted: false
+            });
+            product_filter.category_id = category._id;
+        }
+    }
     if (objectSearch.stars) {
         product_filter.stars = { $gte: parseFloat(objectSearch.stars) };
     }
@@ -36,17 +44,25 @@ module.exports.index = async (req, res) => {
     if (objectSearch.discountPercentage) {
         const discountRange = objectSearch.discountPercentage.split('-');
         if (discountRange.length === 2) {
-            const minDiscount = parseFloat(discountRange[0])/100;
-            const maxDiscount = parseFloat(discountRange[1].replace('%', ''))/100;
+            const minDiscount = parseFloat(discountRange[0]) / 100;
+            const maxDiscount = parseFloat(discountRange[1].replace('%', '')) / 100;
             product_filter.discountPercentage = { $gte: minDiscount, $lte: maxDiscount };
         } else if (objectSearch.discountPercentage === "More than 40%") {
             product_filter.discountPercentage = { $gt: 0.4 };
         }
     }
-   
-    const sortOption = sortHelper.sort(req, res);
 
+    // Số lượng best seller
+    let isBestSellerCount = 0;
+    const AllProducts = await Product.find({ deleted: false });
+    const bestSellers = AllProducts.filter(product => product.isBestSeller);
+    isBestSellerCount = bestSellers.length;
+
+
+    const sortOption = sortHelper.sort(req, res);
     const products = await Product.find(product_filter).sort(sortOption);
+
+
     let maxPrice = 400; // Giá trị mặc định nếu không có sản phẩm nào
     // if (products.length > 0) {
     //     maxPrice = Math.max(...products.map(p => p.price));
@@ -55,13 +71,21 @@ module.exports.index = async (req, res) => {
 
 
     const categories = await Category.find(category_filter);
+    categories.forEach(category => {
+        category.productCount = AllProducts.filter(product => product.category_id.toString() === category._id.toString()).length;
+        category.maxPrice = Math.max(...AllProducts.filter(product => product.category_id.toString() === category._id.toString()).map(p => p.price), 0);
+    });
 
+    console.log(product_filter);
+   
     res.render("client/pages/product/index", {
         pageTitle: "List of Products",
         products: products,
         categories: categories,
         sortOption: req.query.sort || "",
-        maxPrice: maxPrice
+        objectSearch: objectSearch,
+        maxPrice: maxPrice,
+        isBestSellerCount: isBestSellerCount
     })
 }
 

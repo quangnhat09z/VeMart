@@ -7,14 +7,17 @@ async function migrate() {
 
   await Product.updateMany(
     {
-      description: { $exists: false }
+      $or: [
+        { category_id: "5" },
+        { category_id: null }
+      ]
     },
     {
       $set: {
-        description:"",
+        category_id: "69f0da13055fa58042a3bf2c"
       }
     }
-  )
+  );
 
   console.log("Migration done");
   process.exit();

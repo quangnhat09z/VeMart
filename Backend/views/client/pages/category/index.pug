@@ -5,7 +5,7 @@ block main
         .container
             .section-category-list__wrapper
                 each category in categories
-                    a.section-category-list__item(href=`/category/${category.slug}`)
+                    a.section-category-list__item(href=`/product?category=${category.slug}`)
                         .section-category-list__item-image
                             img(src=category.imgUrl, alt=category.title)
                             

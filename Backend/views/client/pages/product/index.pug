@@ -17,8 +17,17 @@ block main
                             i.fa-solid.fa-list
                             | Categories
                         ul.product-sidebar__list.product-sidebar__categories
+                            li 
+                                .category-item
+                                    input(type="checkbox" id="best-sellers" name="category" value="best-sellers" checked=objectSearch.category === "")
+                                    label(for="best-sellers") Best Sellers
+                                .category-count 
+                                    if isBestSellerCount > 0
+                                        | (#{isBestSellerCount})
+                                    else 
+                                        | (0)
                             each category in categories
-                                li
+                                li  
                                     .category-item
                                         input(type="checkbox" id=`cat-${category._id}` name="category" value=category.slug)
                                         label(for=`cat-${category._id}`) #{category.title}
