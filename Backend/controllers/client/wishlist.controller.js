@@ -30,7 +30,7 @@ module.exports.addToWishlist = async (req, res) => {
             await wishlist.save();
         }
         req.flash('success', 'Product added to wishlist');
-        res.redirect('/');
+        res.redirect(req.header('Referer') || '/');
     }
 }
 

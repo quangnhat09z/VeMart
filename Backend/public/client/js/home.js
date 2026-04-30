@@ -170,32 +170,4 @@ typeButtons.forEach(button => {
     });
 });
 
-// Add to cart from home page
-const addToCartButtons = document.querySelectorAll('.add-to-cart');
-const addToCartForm = document.getElementById('add-to-cart-form');
-const hiddenProductIdInput = document.getElementById('hidden-product-id');
-const hiddenQuantityInput = document.getElementById('hidden-quantity');
 
-addToCartButtons.forEach(button => {
-    button.addEventListener('click', function () {
-        const productId = this.getAttribute('data-product-id');
-        hiddenProductIdInput.value = productId;
-        hiddenQuantityInput.value = 1; // Default quantity
-        action = addToCartForm.getAttribute('action') + '/' + productId;
-        addToCartForm.setAttribute('action', action);
-        addToCartForm.submit();
-    });
-});
-
-// Add to wishlist from home page
-const addToWishlistButtons = document.querySelectorAll('.add-to-wishlist');
-const addToWishlistForm = document.getElementById('add-to-wishlist-form');
-const wishlistHiddenProductIdInput = document.getElementById('wishlist-hidden-product-id');
-
-addToWishlistButtons.forEach(button => {
-    button.addEventListener('click', function () {
-        const productId = this.getAttribute('data-product-id');
-        wishlistHiddenProductIdInput.value = productId;
-        addToWishlistForm.submit();
-    });
-});

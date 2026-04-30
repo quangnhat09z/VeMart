@@ -183,6 +183,20 @@ if (addToCartButton && addtoCartForm) {
     });
 }
 
+// When product card is hovered, show the demand buttons (like, add to cart, watch)
+const productCards = document.querySelectorAll('.product-card');
+if (productCards) {
+    productCards.forEach(hover => {
+        hover.addEventListener('mouseenter', function () {
+            this.querySelector('.product-card__demand').classList.add('active');
+        });
+
+        hover.addEventListener('mouseleave', function () {
+            this.querySelector('.product-card__demand').classList.remove('active');
+        });
+    });
+}
+
 // Remove from cart in Cart page
 const removeFromCartButtons = document.querySelectorAll('.delete-button');
 const removeFromCartForm = document.getElementById('remove-from-cart-form');

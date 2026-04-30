@@ -1,9 +1,11 @@
 extends ../../layout/default.pug
 include ../../mixins/box-head.pug
 include ../../mixins/pagination.pug
+include ../../mixins/alert.pug
 
 block main
     link(rel="stylesheet" href="/client/styles/css/product.css")
+    +alert(messages)
     .container-fluid.my-5.product-page
 
         //- .row
@@ -109,7 +111,7 @@ block main
                         p.text-center.mt-4 No products found.
                         p.text-center There are no products matching from selection
                         button.btn-clear(onclick="window.location.href='/product'") Reset Filters
-                        
+
                 else 
                     .product-sort
                         label(for="sort") Sort by:
@@ -125,6 +127,14 @@ block main
                 .product-grid
                     each item in products
                         .product-card
+
+                            .product-card__demand 
+                                button.item__content--button.like_button(class="add-to-wishlist" data-product-id=item._id)
+                                    i.fa-regular.fa-heart
+                                button.item__content--button.cart_button(class="add-to-cart" data-product-id=item._id)
+                                    i.fa-solid.fa-cart-plus
+                                button.item__content--button.watch_button
+                                    i.fa-regular.fa-eye
 
                             if item.discountPercentage > 0
                                 .product-card__badge
@@ -150,10 +160,15 @@ block main
                                     span.current $#{item.price}
                                     if item.listPrice > 0
                                         span.old $#{item.listPrice}
-                
+
                 .product-pagination    
                     +pagination(objectPagination)
 
+    form#add-to-cart-form(method="POST" action="/cart/add" style="display:none;")
+        input(type="hidden" name="productId" id="hidden-product-id")
+        input(type="hidden" name="quantity" id="hidden-quantity" value="1")
 
+    form#add-to-wishlist-form(method="POST" action="/wishlist/add" style="display:none;")
+        input(type="hidden" name="productId" id="wishlist-hidden-product-id")
 
     script(src="/client/js/product.js") 
