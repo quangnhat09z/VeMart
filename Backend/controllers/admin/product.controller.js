@@ -28,7 +28,7 @@ module.exports.index = async (req, res) => {
 
     // pagination
     const totalProducts = await Product.countDocuments(filter);
-    const objectPagination = paginationHelper(req.query, totalProducts);
+    const objectPagination = paginationHelper(req.query, totalProducts, "ADMIN");
 
     // sắp xếp
     sortOption = sort.sort(req, res);

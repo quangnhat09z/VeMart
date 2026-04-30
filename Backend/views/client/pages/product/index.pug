@@ -1,5 +1,6 @@
 extends ../../layout/default.pug
 include ../../mixins/box-head.pug
+include ../../mixins/pagination.pug
 
 block main
     link(rel="stylesheet" href="/client/styles/css/product.css")
@@ -44,14 +45,14 @@ block main
                             .price-inputs
                                 .price-input-group
                                     label Min Price ($)
-                                    input(type="number" name="priceMin" min="0" max=maxPrice step="10" placeholder="$0" value=0)
+                                    input(type="number" name="priceMin" min="0" max=maxPrice step="1" placeholder="$0" value=0)
                                 .price-input-group
                                     label Max Price ($)
-                                    input(type="number" name="priceMax" min="0" max=maxPrice step="10" placeholder="$1000" value=maxPrice)
+                                    input(type="number" name="priceMax" min="0" max=maxPrice step="1" placeholder="$1000" value=maxPrice)
 
                             .range-container
-                                input(type="range" id="minPrice" min="0" max=maxPrice step="10" value="0")
-                                input(type="range" id="maxPrice" min="0" max=maxPrice step="10" value=maxPrice)
+                                input(type="range" id="minPrice" min="0" max=maxPrice step="1" value="0")
+                                input(type="range" id="maxPrice" min="0" max=maxPrice step="1" value=maxPrice)
                                 .slider-track
 
                             .price-display
@@ -149,5 +150,10 @@ block main
                                     span.current $#{item.price}
                                     if item.listPrice > 0
                                         span.old $#{item.listPrice}
+                
+                .product-pagination    
+                    +pagination(objectPagination)
+
+
 
     script(src="/client/js/product.js") 

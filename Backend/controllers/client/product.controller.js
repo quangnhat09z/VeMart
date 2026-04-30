@@ -2,6 +2,7 @@ const Product = require('../../models/product.model.js')
 const Category = require('../../models/category.model.js')
 const searchHelper = require('../../helpers/search');
 const sortHelper = require('../../helpers/sort');
+const paginationHelper = require('../../helpers/pagination');
 
 // [GET]   /product
 module.exports.index = async (req, res) => {
@@ -13,6 +14,9 @@ module.exports.index = async (req, res) => {
         deleted: false,
         isBestSeller: true
     }
+
+    let maxPriceProduct = await Product.findOne(product_filter).sort({ price: -1 }).select('price');
+    let maxPrice = maxPriceProduct ? Math.ceil(maxPriceProduct.price) : 0;
 
     // Xử lý tìm kiếm
     const objectSearch = searchHelper(req.query);
@@ -30,6 +34,8 @@ module.exports.index = async (req, res) => {
                 deleted: false
             });
             product_filter.category_id = category._id;
+            maxPriceProduct = await Product.findOne(product_filter).sort({ price: -1 }).select('price');
+            maxPrice = maxPriceProduct ? Math.ceil(maxPriceProduct.price) : 0;
         }
     }
     if (objectSearch.stars) {
@@ -58,25 +64,24 @@ module.exports.index = async (req, res) => {
     const bestSellers = AllProducts.filter(product => product.isBestSeller);
     isBestSellerCount = bestSellers.length;
 
-
+    // Xử lý sắp xếp
     const sortOption = sortHelper.sort(req, res);
-    const products = await Product.find(product_filter).sort(sortOption);
 
+    // Pagination
+    const totalProducts = await Product.find(product_filter).countDocuments();
+    const objectPagination = paginationHelper(req.query, totalProducts, "CLIENT");
 
-    let maxPrice = 400; // Giá trị mặc định nếu không có sản phẩm nào
-    // if (products.length > 0) {
-    //     maxPrice = Math.max(...products.map(p => p.price));
-    // }
-    // maxPrice = Math.ceil(maxPrice / 10) * 10; 
+    const products = await Product.find(product_filter)
+        .sort(sortOption)
+        .limit(objectPagination.limitItems)
+        .skip(objectPagination.skip);
 
-
+    // Lấy danh mục và đếm số lượng sản phẩm trong mỗi danh mục
     const categories = await Category.find(category_filter);
     categories.forEach(category => {
         category.productCount = AllProducts.filter(product => product.category_id.toString() === category._id.toString()).length;
-        category.maxPrice = Math.max(...AllProducts.filter(product => product.category_id.toString() === category._id.toString()).map(p => p.price), 0);
+        category.maxPrice = Math.ceil(Math.max(...AllProducts.filter(product => product.category_id.toString() === category._id.toString()).map(p => p.price), 0));
     });
-
-    console.log(product_filter);
    
     res.render("client/pages/product/index", {
         pageTitle: "List of Products",
@@ -85,7 +90,8 @@ module.exports.index = async (req, res) => {
         sortOption: req.query.sort || "",
         objectSearch: objectSearch,
         maxPrice: maxPrice,
-        isBestSellerCount: isBestSellerCount
+        isBestSellerCount: isBestSellerCount,
+        objectPagination: objectPagination
     })
 }
 

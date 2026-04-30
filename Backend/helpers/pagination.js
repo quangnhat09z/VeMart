@@ -1,6 +1,6 @@
-module.exports = (query, totalItems) => {
+module.exports = (query, totalItems, page) => {
     
-    const limitItems = process.env.LIMIT_ITEMS_PAGINATION || 10;
+    const limitItems = process.env[page + '_LIMIT_ITEMS_PAGINATION'] || 10;
     const totalPages = Math.ceil(totalItems / limitItems);
 
     let currentPage = parseInt(query.page);

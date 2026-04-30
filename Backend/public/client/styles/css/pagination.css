@@ -1,0 +1,97 @@
+.product-pagination {
+  margin: 40px 0;
+  padding: 30px 0;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  flex-wrap: wrap;
+}
+.pagination .page-item.active .page-link {
+  background-color: #436b8e;
+  color: #fff;
+  border-color: #436b8e;
+}
+.pagination .page-item.active .page-link:hover {
+  background-color: rgb(50.6507177033, 80.8899521531, 107.3492822967);
+  border-color: rgb(50.6507177033, 80.8899521531, 107.3492822967);
+  color: #fff;
+}
+.pagination .page-item.disabled .page-link {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.pagination .page-item .page-link {
+  color: #232323;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 40px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pagination .page-item .page-link:hover {
+  border-color: #436b8e;
+  color: #436b8e;
+  background-color: rgba(67, 107, 142, 0.05);
+}
+.pagination .page-item .page-link:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(67, 107, 142, 0.1);
+}
+.pagination .page-item .page-link:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(67, 107, 142, 0.2);
+}
+.pagination .page-item:first-child .page-link,
+.pagination .page-item:last-child .page-link {
+  padding: 10px 16px;
+  min-width: auto;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .product-pagination {
+    margin: 30px 0;
+    padding: 20px 0;
+  }
+  .pagination {
+    gap: 6px;
+  }
+  .pagination .page-item .page-link {
+    padding: 8px 12px;
+    font-size: 13px;
+    min-width: 36px;
+  }
+}
+@media (max-width: 576px) {
+  .pagination {
+    gap: 4px;
+  }
+  .pagination .page-item .page-link {
+    padding: 6px 10px;
+    font-size: 12px;
+    min-width: 32px;
+  }
+  .pagination .page-item:not(:first-child):not(:last-child) {
+    display: none;
+  }
+  .pagination .page-item:not(:first-child):not(:last-child).active {
+    display: flex;
+  }
+}
+
+/*# sourceMappingURL=pagination.css.map */
