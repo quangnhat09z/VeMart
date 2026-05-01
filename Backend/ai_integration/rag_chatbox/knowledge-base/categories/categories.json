@@ -1,0 +1,379 @@
+[{
+  "_id": {
+    "$oid": "69b443cf9da95bc8be6481cb"
+  },
+  "title": "Suitcasess",
+  "description": "<p>Very good</p>\r\n<p>&nbsp;</p>",
+  "imgUrl": "/uploads/1773421519032-3x7ardem8.webp",
+  "iconUrl": "/uploads/1773421519033-ftml9418f.png",
+  "parentCategory": null,
+  "status": "inactive",
+  "displayOrder": 0,
+  "deleted": false,
+  "createdAt": {
+    "$date": "2026-03-13T17:05:19.038Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-21T10:03:07.433Z"
+  },
+  "slug": "suitcasess",
+  "updatedBy": [
+    {
+      "account_id": "69bad917a94b63e34818cff2",
+      "updatedAt": {
+        "$date": "2026-03-21T10:35:23.793Z"
+      },
+      "_id": {
+        "$oid": "69be746b55071d872072f287"
+      }
+    },
+    {
+      "account_id": "69bad917a94b63e34818cff2",
+      "updatedAt": {
+        "$date": "2026-03-21T10:46:19.606Z"
+      },
+      "_id": {
+        "$oid": "69be76fb11d8e7e50eb21c72"
+      }
+    },
+    {
+      "account_id": "69bbd4029494d5c376cb56ea",
+      "updatedAt": {
+        "$date": "2026-03-21T10:46:42.766Z"
+      },
+      "_id": {
+        "$oid": "69be771211d8e7e50eb21c92"
+      }
+    },
+    {
+      "account_id": "69bbd4029494d5c376cb56ea",
+      "updatedAt": {
+        "$date": "2026-03-21T10:49:15.231Z"
+      },
+      "_id": {
+        "$oid": "69be77ab1b0c92d790470f39"
+      }
+    },
+    {
+      "account_id": "69bad917a94b63e34818cff2",
+      "updatedAt": {
+        "$date": "2026-03-22T12:18:17.078Z"
+      },
+      "_id": {
+        "$oid": "69bfde090ee687789d46c6d5"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "69b44661da690cdef9f19c97"
+  },
+  "title": "Bags",
+  "description": "<p>Bad cate</p>",
+  "imgUrl": "/uploads/1773422177549-7ygufw72e.png",
+  "iconUrl": "/uploads/1773422177550-p3qeb4kmu.png",
+  "parentCategory": null,
+  "status": "active",
+  "displayOrder": 2,
+  "deleted": false,
+  "createdAt": {
+    "$date": "2026-03-13T17:16:17.577Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-21T10:03:07.433Z"
+  },
+  "slug": "bags",
+  "updatedBy": [
+    {
+      "account_id": "69bad917a94b63e34818cff2",
+      "updatedAt": {
+        "$date": "2026-03-21T10:07:15.202Z"
+      },
+      "_id": {
+        "$oid": "69be6dd3fb953c5f2b4be676"
+      }
+    },
+    {
+      "account_id": "69bbd4029494d5c376cb56ea",
+      "updatedAt": {
+        "$date": "2026-03-21T10:53:00.006Z"
+      },
+      "_id": {
+        "$oid": "69be788c130f504956818280"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "69b530705656dc328cb3fb03"
+  },
+  "title": "Men's Accessoriess",
+  "description": "<p><span style=\"background-color: #ced4d9;\"><em>Still ok</em></span></p>",
+  "imgUrl": "/uploads/1773497583267-xj8k9ak79.jpg",
+  "iconUrl": "/uploads/1773482096861-xnhkoyrcm.png",
+  "parentCategory": null,
+  "status": "inactive",
+  "displayOrder": 3,
+  "deleted": false,
+  "createdAt": {
+    "$date": "2026-03-14T09:54:56.887Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-15T11:09:10.796Z"
+  },
+  "slug": "men-s-accessoriess",
+  "deletedAt": {
+    "$date": "2026-03-14T13:21:54.941Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69b58a821b8ac9e1bc9b618b"
+  },
+  "title": "Giày nam",
+  "description": "<p>xấu</p>",
+  "imgUrl": "/uploads/1773505406322-ucvk6recr.webp",
+  "iconUrl": "",
+  "parentCategory": "69b530705656dc328cb3fb03",
+  "status": "active",
+  "displayOrder": 8,
+  "deleted": false,
+  "createdAt": {
+    "$date": "2026-03-14T16:19:14.848Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-14T16:23:26.331Z"
+  },
+  "slug": "giay-nam"
+},
+{
+  "_id": {
+    "$oid": "69b58b9e9a1725ad44b75fe8"
+  },
+  "title": "School bag",
+  "description": "<p>Used by student</p>",
+  "imgUrl": "/uploads/1773505438551-rc8tfc21i.jpg",
+  "iconUrl": "",
+  "parentCategory": "69b44661da690cdef9f19c97",
+  "status": "active",
+  "displayOrder": 5,
+  "deleted": false,
+  "createdAt": {
+    "$date": "2026-03-14T16:23:58.566Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-15T10:57:32.882Z"
+  },
+  "slug": "school-bag"
+},
+{
+  "_id": {
+    "$oid": "69b58bd79a1725ad44b75ff3"
+  },
+  "title": "Luviton",
+  "description": "<p><span style=\"background-color: #e67e23;\">expensive&nbsp;</span></p>",
+  "imgUrl": "",
+  "iconUrl": "",
+  "parentCategory": "69b58a821b8ac9e1bc9b618b",
+  "status": "active",
+  "displayOrder": 6,
+  "deleted": true,
+  "createdAt": {
+    "$date": "2026-03-14T16:24:55.013Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-14T16:24:55.013Z"
+  },
+  "slug": "luviton",
+  "deletedAt": {
+    "$date": "2026-03-15T10:02:01.579Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69b5965a03dd5e6c98369b98"
+  },
+  "title": "Quần Nam",
+  "description": "",
+  "imgUrl": "",
+  "iconUrl": "",
+  "parentCategory": "69b530705656dc328cb3fb03",
+  "status": "inactive",
+  "displayOrder": 7,
+  "deleted": true,
+  "createdAt": {
+    "$date": "2026-03-14T17:09:46.254Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-15T10:58:36.444Z"
+  },
+  "slug": "quan-nam",
+  "deletedBy": {
+    "account_id": "69bad917a94b63e34818cff2",
+    "deletedAt": {
+      "$date": "2026-03-21T10:08:33.484Z"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "69b683527ca08e21febea12f"
+  },
+  "title": "Vali",
+  "description": "<p><span style=\"color: #fbeeb8;\">heavy</span></p>",
+  "imgUrl": "",
+  "iconUrl": "",
+  "parentCategory": "69b443cf9da95bc8be6481cb",
+  "status": "active",
+  "displayOrder": 8,
+  "deleted": true,
+  "createdAt": {
+    "$date": "2026-03-15T10:00:50.512Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-15T10:00:50.512Z"
+  },
+  "slug": "vali",
+  "deletedBy": {
+    "account_id": "69bad917a94b63e34818cff2",
+    "deletedAt": {
+      "$date": "2026-03-21T10:04:03.517Z"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "69b68eea489d2d16dd4030db"
+  },
+  "title": "Quần bò nam",
+  "description": "<p>Đẹp</p>",
+  "imgUrl": "",
+  "iconUrl": "",
+  "parentCategory": "69b5965a03dd5e6c98369b98",
+  "status": "active",
+  "displayOrder": 9,
+  "deleted": true,
+  "createdAt": {
+    "$date": "2026-03-15T10:50:18.537Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-15T10:50:18.537Z"
+  },
+  "slug": "quan-bo-nam",
+  "deletedBy": {
+    "account_id": "69bad917a94b63e34818cff2",
+    "deletedAt": {
+      "$date": "2026-03-21T10:04:03.517Z"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "69c00b7aad8de8bf8ff58f6c"
+  },
+  "title": "Giày thể thao nam",
+  "description": "",
+  "imgUrl": "",
+  "iconUrl": "",
+  "parentCategory": "69b58a821b8ac9e1bc9b618b",
+  "status": "active",
+  "displayOrder": 10,
+  "createdBy": {
+    "account_id": "69bad917a94b63e34818cff2",
+    "createdAt": {
+      "$date": "2026-03-22T15:32:10.537Z"
+    }
+  },
+  "deleted": false,
+  "updatedBy": [],
+  "createdAt": {
+    "$date": "2026-03-22T15:32:10.547Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-22T15:32:10.547Z"
+  },
+  "slug": "giay-the-thao-nam"
+},
+{
+  "_id": {
+    "$oid": "69c0155bad8de8bf8ff590fd"
+  },
+  "title": "Travel bag",
+  "description": "",
+  "imgUrl": "",
+  "iconUrl": "",
+  "parentCategory": "69b44661da690cdef9f19c97",
+  "status": "active",
+  "displayOrder": 11,
+  "createdBy": {
+    "account_id": "69bad917a94b63e34818cff2",
+    "createdAt": {
+      "$date": "2026-03-22T16:14:19.828Z"
+    }
+  },
+  "deleted": false,
+  "updatedBy": [],
+  "createdAt": {
+    "$date": "2026-03-22T16:14:19.833Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-22T16:14:19.833Z"
+  },
+  "slug": "travel-bag"
+},
+{
+  "_id": {
+    "$oid": "69c015b2ad8de8bf8ff59139"
+  },
+  "title": "Giày da nam",
+  "description": "",
+  "imgUrl": "",
+  "iconUrl": "",
+  "parentCategory": "69b58a821b8ac9e1bc9b618b",
+  "status": "active",
+  "displayOrder": 12,
+  "createdBy": {
+    "account_id": "69bad917a94b63e34818cff2",
+    "createdAt": {
+      "$date": "2026-03-22T16:15:46.832Z"
+    }
+  },
+  "deleted": false,
+  "updatedBy": [],
+  "createdAt": {
+    "$date": "2026-03-22T16:15:46.834Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-22T16:15:46.834Z"
+  },
+  "slug": "giay-da-nam"
+},
+{
+  "_id": {
+    "$oid": "69c2c59e3ce9e12803234c08"
+  },
+  "title": "Vegetables",
+  "description": "",
+  "imgUrl": "/uploads/1774372254959-f0k3vveiy.webp",
+  "iconUrl": "/uploads/1774372254960-8n67jh71l.png",
+  "parentCategory": null,
+  "status": "active",
+  "displayOrder": 13,
+  "createdBy": {
+    "account_id": "69bad917a94b63e34818cff2",
+    "createdAt": {
+      "$date": "2026-03-24T17:10:54.969Z"
+    }
+  },
+  "deleted": false,
+  "updatedBy": [],
+  "createdAt": {
+    "$date": "2026-03-24T17:10:54.983Z"
+  },
+  "updatedAt": {
+    "$date": "2026-03-24T17:10:54.983Z"
+  },
+  "slug": "vegetables"
+}]

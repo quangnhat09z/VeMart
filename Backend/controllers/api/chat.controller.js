@@ -1,9 +1,7 @@
 const crypto = require('crypto');
 const ChatMessage = require('../../models/chatAI.model.js');
 
-const CHAT_SYSTEM_PROMPT = `Bạn là trợ lý AI của VeMart - một cửa hàng thương mại điện tử. 
-Hãy trả lời thân thiện, ngắn gọn về sản phẩm, đơn hàng, chính sách vận chuyển, 
-đổi trả hoặc các câu hỏi khác của khách hàng. Trả lời bằng tiếng Việt.`;
+const RAG_SERVICE_URL = process.env.RAG_SERVICE_URL || 'http://localhost:8000';
 
 // [GET] /api/chat/:conversationId - Lấy lịch sử chat
 module.exports.getHistory = async (req, res) => {
@@ -31,93 +29,60 @@ module.exports.getHistory = async (req, res) => {
     }
 };
 
-// [POST] /api/chat - Gửi tin nhắn và nhận phản hồi từ AI (Groq)
+// [POST] /api/chat - Gửi tin nhắn, RAG trả lời
 module.exports.chat = async (req, res) => {
     try {
         const { message, conversationId: clientConversationId } = req.body;
-        const apiKey = process.env.GROQ_API_KEY;
 
-        if (!apiKey) {
-            return res.status(500).json({
-                success: false,
-                error: 'Chat AI chưa được cấu hình. Vui lòng thêm GROQ_API_KEY vào file .env'
-            });
-        }
+        if (!message?.trim())
+            return res.status(400).json({ success: false, error: 'Vui lòng nhập tin nhắn' });
 
-        if (!message || typeof message !== 'string' || message.trim().length === 0) {
-            return res.status(400).json({
-                success: false,
-                error: 'Vui lòng nhập tin nhắn'
-            });
-        }
+        const conversationId  = clientConversationId || crypto.randomUUID();
+        const trimmedMessage  = message.trim();
 
-        const conversationId = clientConversationId || crypto.randomUUID();
-        const trimmedMessage = message.trim();
-
-        // Lấy lịch sử từ DB (nếu có)
+        // 1. Lấy lịch sử từ MongoDB để truyền cho RAG làm context
         const history = await ChatMessage.find({ conversationId })
             .sort({ createdAt: 1 })
             .select('role content')
             .lean();
 
-        // Xây messages cho Groq: system + history + message mới
-        const messages = [
-            { role: 'system', content: CHAT_SYSTEM_PROMPT },
-            ...history.map(m => ({ role: m.role, content: m.content })),
-            { role: 'user', content: trimmedMessage }
-        ];
+        const chatHistory = history.map(m => ({ role: m.role, content: m.content }));
 
-        
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        // 2. Gọi Python RAG service
+        const ragResponse = await fetch(`${RAG_SERVICE_URL}/query`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                model: process.env.GROQ_MODEL || 'llama-3.1-8b-instant',
-                messages,
-                max_tokens: 500,
-                temperature: 0.7
-            })
+                question:     trimmedMessage,
+                chat_history: chatHistory
+            }),
+            signal: AbortSignal.timeout(30000)  // timeout 30s
         });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            return res.status(response.status).json({
-                success: false,
-                error: data.error?.message || 'Không thể kết nối AI'
-            });
+        if (!ragResponse.ok) {
+            const err = await ragResponse.json().catch(() => ({}));
+            throw new Error(err.detail || 'RAG service lỗi');
         }
 
-        const reply = data.choices?.[0]?.message?.content?.trim() || 'Xin lỗi, tôi không thể phản hồi.';
+        const { answer, sources } = await ragResponse.json();
 
-        // Lưu user message
-        await ChatMessage.create({
-            conversationId,
-            role: 'user',
-            content: trimmedMessage
-        });
+        // 3. Lưu vào MongoDB
+        await ChatMessage.insertMany([
+            { conversationId, role: 'user',      content: trimmedMessage },
+            { conversationId, role: 'assistant',  content: answer }
+        ]);
 
-        // Lưu assistant response
-        await ChatMessage.create({
-            conversationId,
-            role: 'assistant',
-            content: reply
-        });
-
-        res.json({
-            success: true,
-            reply,
-            conversationId
-        });
+        res.json({ success: true, reply: answer, sources, conversationId });
 
     } catch (error) {
-        console.error('Chat API error:', error);
-        res.status(500).json({
+        console.error('Chat error:', error.message);
+
+        const isTimeout = error.name === 'TimeoutError';
+        res.status(isTimeout ? 504 : 500).json({
             success: false,
-            error: 'Đã xảy ra lỗi. Vui lòng thử lại sau.'
+            error: isTimeout
+                ? 'RAG service phản hồi quá chậm, thử lại sau.'
+                : 'Đã xảy ra lỗi. Vui lòng thử lại sau.'
         });
     }
 };
