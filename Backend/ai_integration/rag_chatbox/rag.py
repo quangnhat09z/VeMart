@@ -31,7 +31,7 @@ class RAGPipeline:
             groq_api_key=os.getenv("GROQ_API_KEY"),
         )
 
-    # ── Data loading ──────────────────────────────────────────
+    # Data loading 
     def _load_json_folder(self, folder: str, doc_type: str) -> list[Document]:
         docs = []
         for fname in os.listdir(folder):
@@ -45,10 +45,9 @@ class RAGPipeline:
                     page_content=json.dumps(item, ensure_ascii=False, indent=2),
                     metadata={"source": fname, "type": doc_type, "index": idx}
                 ))
-        print(f"📄 Loaded {len(docs)} documents from {folder}")
         return docs
 
-    # ── Build / load vectorstore ───────────────────────────────
+    # Build / load vectorstore 
     def load_or_build_vectorstore(self):
         product_dir  = "vector_db_products"
         category_dir = "vector_db_categories"
@@ -60,7 +59,7 @@ class RAGPipeline:
             self.category_vs = Chroma(persist_directory=category_dir, embedding_function=self.embeddings)
             return
 
-        print("🔨 Build vectorstore từ đầu...")
+        print("Build vectorstore từ đầu...")
         splitter = RecursiveCharacterTextSplitter(
             chunk_size=600, chunk_overlap=50,
             separators=["\n\n", "\n", ". ", " "]
@@ -84,10 +83,10 @@ class RAGPipeline:
             ids=[str(uuid.uuid4()) for _ in category_chunks],
             persist_directory=category_dir
         )
-        print(f"✅ Built {self.product_vs._collection.count()} product vectors, "
+        print(f"Built {self.product_vs._collection.count()} product vectors, "
               f"{self.category_vs._collection.count()} category vectors")
 
-    # ── Smart routing ──────────────────────────────────────────
+    # Smart routing 
     def _detect_query_type(self, query: str) -> str:
         q = query.lower()
         product_kw  = ["sản phẩm", "product", "mua", "giá", "discount", "giảm giá", "hàng"]
@@ -110,41 +109,76 @@ class RAGPipeline:
             return c_ret.invoke(query)
         return p_ret.invoke(query) + c_ret.invoke(query)
 
-    # ── Main query ─────────────────────────────────────────────
+    def _classify_question(self, question: str, chat_history: list[dict]) -> str:
+    
+        q = question.lower()
+
+        history_keywords = [
+            "trước đó", "vừa rồi", "đã nói", "đã hỏi", "đã cung cấp", "vừa nãy",
+            "đã liệt kê", "lúc nãy", "ban nãy", "ở trên", "bạn vừa",
+            "những gì bạn", "nhắc lại", "tóm tắt cuộc", "tổng kết lại"
+        ]
+        if any(k in q for k in history_keywords):
+            return "history"
+
+        if not chat_history:
+            return "knowledge"
+
+        general_keywords = [
+            "xin chào", "hello", "hi ", "chào bạn", "bạn là ai",
+            "bạn có thể làm gì", "cảm ơn", "tạm biệt", "bye"
+        ]
+        if any(k in q for k in general_keywords):
+            return "general"
+
+        return "knowledge"
+
+    def _format_history_for_llm(self, chat_history: list[dict]) -> str:
+        lines = []
+        for msg in chat_history[-20:]:  # Lấy tối đa 20 messages gần nhất
+            role  = "Người dùng" if msg["role"] == "user" else "Trợ lý"
+            lines.append(f"{role}: {msg['content']}")
+        return "\n".join(lines)
+    
+    # Main query 
     def query(self, question: str, chat_history: list[dict]) -> dict:
+        question_type = self._classify_question(question, chat_history)
+
+        # Loại 1: Hỏi về lịch sử hội thoại 
+        if question_type == "history":
+            history_text = self._format_history_for_llm(chat_history)
+            prompt = f"""Dựa vào lịch sử cuộc trò chuyện dưới đây, hãy trả lời câu hỏi của người dùng.
+            Lịch sử hội thoại:{history_text}
+            Câu hỏi: {question}
+            Trả lời (bằng tiếng Việt, thân thiện):"""
+
+            response = self.llm.invoke(prompt)
+            return {"answer": response.content, "sources": []}
+
+        # Loại 2: Câu chào hỏi thông thường 
+        if question_type == "general":
+            prompt = f"""Bạn là trợ lý AI của VeMart - cửa hàng thương mại điện tử. Hãy trả lời thân thiện, ngắn gọn bằng tiếng Việt.
+            Câu hỏi: {question}
+            Trả lời:"""
+            response = self.llm.invoke(prompt)
+            return {"answer": response.content, "sources": []}
+
+        # Loại 3: Hỏi về sản phẩm/danh mục => dùng RAG
         docs    = self._retrieve(question)
         context = "\n\n---\n\n".join(d.page_content for d in docs)
         sources = list({d.metadata["source"] for d in docs})
 
-        # Format chat_history thành list of tuples cho LangChain
-        history_tuples = []
-        msgs = chat_history[-6:]  # Giữ 3 lượt gần nhất (6 messages)
-        for i in range(0, len(msgs) - 1, 2):
-            if msgs[i]["role"] == "user" and msgs[i+1]["role"] == "assistant":
-                history_tuples.append((msgs[i]["content"], msgs[i+1]["content"]))
-
-        # Build prompt có context
+        from langchain_classic.chains.question_answering import load_qa_chain
         qa_prompt = PromptTemplate(
             input_variables=["context", "question"],
             template=SYSTEM_PROMPT + "\nCâu hỏi: {question}\nTrả lời:"
         )
-
-        chain = ConversationalRetrievalChain.from_llm(
-            llm=self.llm,
-            retriever=self.product_vs.as_retriever(),  # retriever placeholder
-            combine_docs_chain_kwargs={"prompt": qa_prompt},
-        )
-
-        # Override: tự truyền context thay vì để chain tự retrieve
-        from langchain_classic.chains.question_answering import load_qa_chain
         qa_chain = load_qa_chain(self.llm, chain_type="stuff", prompt=qa_prompt)
         result   = qa_chain.invoke({"input_documents": docs, "question": question})
 
-
-        # Check promt
+        # check prompt
         print("🔍 Prompt sent to LLM:"
               f"\n{qa_prompt.format(context=context, question=question)}")
-        return {
-            "answer":  result["output_text"],
-            "sources": sources
-        }
+
+        return {"answer": result["output_text"], "sources": sources}
+
