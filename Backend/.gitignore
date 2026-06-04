@@ -11,5 +11,4 @@ node_modules/
 dist/
 
 /ai_integration/rag_chatbox/__pycache__/
-/ai_integration/rag_chatbox/vector_db_categories
-/ai_integration/rag_chatbox/vector_db_products
+/ai_integration/rag_chatbox/vector_db/**
